@@ -132,17 +132,19 @@ export default function Dashboard() {
 				className="ml-32 flex min-h-screen flex-col gap-8 bg-gray-100 p-12"
 				style={{ width: 'calc(100% - 8rem)' }}
 			>
-				<div className="flex w-full flex-row">
+				<div className="flex w-full flex-row items-stretch">
 					<input
 						type="text"
-						className="inline-block appearance-none rounded-md rounded-br-none rounded-tr-none border border-gray-300 p-4"
+						className="flex-grow appearance-none rounded-md rounded-br-none rounded-tr-none border border-gray-300 p-4"
 						style={{ width: 'calc(100% - 4rem)' }}
 						placeholder="Search"
 					/>
-					<MdBookmarkAdd
-						className="inline-block w-16 rounded-md rounded-bl-none rounded-tl-none border border-l-0 border-gray-300 bg-white p-8 text-black transition-colors duration-200 hover:text-gray-400"
-						aria-label="Add Bookmark"
-					/>
+					<div className="group flex w-16 cursor-pointer items-center justify-center rounded-md rounded-bl-none rounded-tl-none border border-l-0 border-gray-300 bg-white">
+						<MdBookmarkAdd
+							className="overflow-visible text-2xl text-gray-800 transition-colors duration-150 group-hover:text-gray-400"
+							aria-label="Add Bookmark"
+						/>
+					</div>
 				</div>
 
 				<div className="flex flex-col gap-4">
