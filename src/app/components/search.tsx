@@ -1,11 +1,9 @@
 'use client';
 
 import { MdBookmarkAdd } from 'react-icons/md';
-import Rodal from 'rodal';
 import { useAtom } from 'jotai';
 import { openAddBookmarkModalAtom } from '../store';
-
-import 'rodal/lib/rodal.css';
+import Modal from './modal';
 
 export default function SearchBookmarks() {
 	const [showModal, setShowModal] = useAtom(openAddBookmarkModalAtom);
@@ -32,12 +30,12 @@ export default function SearchBookmarks() {
 				/>
 			</div>
 
-			<Rodal
-				visible={showModal}
-				onClose={() => setShowModal(!showModal)}
-			>
-				<div>Content</div>
-			</Rodal>
+			{showModal && (
+				<Modal
+					handleClose={() => setShowModal(!showModal)}
+					title="Add Bookmark"
+				/>
+			)}
 		</div>
 	);
 }
