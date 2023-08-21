@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Modal from './';
+import { bookmarksAtom } from '@/app/store';
+import { useAtom } from 'jotai';
 
 export default function AddBookmarkModal({
 	handleClose,
@@ -12,11 +14,19 @@ export default function AddBookmarkModal({
 		featured: false,
 		// tags: [],
 	});
+	const [bookmarks, setBookmarks] = useAtom(bookmarksAtom);
 
 	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		alert(`New Bookmark: ${JSON.stringify(newBookmark, null, 2)}`);
+		const newBookmarkWithUUID = {
+			...newBookmark,
+			id: crypto.randomUUID(),
+		};
+
+		alert(`New Bookmark: ${JSON.stringify(newBookmarkWithUUID, null, 2)}`);
+
+		setBookmarks([...bookmarks, newBookmarkWithUUID]);
 
 		setNewBookmark({
 			title: '',

@@ -1,5 +1,5 @@
 export type BookmarkType = {
-	id: number;
+	id: number | string;
 	title: string;
 	url: string;
 	imgSrc?: string;
