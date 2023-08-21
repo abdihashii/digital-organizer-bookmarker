@@ -34,9 +34,9 @@ export default function Bookmark({
 
 			{bookmark.tags && (
 				<div className="flex flex-row gap-2 overflow-x-auto">
-					{bookmark.tags.map((tag) => (
+					{bookmark.tags.map((tag, index) => (
 						<span
-							key={tag}
+							key={`${tag}-${bookmark.url}-${index}`}
 							className="whitespace-nowrap rounded-md bg-gray-200 px-2 py-1 text-xs text-gray-700"
 						>
 							{tag}
