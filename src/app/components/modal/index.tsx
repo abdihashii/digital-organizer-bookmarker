@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useState } from 'react';
 import { useAtom } from 'jotai';
 import { openAddBookmarkModalAtom } from '../../store';
 import { motion } from 'framer-motion';
@@ -13,8 +14,24 @@ export default function Modal({
 	handleClose: () => void;
 	title: string;
 }) {
+	const [newBookmark, setNewBookmark] = useState({
+		name: '',
+		url: '',
+		featured: false,
+		// tags: [],
+	});
+
 	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+
+		alert(`New Bookmark: ${JSON.stringify(newBookmark, null, 2)}`);
+
+		setNewBookmark({
+			name: '',
+			url: '',
+			featured: false,
+			// tags: [],
+		});
 	};
 
 	return (
@@ -49,6 +66,11 @@ export default function Modal({
 							className="rounded-md border border-gray-300 p-4"
 							placeholder="Name"
 							id="bookmarkName"
+							autoFocus
+							value={newBookmark.name}
+							onChange={(e) =>
+								setNewBookmark({ ...newBookmark, name: e.target.value })
+							}
 						/>
 					</div>
 
@@ -65,7 +87,35 @@ export default function Modal({
 							className="rounded-md border border-gray-300 p-4"
 							placeholder="URL"
 							id="bookmarkURL"
+							value={newBookmark.url}
+							onChange={(e) =>
+								setNewBookmark({ ...newBookmark, url: e.target.value })
+							}
 						/>
+					</div>
+
+					<div className="flex flex-col gap-2">
+						<div className="flex flex-row gap-2">
+							<input
+								type="checkbox"
+								className="rounded-md border border-gray-300 p-4"
+								id="featureBookmark"
+								checked={newBookmark.featured}
+								onChange={(e) =>
+									setNewBookmark({ ...newBookmark, featured: e.target.checked })
+								}
+							/>
+							<label htmlFor="featureBookmark">Feature this tag</label>
+						</div>
+
+						{/* <div className="flex flex-row gap-2">
+							<input
+								type="checkbox"
+								className="rounded-md border border-gray-300 p-4"
+								id="generateTags"
+							/>
+							<label htmlFor="generateTags">Auto Generate Tags</label>
+						</div> */}
 					</div>
 
 					<button
@@ -74,6 +124,10 @@ export default function Modal({
 					>
 						Add Bookmark
 					</button>
+
+					<pre>
+						<code>{JSON.stringify(newBookmark, null, 2)}</code>
+					</pre>
 				</form>
 			</motion.div>
 		</Backdrop>
