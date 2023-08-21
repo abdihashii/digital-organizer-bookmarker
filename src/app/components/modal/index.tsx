@@ -15,7 +15,7 @@ export default function Modal({
 	title: string;
 }) {
 	const [newBookmark, setNewBookmark] = useState({
-		name: '',
+		title: '',
 		url: '',
 		featured: false,
 		// tags: [],
@@ -27,7 +27,7 @@ export default function Modal({
 		alert(`New Bookmark: ${JSON.stringify(newBookmark, null, 2)}`);
 
 		setNewBookmark({
-			name: '',
+			title: '',
 			url: '',
 			featured: false,
 			// tags: [],
@@ -55,21 +55,21 @@ export default function Modal({
 				>
 					<div className="flex flex-col gap-2">
 						<label
-							htmlFor="bookmarkName"
+							htmlFor="bookmarkTitle"
 							className="text-gray-800"
 						>
-							Bookmark Name
+							Bookmark Title
 						</label>
 						<input
 							required
 							type="text"
 							className="rounded-md border border-gray-300 p-4"
-							placeholder="Name"
-							id="bookmarkName"
+							placeholder="Title"
+							id="bookmarkTitle"
 							autoFocus
-							value={newBookmark.name}
+							value={newBookmark.title}
 							onChange={(e) =>
-								setNewBookmark({ ...newBookmark, name: e.target.value })
+								setNewBookmark({ ...newBookmark, title: e.target.value })
 							}
 						/>
 					</div>
