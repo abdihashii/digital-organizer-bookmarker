@@ -66,36 +66,40 @@ export default function Dashboard() {
 
 			{/* right side main content */}
 			<section
-				className="ml-32 flex min-h-screen flex-col gap-8 bg-gray-100 p-12"
+				className="ml-32 min-h-screen bg-gray-100 p-12"
 				style={{ width: 'calc(100% - 8rem)' }}
 			>
-				<SearchBookmarks />
+				<div className="flex w-full flex-col gap-8">
+					<SearchBookmarks />
 
-				<div className="flex flex-col gap-4">
-					<h2 className="text-2xl font-bold text-gray-800">
-						Featured Bookmarks
-					</h2>
+					<div className="flex flex-col gap-4">
+						<h2 className="text-2xl font-bold text-gray-800">
+							Featured Bookmarks
+						</h2>
 
-					<div className="grid grid-cols-3 gap-4">
-						{featuredBookmarks.map((bookmark) => (
-							<Bookmark
-								key={bookmark.id}
-								bookmark={bookmark}
-							/>
-						))}
+						<div className="grid grid-cols-3 gap-4">
+							{featuredBookmarks.map((bookmark) => (
+								<Bookmark
+									key={bookmark.id}
+									bookmark={bookmark}
+								/>
+							))}
+						</div>
 					</div>
-				</div>
 
-				<div className="flex w-full flex-col gap-4">
-					<h2 className="text-2xl font-bold text-gray-800">Recent Bookmarks</h2>
+					<div className="flex w-full flex-col gap-4">
+						<h2 className="text-2xl font-bold text-gray-800">
+							Recent Bookmarks
+						</h2>
 
-					<div className="grid grid-cols-3 gap-4">
-						{recentBookmarks.map((bookmark) => (
-							<Bookmark
-								key={bookmark.id}
-								bookmark={bookmark}
-							/>
-						))}
+						<div className="grid grid-cols-3 gap-4">
+							{recentBookmarks.map((bookmark) => (
+								<Bookmark
+									key={bookmark.id}
+									bookmark={bookmark}
+								/>
+							))}
+						</div>
 					</div>
 				</div>
 			</section>
