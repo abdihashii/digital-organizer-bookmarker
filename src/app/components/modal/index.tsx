@@ -1,8 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useAtom } from 'jotai';
-import { openAddBookmarkModalAtom } from '../../store';
+import React from 'react';
 import { motion } from 'framer-motion';
 import Backdrop from './backdrop';
 import { MdClose } from 'react-icons/md';
