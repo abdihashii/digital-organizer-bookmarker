@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	MdOutlineFolderCopy,
 	MdLogout,
@@ -14,9 +14,18 @@ import SearchBookmarks from '../components/searchBookmarks';
 import { bookmarksAtom } from '../store';
 import { useAtom } from 'jotai';
 import Bookmark from '../components/bookmark';
+import { BookmarkType } from '../types';
+import ViewBookmarkModal from '../components/modal/viewBookmarkModal';
 
 export default function Dashboard() {
 	const [bookmarks] = useAtom(bookmarksAtom);
+	const [bookmarkModal, setBookmarkModal] = useState<{
+		isOpen: boolean;
+		bookmark: BookmarkType | null;
+	}>({
+		isOpen: false,
+		bookmark: null,
+	});
 
 	const featuredBookmarks = bookmarks.filter((bookmark) => bookmark.featured);
 	const recentBookmarks = bookmarks.filter((bookmark) => !bookmark.featured);
@@ -82,6 +91,8 @@ export default function Dashboard() {
 								<Bookmark
 									key={bookmark.id}
 									bookmark={bookmark}
+									bookmarkModal={bookmarkModal}
+									setBookmarkModal={setBookmarkModal}
 								/>
 							))}
 						</div>
@@ -97,10 +108,19 @@ export default function Dashboard() {
 								<Bookmark
 									key={bookmark.id}
 									bookmark={bookmark}
+									bookmarkModal={bookmarkModal}
+									setBookmarkModal={setBookmarkModal}
 								/>
 							))}
 						</div>
 					</div>
+
+					{bookmarkModal.isOpen && (
+						<ViewBookmarkModal
+							bookmarkModal={bookmarkModal}
+							setBookmarkModal={setBookmarkModal}
+						/>
+					)}
 				</div>
 			</section>
 		</main>
