@@ -19,6 +19,7 @@ export default function SearchBookmarks() {
 				className="flex-grow appearance-none rounded-md rounded-br-none rounded-tr-none border border-gray-300 p-4"
 				style={{ width: 'calc(100% - 4rem)' }}
 				placeholder="Search"
+				autoFocus
 			/>
 			<div
 				className="group flex w-16 cursor-pointer items-center justify-center rounded-md rounded-bl-none rounded-tl-none border border-l-0 border-gray-300 bg-white"
