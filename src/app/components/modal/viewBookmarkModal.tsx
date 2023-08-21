@@ -26,7 +26,7 @@ export default function ViewBookmarkModal({
 				});
 			}}
 		>
-			<div className="h-full w-full bg-gray-500">
+			<div className="flex h-full w-full flex-col gap-4">
 				<Image
 					src={
 						bookmarkModal.bookmark?.imgSrc ||
@@ -37,7 +37,28 @@ export default function ViewBookmarkModal({
 					height={1080}
 				/>
 
-				{bookmarkModal.bookmark?.title}
+				<a
+					href={bookmarkModal.bookmark?.url}
+					target="_blank"
+					className="block w-fit text-sm text-gray-500 hover:underline"
+				>
+					{bookmarkModal.bookmark?.url}
+				</a>
+
+				<div>
+					{bookmarkModal.bookmark?.tags?.map((tag, index) => (
+						<span
+							key={`${tag}-${bookmarkModal.bookmark?.url}-${index}`}
+							className="whitespace-nowrap rounded-md bg-gray-200 px-2 py-1 text-xs text-gray-700"
+						>
+							{tag}
+						</span>
+					))}
+				</div>
+
+				<button className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+					Edit Bookmark
+				</button>
 			</div>
 		</Modal>
 	);
