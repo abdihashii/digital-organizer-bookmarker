@@ -4,6 +4,7 @@ import { MdBookmarkAdd } from 'react-icons/md';
 import { useAtom } from 'jotai';
 import { openAddBookmarkModalAtom } from '../../store';
 import Modal from '../modal';
+import AddBookmarkModal from '../modal/addBookmarkModal';
 import { AnimatePresence } from 'framer-motion';
 
 export default function SearchBookmarks() {
@@ -38,10 +39,7 @@ export default function SearchBookmarks() {
 				onExitComplete={() => null}
 			>
 				{showModal && (
-					<Modal
-						handleClose={() => setShowModal(!showModal)}
-						title="Add Bookmark"
-					/>
+					<AddBookmarkModal handleClose={() => setShowModal(!showModal)} />
 				)}
 			</AnimatePresence>
 		</div>

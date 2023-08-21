@@ -8,32 +8,14 @@ import Backdrop from './backdrop';
 import { MdClose } from 'react-icons/md';
 
 export default function Modal({
+	children,
 	handleClose,
 	title,
 }: {
+	children: React.ReactNode;
 	handleClose: () => void;
 	title: string;
 }) {
-	const [newBookmark, setNewBookmark] = useState({
-		title: '',
-		url: '',
-		featured: false,
-		// tags: [],
-	});
-
-	const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
-		alert(`New Bookmark: ${JSON.stringify(newBookmark, null, 2)}`);
-
-		setNewBookmark({
-			title: '',
-			url: '',
-			featured: false,
-			// tags: [],
-		});
-	};
-
 	return (
 		<Backdrop onClick={handleClose}>
 			<motion.div
@@ -49,86 +31,7 @@ export default function Modal({
 					</button>
 				</div>
 
-				<form
-					className="mt-8 flex w-full flex-col gap-6"
-					onSubmit={handleFormSubmit}
-				>
-					<div className="flex flex-col gap-2">
-						<label
-							htmlFor="bookmarkTitle"
-							className="text-gray-800"
-						>
-							Bookmark Title
-						</label>
-						<input
-							required
-							type="text"
-							className="rounded-md border border-gray-300 p-4"
-							placeholder="Title"
-							id="bookmarkTitle"
-							autoFocus
-							value={newBookmark.title}
-							onChange={(e) =>
-								setNewBookmark({ ...newBookmark, title: e.target.value })
-							}
-						/>
-					</div>
-
-					<div className="flex flex-col gap-2">
-						<label
-							htmlFor="bookmarkURL"
-							className="text-gray-800"
-						>
-							Bookmark URL
-						</label>
-						<input
-							required
-							type="url"
-							className="rounded-md border border-gray-300 p-4"
-							placeholder="URL"
-							id="bookmarkURL"
-							value={newBookmark.url}
-							onChange={(e) =>
-								setNewBookmark({ ...newBookmark, url: e.target.value })
-							}
-						/>
-					</div>
-
-					<div className="flex flex-col gap-2">
-						<div className="flex flex-row gap-2">
-							<input
-								type="checkbox"
-								className="rounded-md border border-gray-300 p-4"
-								id="featureBookmark"
-								checked={newBookmark.featured}
-								onChange={(e) =>
-									setNewBookmark({ ...newBookmark, featured: e.target.checked })
-								}
-							/>
-							<label htmlFor="featureBookmark">Feature this tag</label>
-						</div>
-
-						{/* <div className="flex flex-row gap-2">
-							<input
-								type="checkbox"
-								className="rounded-md border border-gray-300 p-4"
-								id="generateTags"
-							/>
-							<label htmlFor="generateTags">Auto Generate Tags</label>
-						</div> */}
-					</div>
-
-					<button
-						type="submit"
-						className="rounded-md border border-gray-300 bg-gray-800 p-4 text-white transition-colors duration-150 hover:bg-gray-700"
-					>
-						Add Bookmark
-					</button>
-
-					<pre>
-						<code>{JSON.stringify(newBookmark, null, 2)}</code>
-					</pre>
-				</form>
+				{children}
 			</motion.div>
 		</Backdrop>
 	);
