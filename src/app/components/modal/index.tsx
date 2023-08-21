@@ -34,7 +34,7 @@ export default function Modal({
 
 				<form
 					className="mt-8 flex w-full flex-col gap-6"
-					onClick={handleFormSubmit}
+					onSubmit={handleFormSubmit}
 				>
 					<div className="flex flex-col gap-2">
 						<label
