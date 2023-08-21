@@ -20,7 +20,7 @@ export default function Bookmark({
 }) {
 	return (
 		<div
-			className="flex w-full cursor-pointer flex-col gap-4 overflow-hidden rounded border border-black p-4"
+			className="flex w-full cursor-pointer flex-col gap-4 overflow-hidden rounded border border-black p-4 transition-shadow duration-200 hover:shadow-xl"
 			onClick={() =>
 				setBookmarkModal({
 					isOpen: !bookmarkModal.isOpen,
