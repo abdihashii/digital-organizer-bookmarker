@@ -1,4 +1,4 @@
-import { BookmarkType } from '../types';
+import { BookmarkType } from '../../types';
 
 export default function Bookmark({ bookmark }: { bookmark: BookmarkType }) {
 	return (

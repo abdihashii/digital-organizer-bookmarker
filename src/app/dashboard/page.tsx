@@ -10,13 +10,13 @@ import {
 	MdLockPerson,
 } from 'react-icons/md';
 import Link from 'next/link';
-import SearchBookmarks from '../components/search';
+import SearchBookmarks from '../components/searchBookmarks';
 import { bookmarksAtom } from '../store';
 import { useAtom } from 'jotai';
 import Bookmark from '../components/bookmark';
 
 export default function Dashboard() {
-	const [bookmarks, setBookmarks] = useAtom(bookmarksAtom);
+	const [bookmarks] = useAtom(bookmarksAtom);
 
 	const featuredBookmarks = bookmarks.filter((bookmark) => bookmark.featured);
 	const recentBookmarks = bookmarks.filter((bookmark) => !bookmark.featured);

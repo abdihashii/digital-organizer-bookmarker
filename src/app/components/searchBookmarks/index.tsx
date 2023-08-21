@@ -2,8 +2,8 @@
 
 import { MdBookmarkAdd } from 'react-icons/md';
 import { useAtom } from 'jotai';
-import { openAddBookmarkModalAtom } from '../store';
-import Modal from './modal';
+import { openAddBookmarkModalAtom } from '../../store';
+import Modal from '../modal';
 import { AnimatePresence } from 'framer-motion';
 
 export default function SearchBookmarks() {
