@@ -34,6 +34,8 @@ export default function AddBookmarkModal({
 			featured: false,
 			// tags: [],
 		});
+
+		handleClose();
 	};
 
 	return (
