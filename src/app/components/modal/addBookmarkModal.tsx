@@ -32,7 +32,7 @@ export default function AddBookmarkModal({
 			handleClose={handleClose}
 		>
 			<form
-				className="mt-8 flex w-full flex-col gap-6"
+				className="flex w-full flex-col gap-6"
 				onSubmit={handleFormSubmit}
 			>
 				<div className="flex flex-col gap-2">
