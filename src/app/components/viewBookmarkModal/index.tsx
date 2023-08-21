@@ -1,6 +1,6 @@
 import React from 'react';
 import { BookmarkType } from '@/app/types';
-import Modal from './';
+import Modal from '../modal';
 import Image from 'next/image';
 
 export default function ViewBookmarkModal({

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Modal from './';
+import Modal from '../modal';
 import { bookmarksAtom } from '@/app/store';
 import { useAtom } from 'jotai';
 
