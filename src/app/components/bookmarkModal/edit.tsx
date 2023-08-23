@@ -112,14 +112,41 @@ export default function Edit({
 						height={1080}
 					/>
 
-					<input
-						type="text"
-						className="w-full rounded bg-gray-200 px-4 py-2 text-gray-700"
-						placeholder="URL"
-						value={editedBookmark?.url}
-						onChange={handleBookmarkChange}
-						name="url"
-					/>
+					<div className="flex flex-col gap-2">
+						<label
+							htmlFor="title"
+							className="text-gray-800"
+						>
+							Title
+						</label>
+						<input
+							type="text"
+							className="w-full rounded-md border border-gray-300 p-4"
+							placeholder="Title"
+							value={editedBookmark?.title}
+							onChange={handleBookmarkChange}
+							name="title"
+							id="title"
+						/>
+					</div>
+
+					<div className="flex flex-col gap-2">
+						<label
+							htmlFor="url"
+							className="text-gray-800"
+						>
+							URL
+						</label>
+						<input
+							type="text"
+							className="w-full rounded-md border border-gray-300 p-4"
+							placeholder="URL"
+							value={editedBookmark?.url}
+							onChange={handleBookmarkChange}
+							name="url"
+							id="url"
+						/>
+					</div>
 
 					{bookmark.tags && (
 						<div className="flex flex-row gap-2 overflow-x-auto">
