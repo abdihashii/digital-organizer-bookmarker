@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '../modal';
-import { bookmarksAtom } from '@/app/store';
-import { useAtom } from 'jotai';
-import { supabase } from '@/app/utils/supabaseClient';
+import { useBookmarks } from '@/app/hooks/useBookmarks';
 
 export default function AddBookmarkModal({
 	handleClose,
@@ -15,41 +13,12 @@ export default function AddBookmarkModal({
 		featured: false,
 		// tags: [],
 	});
-	const [, setBookmarks] = useAtom(bookmarksAtom);
-
-	const handleAddBookmarkToDB = async () => {
-		const { error } = await supabase
-			.from('bookmarks')
-			.insert([{ ...newBookmark, uuid: crypto.randomUUID() }]);
-
-		if (error) {
-			console.error(error);
-			return;
-		}
-
-		// Fetch bookmarks again
-		const { data, error: fetchError } = await supabase
-			.from('bookmarks')
-			.select();
-
-		if (fetchError) {
-			console.error(fetchError);
-			return;
-		}
-
-		return data;
-	};
+	const { addBookmark } = useBookmarks();
 
 	const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
-		const newBookmarks = await handleAddBookmarkToDB();
-
-		if (!newBookmarks) {
-			return;
-		}
-
-		setBookmarks(newBookmarks);
+		await addBookmark(newBookmark);
 
 		setNewBookmark({
 			title: '',
