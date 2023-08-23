@@ -11,8 +11,6 @@ import {
 } from 'react-icons/md';
 import Link from 'next/link';
 import SearchBookmarks from '../components/searchBookmarks';
-import { bookmarksAtom, filteredBookmarksAtom } from '../store';
-import { useAtom } from 'jotai';
 import Bookmark from '../components/bookmark';
 import { BookmarkType } from '../types';
 import BookmarkModal from '../components/bookmarkModal';

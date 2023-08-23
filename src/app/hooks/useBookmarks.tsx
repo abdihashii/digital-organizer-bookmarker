@@ -30,7 +30,7 @@ export const useBookmarks = () => {
 
 	useEffect(() => {
 		getBookmarks();
-	}, []);
+	}, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 	return {
 		bookmarks,
