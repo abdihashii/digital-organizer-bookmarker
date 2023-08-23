@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { BookmarkType } from '@/app/types';
 import Modal from '../modal';
-import { bookmarksAtom } from '@/app/store';
-import { useAtom } from 'jotai';
 import Edit from './edit';
 import View from './view';
-import { supabase } from '@/app/utils/supabaseClient';
+import { useBookmarks } from '@/app/hooks/useBookmarks';
 
 export default function BookmarkModal({
 	bookmarkModal,
@@ -21,32 +19,13 @@ export default function BookmarkModal({
 	}) => void;
 }) {
 	const [editMode, setEditMode] = useState(false);
-	const [, setBookmarks] = useAtom(bookmarksAtom);
-
+	const { deleteBookmark } = useBookmarks();
 	const [deleteBookmarkWarning, setDeleteBookmarkWarning] = useState(false);
 
 	const handleDeleteBookmark = async () => {
-		const { error } = await supabase
-			.from('bookmarks')
-			.delete()
-			.eq('uuid', bookmarkModal.bookmark?.uuid);
+		if (!bookmarkModal.bookmark) return;
 
-		if (error) {
-			console.log(error);
-			return;
-		}
-
-		// Fetch bookmarks again to update the list
-		const { data, error: fetchError } = await supabase
-			.from('bookmarks')
-			.select();
-
-		if (fetchError) {
-			console.log(fetchError);
-			return;
-		}
-
-		setBookmarks(data);
+		await deleteBookmark(bookmarkModal.bookmark);
 
 		setBookmarkModal({
 			isOpen: false,
