@@ -1,55 +1,37 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BookmarkType } from '@/app/types';
-import Modal from '../modal';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { bookmarksAtom } from '@/app/store';
+import { bookmarksAtom, editedBookmarkAtom } from '@/app/store';
 import { useAtom } from 'jotai';
 
-export default function ViewBookmarkModal({
-	bookmarkModal,
+export default function View({
+	bookmark,
 	setBookmarkModal,
+	setEditMode,
+	deleteBookmarkWarning,
+	setDeleteBookmarkWarning,
+	handleDeleteBookmark,
 }: {
-	bookmarkModal: {
-		isOpen: boolean;
-		bookmark: BookmarkType | null;
-	};
+	bookmark: BookmarkType | null;
 	setBookmarkModal: (bookmarkModal: {
 		isOpen: boolean;
 		bookmark: BookmarkType | null;
 	}) => void;
+	setEditMode: (editMode: boolean) => void;
+	deleteBookmarkWarning: boolean;
+	setDeleteBookmarkWarning: (deleteBookmarkWarning: boolean) => void;
+	handleDeleteBookmark: () => void;
 }) {
-	const [deleteBookmarkWarning, setDeleteBookmarkWarning] = useState(false);
-	const [bookmarks, setBookmarks] = useAtom(bookmarksAtom);
-
-	const handleDeleteBookmark = () => {
-		const updatedBookmarks = bookmarks.filter(
-			(bookmark) => bookmark.url !== bookmarkModal.bookmark?.url,
-		);
-
-		setBookmarks(updatedBookmarks);
-
-		setBookmarkModal({
-			isOpen: false,
-			bookmark: null,
-		});
-	};
+	const [editedBookmark] = useAtom(editedBookmarkAtom);
 
 	return (
-		<Modal
-			title={bookmarkModal.bookmark?.title || ''}
-			handleClose={() => {
-				setBookmarkModal({
-					isOpen: false,
-					bookmark: null,
-				});
-			}}
-		>
-			{bookmarkModal.bookmark ? (
+		<>
+			{bookmark ? (
 				<div className="flex h-full w-full flex-col gap-4">
 					<Image
 						src={
-							bookmarkModal.bookmark.imgSrc ||
+							bookmark.imgSrc ||
 							'https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80'
 						}
 						alt="YouTube Screenshot"
@@ -58,18 +40,18 @@ export default function ViewBookmarkModal({
 					/>
 
 					<a
-						href={bookmarkModal.bookmark.url}
+						href={bookmark.url}
 						target="_blank"
 						className="block w-fit text-sm text-gray-500 hover:underline"
 					>
-						{bookmarkModal.bookmark.url}
+						{bookmark.url}
 					</a>
 
-					{bookmarkModal.bookmark.tags && (
+					{bookmark.tags && (
 						<div className="flex flex-row gap-2 overflow-x-auto">
-							{bookmarkModal.bookmark.tags?.map((tag, index) => (
+							{bookmark.tags?.map((tag, index) => (
 								<span
-									key={`${tag}-${bookmarkModal.bookmark?.url}-${index}`}
+									key={`${tag}-${bookmark?.url}-${index}`}
 									className="whitespace-nowrap rounded-md bg-gray-200 px-2 py-1 text-xs text-gray-700"
 								>
 									{tag}
@@ -104,7 +86,10 @@ export default function ViewBookmarkModal({
 							</>
 						) : (
 							<>
-								<button className="w-10/12 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700">
+								<button
+									className="w-10/12 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+									onClick={() => setEditMode(true)}
+								>
 									Edit
 								</button>
 
@@ -117,10 +102,20 @@ export default function ViewBookmarkModal({
 							</>
 						)}
 					</div>
+
+					<pre>
+						Bookmark from Modal
+						<code>{JSON.stringify(bookmark, null, 2)}</code>
+					</pre>
+
+					<pre>
+						Edited Bookmark
+						<code>{JSON.stringify(editedBookmark, null, 2)}</code>
+					</pre>
 				</div>
 			) : (
 				<div>Bookmark not found</div>
 			)}
-		</Modal>
+		</>
 	);
 }

@@ -54,3 +54,5 @@ export const bookmarksAtom = atomWithStorage<Array<BookmarkType>>('bookmarks', [
 		tags: ['video streaming'],
 	},
 ]);
+
+export const editedBookmarkAtom = atom<BookmarkType | null>(null);

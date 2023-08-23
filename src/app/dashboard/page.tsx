@@ -15,7 +15,7 @@ import { bookmarksAtom } from '../store';
 import { useAtom } from 'jotai';
 import Bookmark from '../components/bookmark';
 import { BookmarkType } from '../types';
-import ViewBookmarkModal from '../components/viewBookmarkModal';
+import BookmarkModal from '../components/bookmarkModal';
 
 export default function Dashboard() {
 	const [bookmarks] = useAtom(bookmarksAtom);
@@ -116,7 +116,7 @@ export default function Dashboard() {
 					</div>
 
 					{bookmarkModal.isOpen && (
-						<ViewBookmarkModal
+						<BookmarkModal
 							bookmarkModal={bookmarkModal}
 							setBookmarkModal={setBookmarkModal}
 						/>
