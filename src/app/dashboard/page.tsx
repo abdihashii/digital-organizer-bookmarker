@@ -106,6 +106,8 @@ export default function Dashboard() {
 						</div>
 					</div>
 
+					<hr className="border-gray-400" />
+
 					<div className="flex w-full flex-col gap-4">
 						<h2 className="text-2xl font-bold text-gray-800">
 							Rest of Bookmarks
