@@ -38,7 +38,7 @@ export default function Edit({
 	const handleSaveBookmark = () => {
 		// Create a new array of bookmarks with the updated bookmark
 		const newBookmarks = bookmarks.map((b) => {
-			if (b.id === editedBookmark?.id) {
+			if (b.uuid === editedBookmark?.uuid) {
 				return editedBookmark;
 			}
 			return b;
