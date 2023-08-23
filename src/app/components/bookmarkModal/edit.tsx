@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BookmarkType } from '@/app/types';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { bookmarksAtom, editedBookmarkAtom } from '@/app/store';
+import { bookmarksAtom } from '@/app/store';
 import { useAtom } from 'jotai';
-import { useHydrateAtoms } from 'jotai/utils';
 
 export default function Edit({
 	bookmarkModal,
@@ -27,7 +26,7 @@ export default function Edit({
 	setDeleteBookmarkWarning: (deleteBookmarkWarning: boolean) => void;
 	handleDeleteBookmark: () => void;
 }) {
-	const [editedBookmark, setEditedBookmark] = useAtom(editedBookmarkAtom);
+	const [editedBookmark, setEditedBookmark] = useState(bookmarkModal.bookmark);
 	const [bookmarks, setBookmarks] = useAtom(bookmarksAtom);
 
 	// Grab the current bookmark from the bookmarkModalAtom
@@ -47,8 +46,6 @@ export default function Edit({
 
 		// Update the bookmarks array once this bookmark has been updated
 		setBookmarks(newBookmarks);
-
-		// debugger;
 
 		// Set the bookmark modal bookmark property so that the view component can render the updated bookmark values
 		setBookmarkModal({

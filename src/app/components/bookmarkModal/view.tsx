@@ -2,8 +2,6 @@ import React from 'react';
 import { BookmarkType } from '@/app/types';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { bookmarksAtom, editedBookmarkAtom } from '@/app/store';
-import { useAtom } from 'jotai';
 
 export default function View({
 	bookmark,
@@ -23,8 +21,6 @@ export default function View({
 	setDeleteBookmarkWarning: (deleteBookmarkWarning: boolean) => void;
 	handleDeleteBookmark: () => void;
 }) {
-	const [editedBookmark] = useAtom(editedBookmarkAtom);
-
 	return (
 		<>
 			{bookmark ? (
@@ -106,11 +102,6 @@ export default function View({
 					<pre>
 						Bookmark from Modal
 						<code>{JSON.stringify(bookmark, null, 2)}</code>
-					</pre>
-
-					<pre>
-						Edited Bookmark
-						<code>{JSON.stringify(editedBookmark, null, 2)}</code>
 					</pre>
 				</div>
 			) : (
