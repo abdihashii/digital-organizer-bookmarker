@@ -101,7 +101,7 @@ export default function Edit({
 							type="text"
 							className="w-full rounded-md border border-gray-300 p-4"
 							placeholder="Title"
-							value={editedBookmark?.title}
+							value={editedBookmark?.title || ''}
 							onChange={handleBookmarkChange}
 							name="title"
 							id="title"
@@ -119,7 +119,7 @@ export default function Edit({
 							type="text"
 							className="w-full rounded-md border border-gray-300 p-4"
 							placeholder="URL"
-							value={editedBookmark?.url}
+							value={editedBookmark?.url || ''}
 							onChange={handleBookmarkChange}
 							name="url"
 							id="url"
