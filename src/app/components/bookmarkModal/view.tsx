@@ -5,17 +5,12 @@ import { motion } from 'framer-motion';
 
 export default function View({
 	bookmark,
-	setBookmarkModal,
 	setEditMode,
 	deleteBookmarkWarning,
 	setDeleteBookmarkWarning,
 	handleDeleteBookmark,
 }: {
 	bookmark: BookmarkType | null;
-	setBookmarkModal: (bookmarkModal: {
-		isOpen: boolean;
-		bookmark: BookmarkType | null;
-	}) => void;
 	setEditMode: (editMode: boolean) => void;
 	deleteBookmarkWarning: boolean;
 	setDeleteBookmarkWarning: (deleteBookmarkWarning: boolean) => void;

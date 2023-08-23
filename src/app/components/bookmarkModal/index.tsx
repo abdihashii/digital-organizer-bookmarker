@@ -76,7 +76,6 @@ export default function BookmarkModal({
 			) : (
 				<View
 					bookmark={bookmarkModal.bookmark}
-					setBookmarkModal={setBookmarkModal}
 					setEditMode={setEditMode}
 					deleteBookmarkWarning={deleteBookmarkWarning}
 					setDeleteBookmarkWarning={setDeleteBookmarkWarning}
