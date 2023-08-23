@@ -61,6 +61,26 @@ export const useBookmarks = () => {
 		getBookmarks();
 	};
 
+	const saveUpdatedBookmark = async (bookmark: {
+		uuid: string;
+		title: string;
+		url: string;
+		featured: boolean;
+		tags?: Array<string>;
+	}) => {
+		const { error } = await supabase
+			.from('bookmarks')
+			.update(bookmark)
+			.eq('uuid', bookmark.uuid);
+
+		if (error) {
+			console.error(error);
+			return;
+		}
+
+		getBookmarks();
+	};
+
 	useEffect(() => {
 		getBookmarks();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -71,5 +91,6 @@ export const useBookmarks = () => {
 		restOfBookmarks,
 		addBookmark,
 		deleteBookmark,
+		saveUpdatedBookmark,
 	};
 };

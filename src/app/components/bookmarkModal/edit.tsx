@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { bookmarksAtom } from '@/app/store';
 import { useAtom } from 'jotai';
+import { useBookmarks } from '@/app/hooks/useBookmarks';
 
 export default function Edit({
 	bookmarkModal,
@@ -28,6 +29,7 @@ export default function Edit({
 }) {
 	const [editedBookmark, setEditedBookmark] = useState(bookmarkModal.bookmark);
 	const [bookmarks, setBookmarks] = useAtom(bookmarksAtom);
+	const { saveUpdatedBookmark } = useBookmarks();
 
 	// Grab the current bookmark from the bookmarkModalAtom
 	const { bookmark } = bookmarkModal;
@@ -35,17 +37,16 @@ export default function Edit({
 	/**
 	 * Handle the save bookmark event
 	 */
-	const handleSaveBookmark = () => {
-		// Create a new array of bookmarks with the updated bookmark
-		const newBookmarks = bookmarks.map((b) => {
-			if (b.uuid === editedBookmark?.uuid) {
-				return editedBookmark;
-			}
-			return b;
-		});
-
-		// Update the bookmarks array once this bookmark has been updated
-		setBookmarks(newBookmarks);
+	const handleSaveBookmark = async () => {
+		await saveUpdatedBookmark(
+			editedBookmark as {
+				uuid: string;
+				title: string;
+				url: string;
+				featured: boolean;
+				tags?: Array<string>;
+			},
+		);
 
 		// Set the bookmark modal bookmark property so that the view component can render the updated bookmark values
 		setBookmarkModal({
