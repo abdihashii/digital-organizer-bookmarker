@@ -1,8 +1,8 @@
 export type BookmarkType = {
 	uuid: number | string;
-	title: string;
-	url: string;
-	imgSrc?: string;
-	featured?: boolean;
-	tags?: Array<string>;
+	title: string | null;
+	url: string | null;
+	imgSrc?: string | null;
+	featured?: boolean | null;
+	tags?: Array<string> | null;
 };

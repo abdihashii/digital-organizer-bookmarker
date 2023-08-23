@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
-// import { Database } from '../types/database.types';
+import { Database } from '@/app/types/supabase.types';
 
 // Create a single supabase client for interacting with your database
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+export const supabase = createClient<Database>(
+	process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+	process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
 );

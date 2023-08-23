@@ -36,7 +36,7 @@ export default function View({
 					/>
 
 					<a
-						href={bookmark.url}
+						href={bookmark.url || '#'}
 						target="_blank"
 						className="block w-fit text-sm text-gray-500 hover:underline"
 					>
