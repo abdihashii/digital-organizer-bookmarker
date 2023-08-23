@@ -16,9 +16,12 @@ import { useAtom } from 'jotai';
 import Bookmark from '../components/bookmark';
 import { BookmarkType } from '../types';
 import BookmarkModal from '../components/bookmarkModal';
+import { useBookmarks } from '@/app/hooks/useBookmarks';
 
 export default function Dashboard() {
-	const [bookmarks] = useAtom(bookmarksAtom);
+	// Fetch bookmarks from supabase and filter them using our custom hook
+	const { featuredBookmarks, restOfBookmarks } = useBookmarks();
+
 	const [bookmarkModal, setBookmarkModal] = useState<{
 		isOpen: boolean;
 		bookmark: BookmarkType | null;
@@ -26,17 +29,6 @@ export default function Dashboard() {
 		isOpen: false,
 		bookmark: null,
 	});
-	const [filteredBookmarks] = useAtom(filteredBookmarksAtom);
-
-	const viewableBookmarks =
-		filteredBookmarks.length > 0 ? filteredBookmarks : bookmarks;
-
-	const featuredBookmarks = viewableBookmarks.filter(
-		(bookmark) => bookmark.featured,
-	);
-	const restOfBookmarks = viewableBookmarks.filter(
-		(bookmark) => !bookmark.featured,
-	);
 
 	return (
 		<main className="">
@@ -97,7 +89,7 @@ export default function Dashboard() {
 						<div className="grid grid-cols-3 gap-4">
 							{featuredBookmarks.map((bookmark) => (
 								<Bookmark
-									key={bookmark.id}
+									key={bookmark.uuid}
 									bookmark={bookmark}
 									bookmarkModal={bookmarkModal}
 									setBookmarkModal={setBookmarkModal}
@@ -116,7 +108,7 @@ export default function Dashboard() {
 						<div className="grid grid-cols-3 gap-4">
 							{restOfBookmarks.map((bookmark) => (
 								<Bookmark
-									key={bookmark.id}
+									key={bookmark.uuid}
 									bookmark={bookmark}
 									bookmarkModal={bookmarkModal}
 									setBookmarkModal={setBookmarkModal}
