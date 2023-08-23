@@ -78,28 +78,6 @@ export default function Edit({
 
 	return (
 		<>
-			{/* <pre
-				style={{
-					position: 'absolute',
-					top: 10,
-					left: 10,
-					zIndex: 1000,
-					width: '75%',
-					padding: '1rem',
-					backgroundColor: 'white',
-					border: '1px solid black',
-					overflow: 'auto',
-				}}
-			>
-				Bookmark state
-				<code
-					style={{
-						whiteSpace: 'pre-wrap',
-					}}
-				>
-					{JSON.stringify(bookmarkModal.bookmark, null, 2)}
-				</code>
-			</pre> */}
 			{bookmark ? (
 				<div className="flex h-full w-full flex-col gap-4">
 					<Image
@@ -203,16 +181,6 @@ export default function Edit({
 							</>
 						)}
 					</div>
-
-					{/* <pre>
-						Bookmark from Modal
-						<code>{JSON.stringify(bookmark, null, 2)}</code>
-					</pre>
-
-					<pre>
-						Edited Bookmark
-						<code>{JSON.stringify(editedBookmark, null, 2)}</code>
-					</pre> */}
 				</div>
 			) : (
 				<div>Bookmark not found</div>
