@@ -24,8 +24,11 @@ export default function Modal({
 			>
 				<div className="flex w-full flex-row justify-between">
 					<h3 className="text-3xl font-semibold text-gray-800">{title}</h3>
-					<button onClick={handleClose}>
-						<MdClose className="overflow-visible text-4xl text-gray-800 transition-colors duration-150 group-hover:text-gray-400" />
+					<button
+						onClick={handleClose}
+						className="group"
+					>
+						<MdClose className="overflow-visible text-4xl text-gray-800 transition-colors duration-100 group-hover:text-gray-400" />
 					</button>
 				</div>
 
