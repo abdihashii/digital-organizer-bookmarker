@@ -98,11 +98,6 @@ export default function View({
 							</>
 						)}
 					</div>
-
-					{/* <pre>
-						Bookmark from Modal
-						<code>{JSON.stringify(bookmark, null, 2)}</code>
-					</pre> */}
 				</div>
 			) : (
 				<div>Bookmark not found</div>
