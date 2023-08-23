@@ -21,7 +21,7 @@ export default function AddBookmarkModal({
 
 		const newBookmarkWithUUID = {
 			...newBookmark,
-			id: crypto.randomUUID(),
+			uuid: crypto.randomUUID(),
 		};
 
 		alert(`New Bookmark: ${JSON.stringify(newBookmarkWithUUID, null, 2)}`);
