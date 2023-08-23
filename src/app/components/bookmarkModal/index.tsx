@@ -5,6 +5,7 @@ import { bookmarksAtom } from '@/app/store';
 import { useAtom } from 'jotai';
 import Edit from './edit';
 import View from './view';
+import { supabase } from '@/app/utils/supabaseClient';
 
 export default function BookmarkModal({
 	bookmarkModal,
@@ -20,16 +21,32 @@ export default function BookmarkModal({
 	}) => void;
 }) {
 	const [editMode, setEditMode] = useState(false);
-	const [bookmarks, setBookmarks] = useAtom(bookmarksAtom);
+	const [, setBookmarks] = useAtom(bookmarksAtom);
 
 	const [deleteBookmarkWarning, setDeleteBookmarkWarning] = useState(false);
 
-	const handleDeleteBookmark = () => {
-		const updatedBookmarks = bookmarks.filter(
-			(bookmark) => bookmark.url !== bookmarkModal.bookmark?.url,
-		);
+	const handleDeleteBookmark = async () => {
+		const { error } = await supabase
+			.from('bookmarks')
+			.delete()
+			.eq('uuid', bookmarkModal.bookmark?.uuid);
 
-		setBookmarks(updatedBookmarks);
+		if (error) {
+			console.log(error);
+			return;
+		}
+
+		// Fetch bookmarks again to update the list
+		const { data, error: fetchError } = await supabase
+			.from('bookmarks')
+			.select();
+
+		if (fetchError) {
+			console.log(fetchError);
+			return;
+		}
+
+		setBookmarks(data);
 
 		setBookmarkModal({
 			isOpen: false,
