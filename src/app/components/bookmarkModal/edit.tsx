@@ -78,7 +78,7 @@ export default function Edit({
 
 	return (
 		<>
-			<pre
+			{/* <pre
 				style={{
 					position: 'absolute',
 					top: 10,
@@ -99,7 +99,7 @@ export default function Edit({
 				>
 					{JSON.stringify(bookmarkModal.bookmark, null, 2)}
 				</code>
-			</pre>
+			</pre> */}
 			{bookmark ? (
 				<div className="flex h-full w-full flex-col gap-4">
 					<Image
@@ -177,7 +177,7 @@ export default function Edit({
 						)}
 					</div>
 
-					<pre>
+					{/* <pre>
 						Bookmark from Modal
 						<code>{JSON.stringify(bookmark, null, 2)}</code>
 					</pre>
@@ -185,7 +185,7 @@ export default function Edit({
 					<pre>
 						Edited Bookmark
 						<code>{JSON.stringify(editedBookmark, null, 2)}</code>
-					</pre>
+					</pre> */}
 				</div>
 			) : (
 				<div>Bookmark not found</div>

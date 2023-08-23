@@ -99,10 +99,10 @@ export default function View({
 						)}
 					</div>
 
-					<pre>
+					{/* <pre>
 						Bookmark from Modal
 						<code>{JSON.stringify(bookmark, null, 2)}</code>
-					</pre>
+					</pre> */}
 				</div>
 			) : (
 				<div>Bookmark not found</div>
