@@ -2,12 +2,13 @@
 
 import { MdBookmarkAdd } from 'react-icons/md';
 import { useAtom } from 'jotai';
-import { openAddBookmarkModalAtom } from '../../store';
+import { openAddBookmarkModalAtom, searchQueryAtom } from '../../store';
 import AddBookmarkModal from '../addBookmarkModal';
 import { AnimatePresence } from 'framer-motion';
 
 export default function SearchBookmarks() {
 	const [showModal, setShowModal] = useAtom(openAddBookmarkModalAtom);
+	const [searchQuery, setSearchQuery] = useAtom(searchQueryAtom);
 
 	const addBookmark = () => {
 		setShowModal(true);
@@ -21,6 +22,8 @@ export default function SearchBookmarks() {
 				style={{ width: 'calc(100% - 4rem)' }}
 				placeholder="Search"
 				autoFocus
+				value={searchQuery}
+				onChange={(e) => setSearchQuery(e.target.value)}
 			/>
 			<div
 				className="group flex w-16 cursor-pointer items-center justify-center rounded-md rounded-bl-none rounded-tl-none border border-l-0 border-gray-300 bg-white"

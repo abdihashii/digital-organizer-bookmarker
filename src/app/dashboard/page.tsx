@@ -11,7 +11,7 @@ import {
 } from 'react-icons/md';
 import Link from 'next/link';
 import SearchBookmarks from '../components/searchBookmarks';
-import { bookmarksAtom } from '../store';
+import { bookmarksAtom, filteredBookmarksAtom } from '../store';
 import { useAtom } from 'jotai';
 import Bookmark from '../components/bookmark';
 import { BookmarkType } from '../types';
@@ -26,9 +26,17 @@ export default function Dashboard() {
 		isOpen: false,
 		bookmark: null,
 	});
+	const [filteredBookmarks] = useAtom(filteredBookmarksAtom);
 
-	const featuredBookmarks = bookmarks.filter((bookmark) => bookmark.featured);
-	const recentBookmarks = bookmarks.filter((bookmark) => !bookmark.featured);
+	const viewableBookmarks =
+		filteredBookmarks.length > 0 ? filteredBookmarks : bookmarks;
+
+	const featuredBookmarks = viewableBookmarks.filter(
+		(bookmark) => bookmark.featured,
+	);
+	const restOfBookmarks = viewableBookmarks.filter(
+		(bookmark) => !bookmark.featured,
+	);
 
 	return (
 		<main className="">
@@ -100,11 +108,11 @@ export default function Dashboard() {
 
 					<div className="flex w-full flex-col gap-4">
 						<h2 className="text-2xl font-bold text-gray-800">
-							Recent Bookmarks
+							Rest of Bookmarks
 						</h2>
 
 						<div className="grid grid-cols-3 gap-4">
-							{recentBookmarks.map((bookmark) => (
+							{restOfBookmarks.map((bookmark) => (
 								<Bookmark
 									key={bookmark.id}
 									bookmark={bookmark}
