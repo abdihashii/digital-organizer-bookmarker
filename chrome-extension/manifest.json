@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Digital Bookmarking",
+  "version": "1.0",
+  "description": "A Chrome extension to digitally bookmark web pages.",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["activeTab", "storage"],
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}
