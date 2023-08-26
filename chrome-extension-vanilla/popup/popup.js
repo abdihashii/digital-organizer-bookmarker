@@ -1,5 +1,11 @@
 // Wait for popup.html to fully load
 document.addEventListener('DOMContentLoaded', function () {
+  // Inject the supabase cdn script to head
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  const head = document.getElementsByTagName('head')[0];
+  head.appendChild(script);
+
   const bookmarkBtn = document.getElementById('bookmarkBtn');
   const bookmarksList = document.getElementById('bookmarksList');
 
