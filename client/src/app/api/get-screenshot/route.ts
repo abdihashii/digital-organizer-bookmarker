@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import puppeteer from 'puppeteer';
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
-import crypto from 'crypto';
 
 interface CloudinaryResponse {
 	url: string;
@@ -16,34 +15,70 @@ cloudinary.config({
 	api_secret: process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET,
 });
 
-function getHashedString(input: string): string {
-	return crypto.createHash('md5').update(input).digest('hex');
+/**
+ * Replace characters that are not allowed in Cloudinary public_id
+ * @param url - The URL to sanitize
+ * @returns The sanitized URL
+ */
+function sanitizeUrlForPublicId(url: string) {
+	// Remove the protocol (http/https)
+	let sanitizedUrl = url.replace(/^https?:\/\//, '');
+
+	// Replace forward slashes with hyphens
+	sanitizedUrl = sanitizedUrl.replace(/\//g, '-');
+
+	// Replace non-allowed characters with '-'
+	sanitizedUrl = sanitizedUrl.replace(/[^a-zA-Z0-9\-_.]/g, '-');
+
+	// Remove consecutive hyphens
+	sanitizedUrl = sanitizedUrl.replace(/-{2,}/g, '-');
+
+	// Remove leading and trailing hyphens
+	sanitizedUrl = sanitizedUrl.replace(/^-|-$/g, '');
+
+	return sanitizedUrl;
 }
 
-async function screenshotExists(publicId: string): Promise<boolean> {
+async function screenshotExists(public_id: string): Promise<boolean> {
 	try {
-		const result = await cloudinary.api.resource(publicId);
-		return !!result; // Return true if result exists
-	} catch (error) {
-		return false;
+		const result = await cloudinary.api.resource(public_id);
+
+		return !!result;
+	} catch (error: any) {
+		console.log(
+			`Error checking for existing screenshot in Cloudinary: ${JSON.stringify(
+				error,
+				null,
+				2,
+			)}\n\n`,
+		);
+
+		// Check if the error is due to the screenshot not existing (i.e., a 404 error)
+		if (error.error?.http_code === 404) {
+			return false;
+		}
+
+		// For other errors, re-throw them to handle outside this function
+		throw error;
 	}
 }
 
 function bufferToStream(buffer: Buffer) {
-	const stream = new Readable();
-	stream.push(buffer);
-	stream.push(null); // Indicates EOF
-	stream.on('data', (chunk) => {
-		console.log('Stream chunk:', chunk);
+	const stream = new Readable({
+		read() {
+			this.push(buffer);
+			this.push(null);
+		},
 	});
 	return stream;
 }
 
 async function uploadToCloudinary(
 	stream: Readable,
-	urlHash: string,
+	publicId: string,
 ): Promise<CloudinaryResponse> {
-	const publicId = `screenshot-${urlHash}`;
+	console.log('Uploading to Cloudinary...');
+	console.log('Public ID:', publicId);
 
 	return new Promise((resolve, reject) => {
 		const cloudStream = cloudinary.uploader.upload_stream(
@@ -118,41 +153,38 @@ export async function GET(request: Request) {
 		// Convert buffer to stream
 		const stream = bufferToStream(screenshot);
 
-		const urlHash = getHashedString(url);
-		const publicId = `screenshot-${urlHash}`;
+		const sanitizedUrl = sanitizeUrlForPublicId(url);
+		const publicId = `screenshot-${sanitizedUrl}`;
 
 		// Check if cloudinary already has a screenshot of this URL
 		// If so, return the existing screenshot
-		// const exitsts = await screenshotExists(publicId);
+		const existingImage = await screenshotExists(publicId);
+		if (existingImage) {
+			return new Response(
+				JSON.stringify({
+					status: 200,
+					message: 'Screenshot already exists.',
+					url,
+				}),
+				{
+					headers: {
+						'Content-Type': 'application/json',
+					},
+				},
+			);
+		}
 
-		// if (exitsts) {
-		// 	// If the screenshot already exists, return its URL
-		// 	return new Response(
-		// 		JSON.stringify({
-		// 			status: 200,
-		// 			message: 'Screenshot already exists.',
-		// 			url: `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${publicId}.webp`,
-		// 		}),
-		// 		{
-		// 			headers: {
-		// 				'Content-Type': 'application/json',
-		// 			},
-		// 		},
-		// 	);
-		// }
-
-		// Upload stream to Cloudinary
+		// If we reach here, it means the screenshot does not exist, so upload it
 		const cloudinaryResult: CloudinaryResponse = await uploadToCloudinary(
 			stream,
-			urlHash,
+			publicId,
 		);
 
 		return new Response(
 			JSON.stringify({
 				status: 200,
 				message: 'Screenshot captured and uploaded successfully!',
-				// url: `${cloudinaryResult.url}/f_auto,q_auto:good`, // URL of the uploaded screenshot on Cloudinary
-				url: cloudinaryResult.url,
+				url: cloudinaryResult.secure_url,
 			}),
 			{
 				headers: {
@@ -162,15 +194,16 @@ export async function GET(request: Request) {
 		);
 	} catch (error: any) {
 		console.error('Full error:', error);
-		// Return a more user-friendly error message for common errors
-		if (error.message.includes('Timeout')) {
+
+		// Handle different types of errors if necessary
+		if (error.http_code && error.http_code !== 404) {
 			return new Response(
 				JSON.stringify({
-					status: 408,
-					message: 'Request to the target URL timed out',
+					status: error.http_code,
+					message: error.message,
 				}),
 				{
-					status: 408,
+					status: error.http_code,
 					headers: {
 						'Content-Type': 'application/json',
 					},
