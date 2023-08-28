@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
-import puppeteer from 'puppeteer';
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
+import puppeteer from 'puppeteer-core';
+import chromium from '@sparticuz/chromium';
 
 interface CloudinaryResponse {
 	url: string;
@@ -108,127 +109,155 @@ async function uploadToCloudinary(
  * @param request - The incoming request
  * @returns A screenshot of the target URL
  */
-export async function GET(request: Request) {
-	// Get the URL parameter from the request
-	const { searchParams } = new URL(request.url);
-	const url = searchParams.get('url');
+// export async function GET(request: Request) {
+// 	// Get the URL parameter from the request
+// 	const { searchParams } = new URL(request.url);
+// 	const url = searchParams.get('url');
 
-	// If the URL parameter is missing, return a 400 error
-	if (!url) {
-		return NextResponse.json({
-			status: 400,
-			body: 'Missing URL parameter',
-		});
-	}
+// 	// If the URL parameter is missing, return a 400 error
+// 	if (!url) {
+// 		return NextResponse.json({
+// 			status: 400,
+// 			body: 'Missing URL parameter',
+// 		});
+// 	}
 
-	let browser;
+// 	let browser;
 
-	try {
-		// Launch a new instance of Puppeteer
-		browser = await puppeteer.launch();
-		const page = await browser.newPage();
+// 	try {
+// 		// Launch a new instance of Puppeteer
+// 		browser = await puppeteer.launch({
+// 			args: chromium.args,
+// 			defaultViewport: chromium.defaultViewport,
+// 			executablePath: await chromium.executablePath(),
+// 			headless: chromium.headless,
+// 		});
+// 		const page = await browser.newPage();
 
-		// Set the viewport's width and height
-		await page.setViewport({
-			width: 1280,
-			height: 720,
-			deviceScaleFactor: 1,
-		});
+// 		// Set the viewport's width and height
+// 		await page.setViewport({
+// 			width: 1280,
+// 			height: 720,
+// 			deviceScaleFactor: 1,
+// 		});
 
-		// Navigate to the page
-		const response = await page.goto(url, {
-			waitUntil: 'networkidle2', // ensures the webpge fully loads before the screenshot is taken
-			timeout: 30000,
-		});
+// 		// Navigate to the page
+// 		const response = await page.goto(url, {
+// 			waitUntil: 'networkidle2', // ensures the webpge fully loads before the screenshot is taken
+// 			timeout: 30000,
+// 		});
 
-		if (response?.status() !== 200) {
-			throw new Error(`Failed to load URL. HTTP Status: ${response?.status()}`);
-		}
+// 		if (response?.status() !== 200) {
+// 			throw new Error(`Failed to load URL. HTTP Status: ${response?.status()}`);
+// 		}
 
-		// Capture the screenshot and return it
-		const screenshot = await page.screenshot({
-			type: 'webp',
-		});
+// 		// Capture the screenshot and return it
+// 		const screenshot = await page.screenshot({
+// 			type: 'webp',
+// 		});
 
-		// Convert buffer to stream
-		const stream = bufferToStream(screenshot);
+// 		// Convert buffer to stream
+// 		const stream = bufferToStream(screenshot);
 
-		const sanitizedUrl = sanitizeUrlForPublicId(url);
-		const publicId = `screenshot-${sanitizedUrl}`;
+// 		const sanitizedUrl = sanitizeUrlForPublicId(url);
+// 		const publicId = `screenshot-${sanitizedUrl}`;
 
-		// Check if cloudinary already has a screenshot of this URL
-		// If so, return the existing screenshot
-		const existingImage = await screenshotExists(publicId);
-		if (existingImage) {
-			return new Response(
-				JSON.stringify({
-					status: 200,
-					message: 'Screenshot already exists.',
-					url,
-				}),
-				{
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				},
-			);
-		}
+// 		// Check if cloudinary already has a screenshot of this URL
+// 		// If so, return the existing screenshot
+// 		const existingImage = await screenshotExists(publicId);
+// 		if (existingImage) {
+// 			return new Response(
+// 				JSON.stringify({
+// 					status: 200,
+// 					message: 'Screenshot already exists.',
+// 					url,
+// 				}),
+// 				{
+// 					headers: {
+// 						'Content-Type': 'application/json',
+// 					},
+// 				},
+// 			);
+// 		}
 
-		// If we reach here, it means the screenshot does not exist, so upload it
-		const cloudinaryResult: CloudinaryResponse = await uploadToCloudinary(
-			stream,
-			publicId,
-		);
+// 		// If we reach here, it means the screenshot does not exist, so upload it
+// 		const cloudinaryResult: CloudinaryResponse = await uploadToCloudinary(
+// 			stream,
+// 			publicId,
+// 		);
 
-		return new Response(
-			JSON.stringify({
-				status: 200,
-				message: 'Screenshot captured and uploaded successfully!',
-				url: cloudinaryResult.secure_url,
-			}),
-			{
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			},
-		);
-	} catch (error: any) {
-		console.error('Full error:', error);
+// 		return new Response(
+// 			JSON.stringify({
+// 				status: 200,
+// 				message: 'Screenshot captured and uploaded successfully!',
+// 				url: cloudinaryResult.secure_url,
+// 			}),
+// 			{
+// 				headers: {
+// 					'Content-Type': 'application/json',
+// 				},
+// 			},
+// 		);
+// 	} catch (error: any) {
+// 		console.error('Full error:', error);
 
-		// Handle different types of errors if necessary
-		if (error.http_code && error.http_code !== 404) {
-			return new Response(
-				JSON.stringify({
-					status: error.http_code,
-					message: error.message,
-				}),
-				{
-					status: error.http_code,
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				},
-			);
-		}
+// 		// Handle different types of errors if necessary
+// 		if (error.http_code && error.http_code !== 404) {
+// 			return new Response(
+// 				JSON.stringify({
+// 					status: error.http_code,
+// 					message: error.message,
+// 				}),
+// 				{
+// 					status: error.http_code,
+// 					headers: {
+// 						'Content-Type': 'application/json',
+// 					},
+// 				},
+// 			);
+// 		}
 
-		return new Response(
-			JSON.stringify({
-				status: 500,
-				message:
-					error.message || 'Error taking screenshot. Internal server error',
-			}),
-			{
-				status: 500,
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			},
-		);
-	} finally {
-		// Ensure browser instance is closed
-		if (browser) {
-			await browser.close();
-			console.log('Browser instance closed');
-		}
-	}
+// 		return new Response(
+// 			JSON.stringify({
+// 				status: 500,
+// 				message:
+// 					error.message || 'Error taking screenshot. Internal server error',
+// 			}),
+// 			{
+// 				status: 500,
+// 				headers: {
+// 					'Content-Type': 'application/json',
+// 				},
+// 			},
+// 		);
+// 	} finally {
+// 		// Ensure browser instance is closed
+// 		if (browser) {
+// 			await browser.close();
+// 			console.log('Browser instance closed');
+// 		}
+// 	}
+// }
+
+export async function GET() {
+	const browser = await puppeteer.launch({
+		args: chromium.args,
+		defaultViewport: chromium.defaultViewport,
+		executablePath: await chromium.executablePath(),
+		headless: chromium.headless,
+	});
+
+	const page = await browser.newPage();
+
+	await page.goto('https://google.com');
+
+	const title = await page.title();
+
+	console.log(title);
+
+	await browser.close();
+
+	return NextResponse.json({
+		title,
+	});
 }
