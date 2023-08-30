@@ -33,6 +33,7 @@
 	"devDependencies": {
 		"@playwright/test": "^1.37.1",
 		"@sparticuz/chromium": "^116.0.0",
+		"encoding": "^0.1.13",
 		"prettier": "^3.0.2",
 		"prettier-plugin-tailwindcss": "^0.5.3"
 	}
