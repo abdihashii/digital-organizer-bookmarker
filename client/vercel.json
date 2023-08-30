@@ -1,0 +1,13 @@
+{
+	"build": {
+		"env": {
+			"PLAYWRIGHT_BROWSERS_PATH": "node_modules/playwright"
+		}
+	},
+	"builds": [
+		{
+			"src": "package.json",
+			"use": "@vercel/node"
+		}
+	]
+}
