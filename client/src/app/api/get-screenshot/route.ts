@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
+// import { NextResponse } from 'next/server';
 import { v2 as cloudinary } from 'cloudinary';
-import playwright from 'playwright';
+import puppeteer from 'puppeteer-core'
 import {
 	bufferToStream,
 	sanitizeUrlForPublicId,
@@ -25,12 +25,14 @@ export async function GET(request: Request) {
 	const { searchParams } = new URL(request.url);
 	const url = searchParams.get('url') || 'https://www.google.com';
 
-	const browser = await playwright.chromium.launch();
+	const browser = await puppeteer.connect({
+		browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BLESS_TOKEN}`,
+	  })
 	const page = await browser.newPage();
 	await page.goto(url);
 
 	// Wait for the page to load
-	await page.waitForLoadState('domcontentloaded');
+	// await page.waitForLoadState('domcontentloaded');
 
 	const sanitizedUrl = sanitizeUrlForPublicId(url);
 	const publicId = `screenshot-${sanitizedUrl}`;
