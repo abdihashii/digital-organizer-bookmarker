@@ -29,6 +29,9 @@ export async function GET(request: Request) {
 	const page = await browser.newPage();
 	await page.goto(url);
 
+	// Wait for the page to load
+	await page.waitForLoadState('domcontentloaded');
+
 	const sanitizedUrl = sanitizeUrlForPublicId(url);
 	const publicId = `screenshot-${sanitizedUrl}`;
 
