@@ -16,10 +16,5 @@ export const cleanUpImgSrc = (url: string) => {
 		urlWithoutTrailingSlash,
 	);
 
-	debugger;
-
-	console.log('urlWithoutTrailingSlash', urlWithoutTrailingSlash);
-	console.log('urlWithoutWrappingQuotes', urlWithoutWrappingQuotes);
-
 	return urlWithoutWrappingQuotes;
 };
