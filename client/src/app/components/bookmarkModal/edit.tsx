@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { bookmarksAtom } from '@/app/store';
 import { useAtom } from 'jotai';
 import { useBookmarks } from '@/app/hooks/useBookmarks';
+import { cleanUpImgSrc } from '@/app/utils';
 
 export default function Edit({
 	bookmarkModal,
@@ -77,19 +78,44 @@ export default function Edit({
 		});
 	};
 
+	/**
+	 * Handle the generate screenshot on click event
+	 * @param url - The url to generate the screenshot for
+	 */
+	const handleGenerateScreenshot = async (url: string) => {
+		const encodedUrl = encodeURIComponent(url);
+
+		try {
+			const resp = await fetch(`/api/get-screenshot?url=${encodedUrl}`);
+			const data = await resp.json();
+
+			const { secure_url } = data;
+
+			console.log(secure_url);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<>
 			{bookmark ? (
 				<div className="flex h-full w-full flex-col gap-4">
 					<Image
 						src={
-							bookmark.imgSrc ||
+							cleanUpImgSrc(bookmark.imgsrc as string) ||
 							'https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80'
 						}
 						alt="YouTube Screenshot"
 						width={1920}
 						height={1080}
 					/>
+
+					<button
+						onClick={() => handleGenerateScreenshot(bookmark.url as string)}
+					>
+						Generate Screenshot
+					</button>
 
 					<div className="flex flex-col gap-2">
 						<label
