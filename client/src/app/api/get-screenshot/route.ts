@@ -22,7 +22,22 @@ cloudinary.config({
 export async function GET(request: Request) {
 	// Get the URL parameter from the request
 	const { searchParams } = new URL(request.url);
-	const url = searchParams.get('url') || 'https://www.google.com';
+	const url = searchParams.get('url');
+
+	if (!url) {
+	  return new Response(
+		JSON.stringify({
+		  status: 500,
+		  message: "Unable to retrieve the URL! Please enter a valid URL.",
+		  url,
+		}),
+		{
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		},
+	  )
+	}
 
 	const browser = await puppeteer.connect({
 		browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BLESS_TOKEN}`,
