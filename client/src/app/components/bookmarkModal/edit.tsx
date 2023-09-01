@@ -91,6 +91,16 @@ export default function Edit({
 
 			const { secure_url } = data;
 
+			setEditedBookmark((prevBookmark) => {
+				if (prevBookmark) {
+					return {
+						...prevBookmark,
+						imgsrc: secure_url,
+					};
+				}
+				return null;
+			});
+
 			console.log(secure_url);
 		} catch (error) {
 			console.log(error);
@@ -103,7 +113,7 @@ export default function Edit({
 				<div className="flex h-full w-full flex-col gap-4">
 					<Image
 						src={
-							cleanUpImgSrc(bookmark.imgsrc as string) ||
+							cleanUpImgSrc(editedBookmark?.imgsrc as string) ||
 							'https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80'
 						}
 						alt="YouTube Screenshot"
