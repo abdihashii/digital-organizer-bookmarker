@@ -21,19 +21,17 @@ export default function Dashboard() {
 	});
 
 	return (
-		<main className="">
+		<main className="flex h-screen flex-row">
 			{/* left side navigation */}
 			<LeftSideNav />
 
 			{/* right side main content */}
-			<section
-				className="ml-32 min-h-screen bg-gray-100 p-12"
-				style={{ width: 'calc(100% - 8rem)' }}
-			>
-				<div className="flex w-full flex-col gap-8">
+			<article className="min-h-screen flex-1 overflow-y-auto bg-gray-100 p-12">
+				<div className="flex flex-col gap-8">
 					<SearchBookmarks />
 
-					<div className="flex flex-col gap-4">
+					{/* Featured Bookmarks List */}
+					<section className="flex flex-col gap-4">
 						<h2 className="text-2xl font-bold text-gray-800">
 							Featured Bookmarks
 						</h2>
@@ -48,14 +46,13 @@ export default function Dashboard() {
 								/>
 							))}
 						</div>
-					</div>
+					</section>
 
 					<hr className="border-gray-400" />
 
-					<div className="flex w-full flex-col gap-4">
-						<h2 className="text-2xl font-bold text-gray-800">
-							Rest of Bookmarks
-						</h2>
+					{/* Rest of Bookmarks List */}
+					<section className="flex w-full flex-col gap-4">
+						<h2 className="text-2xl font-bold text-gray-800">Bookmarks</h2>
 
 						<div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 							{restOfBookmarks.map((bookmark) => (
@@ -67,8 +64,9 @@ export default function Dashboard() {
 								/>
 							))}
 						</div>
-					</div>
+					</section>
 
+					{/* Bookmark Modal */}
 					{bookmarkModal.isOpen && (
 						<BookmarkModal
 							bookmarkModal={bookmarkModal}
@@ -76,7 +74,7 @@ export default function Dashboard() {
 						/>
 					)}
 				</div>
-			</section>
+			</article>
 		</main>
 	);
 }

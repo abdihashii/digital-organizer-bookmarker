@@ -15,7 +15,7 @@ export default function SearchBookmarks() {
 	};
 
 	return (
-		<div className="flex w-full flex-row items-stretch">
+		<section className="flex w-full flex-row items-stretch">
 			<input
 				type="text"
 				className="flex-grow appearance-none rounded-md rounded-br-none rounded-tr-none border border-gray-300 p-4"
@@ -44,6 +44,6 @@ export default function SearchBookmarks() {
 					<AddBookmarkModal handleClose={() => setShowModal(!showModal)} />
 				)}
 			</AnimatePresence>
-		</div>
+		</section>
 	);
 }
