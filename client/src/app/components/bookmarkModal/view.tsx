@@ -3,6 +3,7 @@ import { BookmarkType } from '@/app/types';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { cleanUpImgSrc } from '@/app/utils';
+import Link from 'next/link';
 
 export default function View({
 	bookmark,
@@ -21,15 +22,21 @@ export default function View({
 		<>
 			{bookmark ? (
 				<div className="flex h-full w-full flex-col gap-4">
-					<Image
-						src={
-							cleanUpImgSrc(bookmark.imgsrc as string) ||
-							'https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80'
-						}
-						alt="YouTube Screenshot"
-						width={1920}
-						height={1080}
-					/>
+					<Link
+						href={bookmark.url as string}
+						target="_blank"
+						className="h-full w-full border border-white transition-all duration-300 hover:border hover:border-gray-300 hover:opacity-60"
+					>
+						<Image
+							src={
+								cleanUpImgSrc(bookmark.imgsrc as string) ||
+								'https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80'
+							}
+							alt="YouTube Screenshot"
+							width={1920}
+							height={1080}
+						/>
+					</Link>
 
 					<a
 						href={bookmark.url || '#'}

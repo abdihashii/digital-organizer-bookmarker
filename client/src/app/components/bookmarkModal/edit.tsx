@@ -6,6 +6,7 @@ import { bookmarksAtom } from '@/app/store';
 import { useAtom } from 'jotai';
 import { useBookmarks } from '@/app/hooks/useBookmarks';
 import { cleanUpImgSrc } from '@/app/utils';
+import Link from 'next/link';
 
 export default function Edit({
 	bookmarkModal,
@@ -111,17 +112,24 @@ export default function Edit({
 		<>
 			{bookmark ? (
 				<div className="flex h-full w-full flex-col gap-4">
-					<Image
-						src={
-							cleanUpImgSrc(editedBookmark?.imgsrc as string) ||
-							'https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80'
-						}
-						alt="YouTube Screenshot"
-						width={1920}
-						height={1080}
-					/>
+					<Link
+						href={bookmark.url as string}
+						target="_blank"
+						className="h-full w-full border border-white transition-all duration-300 hover:border hover:border-gray-300 hover:opacity-60"
+					>
+						<Image
+							src={
+								cleanUpImgSrc(editedBookmark?.imgsrc as string) ||
+								'https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80'
+							}
+							alt="YouTube Screenshot"
+							width={1920}
+							height={1080}
+						/>
+					</Link>
 
 					<button
+						className="rounded bg-blue-500 px-4 py-2 font-bold text-white transition-all duration-300 hover:bg-blue-700"
 						onClick={() => handleGenerateScreenshot(bookmark.url as string)}
 					>
 						Generate Screenshot
@@ -194,7 +202,7 @@ export default function Edit({
 								</motion.button>
 
 								<button
-									className="w-2/12 rounded bg-gray-400 px-4 py-2 font-bold text-white hover:bg-gray-600"
+									className="w-2/12 rounded bg-gray-400 px-4 py-2 font-bold text-white transition-all duration-300 hover:bg-gray-600"
 									onClick={() => setDeleteBookmarkWarning(false)}
 								>
 									Cancel
@@ -203,14 +211,14 @@ export default function Edit({
 						) : (
 							<>
 								<button
-									className="w-10/12 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700"
+									className="w-10/12 rounded bg-green-500 px-4 py-2 font-bold text-white transition-all duration-300 hover:bg-green-700"
 									onClick={handleSaveBookmark}
 								>
 									Save
 								</button>
 
 								<button
-									className="w-2/12 rounded bg-yellow-500 px-4 py-2 font-bold text-white hover:bg-yellow-700"
+									className="w-2/12 rounded bg-yellow-500 px-4 py-2 font-bold text-white transition-all duration-300 hover:bg-yellow-700"
 									onClick={() => setEditMode(false)}
 								>
 									Cancel
