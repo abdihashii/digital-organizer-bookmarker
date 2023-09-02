@@ -1,0 +1,53 @@
+import Link from 'next/link';
+import {
+	MdLockPerson,
+	MdLogout,
+	MdOutlineFolderCopy,
+	MdPerson,
+	MdSettings,
+	MdSpaceDashboard,
+} from 'react-icons/md';
+
+export default function LeftSideNav() {
+	return (
+		<nav className="fixed flex h-full w-32 flex-col items-center gap-8 overflow-y-auto bg-gray-800 px-6 py-8">
+			<Link href="/dashboard">
+				<MdSpaceDashboard
+					className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
+					aria-label="Dashboard"
+				/>
+			</Link>
+
+			<MdOutlineFolderCopy
+				className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
+				aria-label="Folders"
+			/>
+
+			<MdLockPerson
+				className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
+				aria-label="Private Bookmarks"
+			/>
+
+			<MdSettings
+				className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
+				aria-label="Settings"
+			/>
+
+			{/* Flex items that should be at the bottom of the nav */}
+			<div
+				className="absolute bottom-0 left-0 
+    right-0 flex flex-row items-center justify-center gap-4 px-6 py-8
+  "
+			>
+				<MdPerson
+					className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
+					aria-label="Profile"
+				/>
+				<MdLogout
+					className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
+					aria-label="Log out"
+				/>
+			</div>
+		</nav>
+	);
+}
