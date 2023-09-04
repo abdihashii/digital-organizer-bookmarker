@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { supabase } from '../utils/supabaseClient';
+import { supabase } from '@/lib/supabaseClient';
 import { bookmarksAtom, filteredBookmarksAtom } from '@/app/store';
 import { useAtom } from 'jotai';
 import { BookmarkType } from '../types';
