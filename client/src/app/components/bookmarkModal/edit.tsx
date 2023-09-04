@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { BookmarkType } from '@/app/types';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { bookmarksAtom } from '@/app/store';
-import { useAtom } from 'jotai';
 import { useBookmarks } from '@/app/hooks/useBookmarks';
 import { cleanUpImgSrc } from '@/app/utils';
 import Link from 'next/link';
@@ -30,8 +28,7 @@ export default function Edit({
 	handleDeleteBookmark: () => void;
 }) {
 	const [editedBookmark, setEditedBookmark] = useState(bookmarkModal.bookmark);
-	const [bookmarks, setBookmarks] = useAtom(bookmarksAtom);
-	const { saveUpdatedBookmark } = useBookmarks();
+	const { saveUpdatedBookmark, generateScreenshot } = useBookmarks();
 
 	// Grab the current bookmark from the bookmarkModalAtom
 	const { bookmark } = bookmarkModal;
@@ -84,28 +81,17 @@ export default function Edit({
 	 * @param url - The url to generate the screenshot for
 	 */
 	const handleGenerateScreenshot = async (url: string) => {
-		const encodedUrl = encodeURIComponent(url);
+		const secure_url = await generateScreenshot(url);
 
-		try {
-			const resp = await fetch(`/api/get-screenshot?url=${encodedUrl}`);
-			const data = await resp.json();
-
-			const { secure_url } = data;
-
-			setEditedBookmark((prevBookmark) => {
-				if (prevBookmark) {
-					return {
-						...prevBookmark,
-						imgsrc: secure_url,
-					};
-				}
-				return null;
-			});
-
-			console.log(secure_url);
-		} catch (error) {
-			console.log(error);
-		}
+		setEditedBookmark((prevBookmark) => {
+			if (prevBookmark) {
+				return {
+					...prevBookmark,
+					imgsrc: secure_url,
+				};
+			}
+			return null;
+		});
 	};
 
 	return (
