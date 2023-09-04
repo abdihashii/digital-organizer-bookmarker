@@ -81,6 +81,21 @@ export const useBookmarks = () => {
 		getBookmarks();
 	};
 
+	const generateScreenshot = async (url: string) => {
+		const encodedUrl = encodeURIComponent(url);
+
+		try {
+			const resp = await fetch(`/api/get-screenshot?url=${encodedUrl}`);
+			const data = await resp.json();
+
+			return data.secure_url;
+		} catch (error) {
+			console.error(error);
+
+			return null;
+		}
+	};
+
 	useEffect(() => {
 		getBookmarks();
 	}, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -92,5 +107,6 @@ export const useBookmarks = () => {
 		addBookmark,
 		deleteBookmark,
 		saveUpdatedBookmark,
+		generateScreenshot,
 	};
 };
