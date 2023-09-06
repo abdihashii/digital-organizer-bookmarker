@@ -22,12 +22,19 @@ export default function View({
 		<>
 			{bookmark ? (
 				<div className="flex h-full w-full flex-col gap-4">
-					<Link
-						href={bookmark.url as string}
-						target="_blank"
-						className="h-full w-full border border-white transition-all duration-300 hover:border hover:border-gray-300 hover:opacity-60"
-					>
+					<div className="group relative h-full w-full">
+						<Link
+							href={bookmark.url || '#'}
+							target="_blank"
+							className="absolute left-0 top-0 z-50 flex h-full w-full flex-col items-center justify-center bg-white opacity-0 group-hover:opacity-50"
+						>
+							<span className="hidden w-fit rounded-lg bg-gray-800 p-2 text-sm text-white transition-all duration-300 group-hover:block group-hover:opacity-100">
+								go to bookmark
+							</span>
+						</Link>
+
 						<Image
+							className="h-full w-full border border-white"
 							src={
 								cleanUpImgSrc(bookmark.imgsrc as string) ||
 								'https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80'
@@ -36,7 +43,7 @@ export default function View({
 							width={1920}
 							height={1080}
 						/>
-					</Link>
+					</div>
 
 					<a
 						href={bookmark.url || '#'}
