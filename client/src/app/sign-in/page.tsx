@@ -16,6 +16,7 @@ export default function SignInPage() {
 	const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
+		// loading spinner for sign in button. This is a local state
 		setIsLoading(true);
 
 		const target = event.target as typeof event.target & {
@@ -26,14 +27,29 @@ export default function SignInPage() {
 		const email = target.email.value;
 		const password = target.password.value;
 
-		await signIn(email, password);
+		// Create a new FormData object and append the necessary fields
+		const formData = new FormData();
+		formData.append('email', email);
+		formData.append('password', password);
 
-		setIsLoading(false);
+		console.log(JSON.stringify(formData, null, 2));
+
+		try {
+			const response = await signIn(formData);
+			if (response.redirected) {
+				window.location.href = response.url;
+			}
+		} catch (error: any) {
+			console.error('Error:', error.message);
+			// TODO: Show a user-friendly error message on the UI
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (
 		<main className="h-screen w-full md:flex md:flex-row md:items-center lg:p-20 xl:p-28">
-			<article className="hidden h-full w-2/3 items-center bg-gray-100 px-10 md:flex">
+			<article className="hidden h-full w-2/3 items-center justify-center bg-gray-100 px-10 md:flex md:flex-col">
 				<p className="text-3xl font-bold text-gray-900">
 					Lorem ipsum dolor sit amet consectetur adipisicing elit.
 				</p>

@@ -1,18 +1,15 @@
-'use client';
-
-import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function useAuth() {
+	const supabase = createClientComponentClient();
+
 	const router = useRouter();
 
 	const signUp = async (email: string, password: string) => {
 		const { data, error } = await supabase.auth.signUp({
 			email,
 			password,
-			options: {
-				emailRedirectTo: '/dashboard',
-			},
 		});
 
 		if (error) {
@@ -23,42 +20,27 @@ export default function useAuth() {
 		const user = data?.user;
 
 		console.log(user);
-		alert(user);
+		alert(JSON.stringify(user, null, 2));
 
 		router.push('/dashboard');
 	};
 
-	const signIn = async (email: string, password: string) => {
-		const { data, error } = await supabase.auth.signInWithPassword({
-			email,
-			password,
+	const signIn = async (formData: FormData) => {
+		const response = await fetch('/auth/sign-in', {
+			method: 'POST',
+			body: formData,
 		});
 
-		if (error) {
-			console.log(error);
-			return;
+		if (!response.ok) {
+			throw new Error('Failed to sign in');
 		}
 
-		const user = data?.user;
-
-		console.log(user);
-		// alert(user);
-
-		router.push('/dashboard');
+		return response;
 	};
 
 	const signOut = async () => {
-		const { error } = await supabase.auth.signOut();
-
-		if (error) {
-			console.log(error);
-			return;
-		}
-
-		console.log('Signed out');
-		alert('Signed out');
-
-		router.push('/');
+		await supabase.auth.signOut();
+		router.refresh();
 	};
 
 	return {
