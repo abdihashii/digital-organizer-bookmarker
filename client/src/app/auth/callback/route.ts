@@ -1,9 +1,7 @@
-import { Database } from '@/app/types/supabase.types';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-
-export const dynamic = 'force-dynamic';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/app/types/supabase.types';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
 	const requestUrl = new URL(request.url);
@@ -15,5 +13,5 @@ export async function GET(request: NextRequest) {
 	}
 
 	// Redirect to this URL after the sign in process is complete
-	return NextResponse.redirect(requestUrl.origin);
+	return NextResponse.redirect(`${requestUrl.origin}/dashboard`);
 }
