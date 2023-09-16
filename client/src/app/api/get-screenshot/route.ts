@@ -1,12 +1,12 @@
 import { v2 as cloudinary } from 'cloudinary';
-import puppeteer from 'puppeteer-core'
+import puppeteer from 'puppeteer-core';
 import {
 	bufferToStream,
 	sanitizeUrlForPublicId,
 	screenshotExists,
 	uploadToCloudinary,
 	CloudinaryResponse,
-} from './utils';
+} from '@/lib/getScreenshotUtils';
 
 cloudinary.config({
 	cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -25,23 +25,23 @@ export async function GET(request: Request) {
 	const url = searchParams.get('url');
 
 	if (!url) {
-	  return new Response(
-		JSON.stringify({
-		  status: 500,
-		  message: "Unable to retrieve the URL! Please enter a valid URL.",
-		  url,
-		}),
-		{
-			headers: {
-				'Content-Type': 'application/json',
+		return new Response(
+			JSON.stringify({
+				status: 500,
+				message: 'Unable to retrieve the URL! Please enter a valid URL.',
+				url,
+			}),
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
 			},
-		},
-	  )
+		);
 	}
 
 	const browser = await puppeteer.connect({
 		browserWSEndpoint: `wss://chrome.browserless.io?token=${process.env.BLESS_TOKEN}`,
-	  })
+	});
 	const page = await browser.newPage();
 	await page.goto(url);
 
