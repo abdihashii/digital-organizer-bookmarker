@@ -5,6 +5,7 @@ import {
 import { redirect } from 'next/navigation';
 import LeftSideNav from '@/components/LeftSideNav';
 import SearchBookmarks from '@/components/SearchBookmarks';
+import BookmarkList from '@/components/BookmarkList';
 
 export default async function DashboardPage() {
   const supabase = createServerSupabaseClient();
@@ -33,7 +34,7 @@ export default async function DashboardPage() {
         <div className="flex flex-col gap-8 lg:w-10/12">
           <SearchBookmarks />
 
-          {/* <Bookmarks /> */}
+          <BookmarkList bookmarks={bookmarks} />
         </div>
       </article>
     </main>
