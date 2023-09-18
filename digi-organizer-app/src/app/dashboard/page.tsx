@@ -1,8 +1,13 @@
-import { getUser } from '@/lib/supabaseServerClient';
+import {
+  createServerSupabaseClient,
+  getUser,
+} from '@/lib/supabaseServerClient';
 import { redirect } from 'next/navigation';
-import SignOut from '@/components/auth/SignOut';
+import LeftSideNav from '@/components/LeftSideNav';
+import SearchBookmarks from '@/components/SearchBookmarks';
 
 export default async function DashboardPage() {
+  const supabase = createServerSupabaseClient();
   const user = await getUser();
 
   // If there is no user, redirect to the sign in page
@@ -10,13 +15,27 @@ export default async function DashboardPage() {
     redirect('/sign-in');
   }
 
+  const { data: bookmarks, error } = await supabase.from('bookmarks').select();
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
   return (
-    <main className="mt-4 flex flex-col items-center justify-center gap-4">
-      <h1 className="text-center text-6xl">Dashboard</h1>
+    <main className="flex h-screen flex-col md:flex-row">
+      {/* left side navigation - hidden on small screens */}
+      <div className="hidden md:block">
+        <LeftSideNav />
+      </div>
 
-      <p className="text-center text-xl">Welcome, {user.email}!</p>
+      {/* right side main content */}
+      <article className="min-h-screen flex-1 overflow-y-auto bg-gray-100 p-4 md:p-12 lg:w-9/12">
+        <div className="flex flex-col gap-8 lg:w-10/12">
+          <SearchBookmarks />
 
-      <SignOut />
+          {/* <Bookmarks /> */}
+        </div>
+      </article>
     </main>
   );
 }
