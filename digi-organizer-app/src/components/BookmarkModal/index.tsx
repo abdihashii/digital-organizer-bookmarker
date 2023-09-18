@@ -1,5 +1,6 @@
 import Modal from '@/components/modal';
 import { BookmarkType } from '@/types/BookmarkType';
+import ViewBookmark from '@/components/BookmarkModal/ViewBookmark';
 
 export const BookmarkModal = ({
   bookmarkModal,
@@ -24,9 +25,13 @@ export const BookmarkModal = ({
         });
       }}
     >
-      <p>
-        {bookmarkModal.bookmark?.title} - {bookmarkModal.bookmark?.url}
-      </p>
+      <ViewBookmark
+        bookmark={bookmarkModal.bookmark}
+        // setEditMode={setEditMode}
+        // deleteBookmarkWarning={deleteBookmarkWarning}
+        // setDeleteBookmarkWarning={setDeleteBookmarkWarning}
+        // handleDeleteBookmark={handleDeleteBookmark}
+      />
     </Modal>
   );
 };
