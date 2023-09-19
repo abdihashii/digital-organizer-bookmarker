@@ -9,8 +9,10 @@ import {
   PersonIcon,
   GearIcon,
   DashboardIcon,
+  ReloadIcon,
 } from '@radix-ui/react-icons';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import ToolTip from './Tooltip';
 
 const LeftSideNav = () => {
   const supabase = createClientComponentClient();
@@ -55,18 +57,34 @@ const LeftSideNav = () => {
       {/* Flex items that should be at the bottom of the nav */}
       <div
         className="absolute bottom-0 left-0 
-    right-0 flex flex-row items-center justify-center gap-4 px-6 py-8
+    right-0 flex flex-row items-center justify-around px-6 py-8
   "
       >
-        <PersonIcon
-          className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
-          aria-label="Profile"
-        />
-        <ExitIcon
-          className="h-8 w-8 cursor-pointer text-white transition-colors duration-200 hover:text-gray-400"
-          aria-label="Log out"
-          onClick={handleSignOut}
-        />
+        <ToolTip
+          triggerContent={
+            <PersonIcon
+              className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
+              aria-label="Profile"
+            />
+          }
+        >
+          <p>Hello</p>
+        </ToolTip>
+        <ToolTip
+          triggerContent={
+            isLoading ? (
+              <ReloadIcon className="mr-2 h-8 w-8 animate-spin text-white" />
+            ) : (
+              <ExitIcon
+                className="h-8 w-8 cursor-pointer text-white transition-colors duration-200 hover:text-gray-400"
+                aria-label="Log out"
+                onClick={handleSignOut}
+              />
+            )
+          }
+        >
+          Sign Out
+        </ToolTip>
       </div>
     </nav>
   );
