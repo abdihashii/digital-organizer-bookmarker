@@ -35,12 +35,20 @@ const LeftSideNav = ({ user }: { user: User }) => {
 
   return (
     <nav className="relative flex h-screen w-40 flex-col items-center gap-8 overflow-y-hidden bg-gray-800 px-4 py-6">
-      <Link href="/dashboard">
-        <DashboardIcon
-          className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
-          aria-label="Dashboard"
-        />
-      </Link>
+      <ToolTip
+        triggerContent={
+          <Link href="/dashboard">
+            <DashboardIcon
+              className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
+              aria-label="Dashboard"
+            />
+          </Link>
+        }
+        side="right"
+        sideOffset={16}
+      >
+        Dashboard
+      </ToolTip>
 
       <BackpackIcon
         className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
