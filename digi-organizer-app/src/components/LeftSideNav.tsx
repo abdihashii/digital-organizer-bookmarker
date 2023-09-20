@@ -11,10 +11,13 @@ import {
   DashboardIcon,
   ReloadIcon,
 } from '@radix-ui/react-icons';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import {
+  User,
+  createClientComponentClient,
+} from '@supabase/auth-helpers-nextjs';
 import ToolTip from './Tooltip';
 
-const LeftSideNav = () => {
+const LeftSideNav = ({ user }: { user: User }) => {
   const supabase = createClientComponentClient();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -68,7 +71,7 @@ const LeftSideNav = () => {
             />
           }
         >
-          <p>Hello</p>
+          {user.email}
         </ToolTip>
         <ToolTip
           triggerContent={

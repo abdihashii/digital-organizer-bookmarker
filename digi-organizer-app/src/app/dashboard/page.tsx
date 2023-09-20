@@ -26,7 +26,7 @@ export default async function DashboardPage() {
     <main className="flex h-screen flex-col md:flex-row">
       {/* left side navigation - hidden on small screens */}
       <div className="hidden md:block">
-        <LeftSideNav />
+        <LeftSideNav user={user} />
       </div>
 
       {/* right side main content */}
