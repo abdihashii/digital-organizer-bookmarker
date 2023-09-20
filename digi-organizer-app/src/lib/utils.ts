@@ -25,18 +25,3 @@ export const cleanUpImgSrc = (url: string) => {
 
   return urlWithoutWrappingQuotes;
 };
-
-export const generateScreenshot = async (url: string) => {
-  const encodedUrl = encodeURIComponent(url);
-
-  try {
-    const res = await fetch(`api/get-screenshot?url=${encodedUrl}`);
-    const data = await res.json();
-
-    return data.secure_url;
-  } catch (error) {
-    console.error(error);
-
-    return null;
-  }
-};
