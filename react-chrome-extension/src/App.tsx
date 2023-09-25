@@ -1,89 +1,104 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useBookmarks from './hooks/useBookmarks';
-import { checkIfValidUrl } from './utils';
+import { checkIfValidUrl, getCurrentTab } from './utils';
+import SignInForm from './components/SignInForm';
+import { handleError } from './utils/errorHandler';
+import BookmarkList from './components/BookmarkList';
+import useAuthentication from './hooks/useAuthentication';
+import { BookmarkType } from './types';
+import Notification from './components/Notification';
+import UserActions from './components/UserActions';
 
 function App() {
-  const [isSuccessful, setIsSuccessful] = useState(false);
-  const { addBookmark } = useBookmarks();
+  const [notification, setNotification] = useState<{
+    type: 'success' | 'error';
+    message: string;
+  } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { addBookmark, fetchBookmarks } = useBookmarks();
+  const { user, handleSignOut } = useAuthentication();
+  const [bookmarks, setBookmarks] = useState<BookmarkType[] | null>(null);
 
-  const handleAddBookmark = () => {
-    if (!chrome || !chrome.tabs) {
+  const handleAddBookmarkClick = async () => {
+    setIsLoading(true);
+
+    const currentTab = await getCurrentTab();
+
+    if (
+      !currentTab?.url ||
+      !checkIfValidUrl(currentTab.url) ||
+      !currentTab.title
+    ) {
+      console.error('Invalid URL or title!');
+      setIsLoading(false);
       return;
     }
 
-    let url = '',
-      title = '';
+    const { error } = await addBookmark(currentTab.url, currentTab.title);
 
-    // get the current tab url
-    chrome.tabs.query({ active: true, currentWindow: true }, async (tabs) => {
-      const currentTab = tabs[0];
+    if (error) {
+      setNotification({
+        type: 'error',
+        message: 'Failed to add bookmark. Please try again.',
+      });
+      setIsLoading(false);
+      return;
+    }
 
-      if (!currentTab) {
-        console.error('No current tab found!');
-
-        return;
-      }
-
-      if (!currentTab.url || !currentTab.title) {
-        console.error('The url or title is invalid!');
-
-        return;
-      }
-
-      url = currentTab.url;
-
-      // check if the url is valid
-      if (!url || !checkIfValidUrl(url)) {
-        console.error('The url is invalid!');
-
-        return;
-      }
-
-      title = currentTab.title;
-
-      alert(`url: ${url}\ntitle: ${title}`);
-
-      if (!url || !title) {
-        console.error(
-          'The url or title is invalid! (outside of chrome.tabs.query)'
-        );
-        return;
-      }
-
-      // add the bookmark to the database
-      const bookmarks = await addBookmark(url, title);
-
-      alert(`All Bookmarks: ${JSON.stringify(bookmarks)}`);
-
-      setIsSuccessful(true);
-
-      // wait a couple seconds and then reset the state
-      setTimeout(() => {
-        setIsSuccessful(false);
-      }, 2000);
+    setNotification({
+      type: 'success',
+      message: "You've successfully added a bookmark!",
     });
+
+    setTimeout(() => {
+      setNotification(null);
+    }, 2000);
+
+    setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (user) {
+      fetchBookmarks()
+        .then((data) => {
+          if (data) {
+            setBookmarks(data);
+          }
+        })
+        .catch((error) => {
+          handleError(error, 'Error fetching bookmarks');
+        });
+    }
+  }, [user, fetchBookmarks]);
 
   return (
     <main className="rounded-md gap-8 py-8 m-8 flex flex-col w-96 items-center border border-white">
-      {!isSuccessful ? (
-        <>
-          <h1 className="text-2xl font-bold text-center">
-            Digital Bookmarking Tool
-          </h1>
+      <h1 className="text-2xl font-bold text-center">
+        Digital Bookmarking Tool
+      </h1>
 
-          <div>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={handleAddBookmark}
-            >
-              Add Bookmark
-            </button>
-          </div>
-        </>
+      {!user ? (
+        <SignInForm />
       ) : (
         <>
-          <p>You've successfully added a bookmark!</p>
+          <p className="text-center">
+            Welcome, <strong>{user.email}</strong>!
+          </p>
+
+          {notification && (
+            <Notification
+              type={notification.type}
+              message={notification.message}
+            />
+          )}
+
+          <UserActions
+            handleAddBookmark={handleAddBookmarkClick}
+            handleSignOut={handleSignOut}
+            isLoading={isLoading}
+          />
+
+          <BookmarkList bookmarks={bookmarks ?? []} />
         </>
       )}
     </main>

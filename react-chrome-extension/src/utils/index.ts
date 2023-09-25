@@ -14,3 +14,22 @@ export const checkIfValidUrl = (url: string) => {
 
   return true;
 };
+
+export const getCurrentTab = async (): Promise<{
+  url: string;
+  title: string;
+} | null> => {
+  if (!chrome?.tabs) return null;
+
+  const tab = await new Promise<chrome.tabs.Tab>((resolve) =>
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) =>
+      resolve(tabs[0])
+    )
+  );
+
+  if (tab.url && tab.title) {
+    return { url: tab.url, title: tab.title };
+  }
+
+  return null;
+};
