@@ -1,16 +1,15 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { EyeOpenIcon, EyeClosedIcon } from '@radix-ui/react-icons';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { ReloadIcon } from '@radix-ui/react-icons';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Eye, EyeOff, RefreshCw } from 'lucide-react';
 
 type FormData = {
   email: string;
@@ -112,7 +111,7 @@ const SignIn = () => {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
             <p className="text-red-500">{errors.password?.message}</p>
@@ -122,7 +121,7 @@ const SignIn = () => {
             <Button className="w-full" type="submit" disabled={isLoading}>
               {isLoading ? (
                 <>
-                  <ReloadIcon className="mr-2 animate-spin" />
+                  <RefreshCw className="mr-2 animate-spin" />
                   Signing in...
                 </>
               ) : (

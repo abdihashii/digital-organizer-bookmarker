@@ -3,14 +3,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import {
-  LockClosedIcon,
-  ExitIcon,
-  BackpackIcon,
-  PersonIcon,
-  GearIcon,
-  DashboardIcon,
-  ReloadIcon,
-} from '@radix-ui/react-icons';
+  FolderLock,
+  LayoutDashboard,
+  Loader2,
+  LogOut,
+  Settings,
+  Shapes,
+  User as UserIcon,
+} from 'lucide-react';
 import {
   User,
   createClientComponentClient,
@@ -38,7 +38,7 @@ const LeftSideNav = ({ user }: { user: User }) => {
       <ToolTip
         triggerContent={
           <Link href="/dashboard">
-            <DashboardIcon
+            <LayoutDashboard
               className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
               aria-label="Dashboard"
             />
@@ -50,17 +50,17 @@ const LeftSideNav = ({ user }: { user: User }) => {
         Dashboard
       </ToolTip>
 
-      <BackpackIcon
+      <Shapes
         className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
         aria-label="Folders"
       />
 
-      <LockClosedIcon
+      <FolderLock
         className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
         aria-label="Private Bookmarks"
       />
 
-      <GearIcon
+      <Settings
         className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
         aria-label="Settings"
       />
@@ -73,7 +73,7 @@ const LeftSideNav = ({ user }: { user: User }) => {
       >
         <ToolTip
           triggerContent={
-            <PersonIcon
+            <UserIcon
               className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
               aria-label="Profile"
             />
@@ -84,9 +84,9 @@ const LeftSideNav = ({ user }: { user: User }) => {
         <ToolTip
           triggerContent={
             isLoading ? (
-              <ReloadIcon className="mr-2 h-8 w-8 animate-spin text-white" />
+              <Loader2 className="mr-2 h-8 w-8 animate-spin text-white" />
             ) : (
-              <ExitIcon
+              <LogOut
                 className="h-8 w-8 cursor-pointer text-white transition-colors duration-200 hover:text-gray-400"
                 aria-label="Log out"
                 onClick={handleSignOut}

@@ -1,9 +1,9 @@
 'use client';
 
-import { Cross2Icon } from '@radix-ui/react-icons';
 import { motion } from 'framer-motion';
 import Backdrop from '@/components/modal/Backdrop';
 import React from 'react';
+import { X } from 'lucide-react';
 
 const Modal = ({
   children,
@@ -25,7 +25,10 @@ const Modal = ({
         <div className="flex w-full flex-row justify-between">
           <h3 className="text-3xl font-semibold text-gray-800">{title}</h3>
           <button onClick={handleClose} className="group">
-            <Cross2Icon className="overflow-visible text-4xl text-gray-800 transition-colors duration-100 group-hover:text-gray-400" />
+            <X
+              size={32}
+              className="overflow-visible text-4xl text-gray-800 transition-colors duration-100 group-hover:text-gray-400"
+            />
           </button>
         </div>
 

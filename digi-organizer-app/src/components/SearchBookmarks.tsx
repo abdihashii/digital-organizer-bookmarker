@@ -1,9 +1,9 @@
 'use client';
 
 import { AnimatePresence } from 'framer-motion';
-import { BookmarkFilledIcon } from '@radix-ui/react-icons';
 import AddBookmarkModal from '@/components/AddBookmarkModal';
 import React, { useState } from 'react';
+import { BookmarkPlus } from 'lucide-react';
 
 const SearchBookmarks = () => {
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +25,7 @@ const SearchBookmarks = () => {
         className="group flex w-16 cursor-pointer items-center justify-center rounded-md rounded-bl-none rounded-tl-none border border-l-0 border-gray-300 bg-white"
         onClick={addBookmark}
       >
-        <BookmarkFilledIcon
+        <BookmarkPlus
           className="overflow-visible text-2xl text-gray-800 transition-colors duration-150 group-hover:text-gray-400"
           aria-label="Add Bookmark"
         />

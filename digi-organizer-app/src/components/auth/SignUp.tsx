@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { EyeOpenIcon, EyeClosedIcon, ReloadIcon } from '@radix-ui/react-icons';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -10,6 +9,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useForm } from 'react-hook-form';
+import { Eye, EyeOff, RefreshCw } from 'lucide-react';
 
 type FormData = {
   email: string;
@@ -110,7 +110,7 @@ export default function SignUpPage() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
             <p className="text-red-500">{errors.password?.message}</p>
@@ -131,7 +131,7 @@ export default function SignUpPage() {
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               >
-                {showConfirmPassword ? <EyeOpenIcon /> : <EyeClosedIcon />}
+                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
             <p className="text-red-500">{errors.confirmPassword?.message}</p>
@@ -141,7 +141,7 @@ export default function SignUpPage() {
             <Button className="w-full" type="submit" disabled={isLoading}>
               {isLoading ? (
                 <>
-                  <ReloadIcon className="mr-2 animate-spin" />
+                  <RefreshCw className="mr-2 animate-spin" />
                   Signing up...
                 </>
               ) : (
