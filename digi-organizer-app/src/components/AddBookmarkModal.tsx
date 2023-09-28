@@ -1,6 +1,6 @@
 'use client';
 
-import Modal from '@/components/modal';
+import Modal from '@/components/Modal';
 import React, { useState } from 'react';
 
 const AddBookmarkModal = ({ handleClose }: { handleClose: () => void }) => {
