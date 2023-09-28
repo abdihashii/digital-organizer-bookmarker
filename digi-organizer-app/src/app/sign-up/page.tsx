@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/supabaseServerClient';
-import SignUp from '@/components/auth/SignUp';
+import SignUp from '@/components/Auth/SignUp';
 
 export default async function SignUpPage() {
   const session = await getSession();
