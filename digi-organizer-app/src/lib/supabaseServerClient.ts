@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import { cache } from 'react';
 import { Database } from '@/types/database.types';
 
+// A Server Component Supabase Client that has cookies cached
 export const createServerSupabaseClient = cache(() => {
   const cookieStore = cookies();
   return createServerComponentClient<Database>({ cookies: () => cookieStore });
