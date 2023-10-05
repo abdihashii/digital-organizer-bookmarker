@@ -1,23 +1,23 @@
+'use client';
+
 import { BookmarkType } from '@/types/BookmarkType';
 import { cleanUpImgSrc } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 
 const View = ({
   bookmark,
-}: // setEditMode,
-// deleteBookmarkWarning,
-// setDeleteBookmarkWarning,
-// handleDeleteBookmark,
-{
+  setEditMode,
+  handleDeleteBookmark,
+}: {
   bookmark: BookmarkType | null;
-  // setEditMode: (editMode: boolean) => void;
-  // deleteBookmarkWarning: boolean;
-  // setDeleteBookmarkWarning: (deleteBookmarkWarning: boolean) => void;
-  // handleDeleteBookmark: () => void;
+  setEditMode: (editMode: boolean) => void;
+  handleDeleteBookmark: () => void;
 }) => {
+  const [deleteBookmarkWarning, setDeleteBookmarkWarning] = useState(false);
+
   return (
     <>
       {bookmark ? (
@@ -67,7 +67,7 @@ const View = ({
           )}
 
           <div className="flex w-full gap-4">
-            {false ? (
+            {deleteBookmarkWarning ? (
               <>
                 <motion.button
                   animate={{
@@ -78,14 +78,14 @@ const View = ({
                     duration: 0.35,
                   }}
                   className="w-10/12 rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-                  // onClick={handleDeleteBookmark}
+                  onClick={handleDeleteBookmark}
                 >
                   Confirm Delete
                 </motion.button>
 
                 <button
                   className="w-2/12 rounded bg-gray-400 px-4 py-2 font-bold text-white hover:bg-gray-600"
-                  // onClick={() => setDeleteBookmarkWarning(false)}
+                  onClick={() => setDeleteBookmarkWarning(false)}
                 >
                   Cancel
                 </button>
@@ -94,14 +94,14 @@ const View = ({
               <>
                 <button
                   className="w-10/12 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                  // onClick={() => setEditMode(true)}
+                  onClick={() => setEditMode(true)}
                 >
                   Edit
                 </button>
 
                 <button
                   className="w-2/12 rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
-                  // onClick={() => setDeleteBookmarkWarning(true)}
+                  onClick={() => setDeleteBookmarkWarning(true)}
                 >
                   Delete
                 </button>

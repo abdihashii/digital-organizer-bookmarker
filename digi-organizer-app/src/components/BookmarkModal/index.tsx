@@ -1,6 +1,11 @@
-import Modal from '@/components/modal';
+'use client';
+
+import Modal from '@/components/Modal';
 import { BookmarkType } from '@/types/BookmarkType';
 import ViewBookmark from '@/components/BookmarkModal/ViewBookmark';
+import EditBookmark from '@/components/BookmarkModal/EditBookmark';
+import { useState } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export const BookmarkModal = ({
   bookmarkModal,
@@ -15,6 +20,33 @@ export const BookmarkModal = ({
     bookmark: BookmarkType | null;
   }) => void;
 }) => {
+  const supabase = createClientComponentClient();
+
+  const [editMode, setEditMode] = useState(false);
+
+  const deleteBookmark = async (bookmark: BookmarkType) => {
+    const { error } = await supabase
+      .from('bookmarks')
+      .delete()
+      .eq('uuid', bookmark.uuid);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+  };
+
+  const handleDeleteBookmark = async () => {
+    if (!bookmarkModal.bookmark) return;
+
+    await deleteBookmark(bookmarkModal.bookmark);
+
+    setBookmarkModal({
+      isOpen: false,
+      bookmark: null,
+    });
+  };
+
   return (
     <Modal
       title={bookmarkModal.bookmark?.title || ''}
@@ -25,13 +57,19 @@ export const BookmarkModal = ({
         });
       }}
     >
-      <ViewBookmark
-        bookmark={bookmarkModal.bookmark}
-        // setEditMode={setEditMode}
-        // deleteBookmarkWarning={deleteBookmarkWarning}
-        // setDeleteBookmarkWarning={setDeleteBookmarkWarning}
-        // handleDeleteBookmark={handleDeleteBookmark}
-      />
+      {editMode ? (
+        <EditBookmark
+          bookmarkModal={bookmarkModal}
+          setBookmarkModal={setBookmarkModal}
+          setEditMode={setEditMode}
+        />
+      ) : (
+        <ViewBookmark
+          bookmark={bookmarkModal.bookmark}
+          setEditMode={setEditMode}
+          handleDeleteBookmark={handleDeleteBookmark}
+        />
+      )}
     </Modal>
   );
 };
