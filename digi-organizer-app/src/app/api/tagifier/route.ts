@@ -4,7 +4,9 @@ import { GoogleAuth } from 'google-auth-library';
 const MODEL_NAME = 'models/text-bison-001';
 
 const client = new TextServiceClient({
-  authClient: new GoogleAuth().fromAPIKey(process.env.GOOGLE_API_KEY as string),
+  authClient: new GoogleAuth().fromAPIKey(
+    process.env.GOOGLE_AI_API_KEY as string
+  ),
 });
 
 const input =
