@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Backdrop from '@/components/modal/Backdrop';
+import Backdrop from '@/components/Modal/Backdrop';
 import React from 'react';
 import { X } from 'lucide-react';
 
