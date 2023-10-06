@@ -6,6 +6,7 @@ import {
   createClientComponentClient,
 } from '@supabase/auth-helpers-nextjs';
 import React, { useState } from 'react';
+import ToolTip from './Tooltip';
 
 const AddBookmarkModal = ({
   user,
@@ -112,9 +113,22 @@ const AddBookmarkModal = ({
         </section>
 
         {/* Generate Tags button */}
-        <button className="rounded-md bg-orange-500 p-4 text-white">
-          Generate Tags
-        </button>
+        <ToolTip
+          triggerContent={
+            <button
+              className={`rounded-md bg-orange-500 p-4 text-white
+            ${newBookmark.url === '' ? 'cursor-not-allowed opacity-50' : ''}
+          `}
+              disabled={newBookmark.url === ''}
+            >
+              Generate Tags
+            </button>
+          }
+          side="top"
+          sideOffset={4}
+        >
+          Make sure to add a URL first!
+        </ToolTip>
 
         <button type="submit" className="rounded-md bg-blue-500 p-4 text-white">
           Add Bookmark
