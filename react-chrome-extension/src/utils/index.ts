@@ -27,9 +27,10 @@ export const getCurrentTab = async (): Promise<{
     )
   );
 
-  if (tab.url && tab.title) {
-    return { url: tab.url, title: tab.title };
+  if (!tab.url || !checkIfValidUrl(tab.url) || !tab.title) {
+    console.error('Invalid URL or title!');
+    return null;
   }
 
-  return null;
+  return { url: tab.url, title: tab.title };
 };
