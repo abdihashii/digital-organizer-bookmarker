@@ -128,7 +128,7 @@ export default function Edit({
           </button> */}
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="title" className="text-gray-800">
+            <label htmlFor="title" className="text-gray-800 dark:text-gray-300">
               Title
             </label>
             <input
@@ -143,7 +143,7 @@ export default function Edit({
           </div>
 
           <div className="flex flex-col gap-2">
-            <label htmlFor="url" className="text-gray-800">
+            <label htmlFor="url" className="text-gray-800 dark:text-gray-300">
               URL
             </label>
             <input
