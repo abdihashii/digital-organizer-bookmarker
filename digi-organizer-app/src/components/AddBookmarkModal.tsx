@@ -7,6 +7,7 @@ import {
 } from '@supabase/auth-helpers-nextjs';
 import React, { useState } from 'react';
 import ToolTip from './Tooltip';
+import { useRouter } from 'next/navigation';
 
 const AddBookmarkModal = ({
   user,
@@ -16,6 +17,7 @@ const AddBookmarkModal = ({
   handleClose: () => void;
 }) => {
   const supabase = createClientComponentClient();
+  const router = useRouter();
   const [newBookmark, setNewBookmark] = useState({
     title: '',
     url: '',
@@ -45,6 +47,8 @@ const AddBookmarkModal = ({
     });
 
     handleClose();
+
+    router.refresh(); // refresh the page to show the newly added bookmark
   };
 
   return (
