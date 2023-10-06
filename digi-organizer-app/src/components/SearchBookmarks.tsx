@@ -4,8 +4,9 @@ import { AnimatePresence } from 'framer-motion';
 import AddBookmarkModal from '@/components/AddBookmarkModal';
 import React, { useState } from 'react';
 import { BookmarkPlus } from 'lucide-react';
+import { User } from '@supabase/auth-helpers-nextjs';
 
-const SearchBookmarks = () => {
+const SearchBookmarks = ({ user }: { user: User }) => {
   const [showModal, setShowModal] = useState(false);
 
   const addBookmark = () => {
@@ -33,7 +34,10 @@ const SearchBookmarks = () => {
 
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
         {showModal && (
-          <AddBookmarkModal handleClose={() => setShowModal(!showModal)} />
+          <AddBookmarkModal
+            user={user}
+            handleClose={() => setShowModal(!showModal)}
+          />
         )}
       </AnimatePresence>
     </section>
