@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import useBookmarks from './hooks/useBookmarks';
-import { checkIfValidUrl, getCurrentTab } from './utils';
+import { getCurrentTab } from './utils';
 import SignInForm from './components/SignInForm';
 import { handleError } from './utils/errorHandler';
 import BookmarkList from './components/BookmarkList';
@@ -9,27 +9,30 @@ import { BookmarkType } from './types';
 import Notification from './components/Notification';
 import UserActions from './components/UserActions';
 
+type Tags = {
+  themes: string[];
+  specifics: string[];
+};
+
 function App() {
   const [notification, setNotification] = useState<{
     type: 'success' | 'error';
     message: string;
   } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isGeneratingTags, setIsGeneratingTags] = useState(false);
   const { addBookmark, fetchBookmarks } = useBookmarks();
   const { user, handleSignOut } = useAuthentication();
   const [bookmarks, setBookmarks] = useState<BookmarkType[] | null>(null);
+  const [tags, setTags] = useState<Tags | null>(null);
 
   const handleAddBookmarkClick = async () => {
     setIsLoading(true);
 
     const currentTab = await getCurrentTab();
 
-    if (
-      !currentTab?.url ||
-      !checkIfValidUrl(currentTab.url) ||
-      !currentTab.title
-    ) {
-      console.error('Invalid URL or title!');
+    if (!currentTab) {
+      console.error('No current tab! Please try again.');
       setIsLoading(false);
       return;
     }
@@ -55,6 +58,36 @@ function App() {
     }, 2000);
 
     setIsLoading(false);
+  };
+
+  const handleGenerateTags = async () => {
+    console.log('Generating tags...');
+    setIsGeneratingTags(true);
+
+    const currentTab = await getCurrentTab();
+
+    if (!currentTab) {
+      console.error('No current tab! Please try again.');
+      setIsGeneratingTags(false);
+      return;
+    }
+
+    const res = await fetch(
+      `http://localhost:3000/api/tagifier?url=${currentTab.url}`
+    );
+
+    const { error, themes, specifics } = await res.json();
+    setIsGeneratingTags(false);
+
+    if (error) {
+      console.error('Error generating tags!');
+      return;
+    }
+
+    console.log('Themes: ', themes);
+    console.log('Specifics: ', specifics);
+
+    setTags({ themes, specifics });
   };
 
   useEffect(() => {
@@ -95,8 +128,33 @@ function App() {
           <UserActions
             handleAddBookmark={handleAddBookmarkClick}
             handleSignOut={handleSignOut}
+            handleGenerateTags={handleGenerateTags}
             isLoading={isLoading}
           />
+
+          {isGeneratingTags && <p>Generating tags...</p>}
+
+          {tags && (
+            <div className="border border-gray-100 rounded-md p-4 mt-4 flex flex-row gap-28">
+              <div className="flex flex-col gap-2">
+                <h2 className="font-bold text-lg">Themes</h2>
+                <ul>
+                  {tags.themes.map((theme) => (
+                    <li>{theme}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                <h2 className="font-bold text-lg">Specifics</h2>
+                <ul>
+                  {tags.specifics.map((specific) => (
+                    <li>{specific}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
 
           <BookmarkList bookmarks={bookmarks ?? []} />
         </>

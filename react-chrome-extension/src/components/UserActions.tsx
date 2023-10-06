@@ -1,10 +1,12 @@
 const UserActions = ({
   handleAddBookmark,
   handleSignOut,
+  handleGenerateTags,
   isLoading,
 }: {
   handleAddBookmark: () => void;
   handleSignOut: () => void;
+  handleGenerateTags: () => void;
   isLoading: boolean;
 }) => {
   return (
@@ -21,6 +23,12 @@ const UserActions = ({
         disabled={isLoading}
       >
         {isLoading ? 'Signing Out...' : 'Sign Out'}
+      </button>
+      <button
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4"
+        onClick={handleGenerateTags}
+      >
+        Generate Tags
       </button>
     </div>
   );
