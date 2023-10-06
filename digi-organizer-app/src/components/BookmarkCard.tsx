@@ -20,7 +20,7 @@ export const BookmarkCard = ({
 }) => {
   return (
     <div
-      className="flex w-full cursor-pointer flex-col gap-4 overflow-hidden rounded border border-black p-4 transition-shadow duration-200 hover:shadow-xl"
+      className="flex w-full cursor-pointer flex-col gap-4 overflow-hidden rounded border border-black p-4 transition-shadow duration-200 hover:shadow-xl dark:border-gray-300"
       onClick={() =>
         setBookmarkModal({
           isOpen: !bookmarkModal.isOpen,
@@ -28,9 +28,13 @@ export const BookmarkCard = ({
         })
       }
     >
-      <h3 className="text-xl font-bold text-gray-800">{bookmark.title}</h3>
+      <h3 className="text-xl font-bold text-gray-800 dark:text-white">
+        {bookmark.title}
+      </h3>
       {/* TODO: add hover tooltip for overflow */}
-      <p className="truncate text-sm text-gray-500">{bookmark.url}</p>
+      <p className="truncate text-sm text-gray-500 dark:text-gray-300">
+        {bookmark.url}
+      </p>
 
       {bookmark.tags && (
         <div className="flex flex-row gap-2 overflow-x-auto">

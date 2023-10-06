@@ -30,7 +30,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* right side main content */}
-      <article className="min-h-screen flex-1 overflow-y-auto bg-gray-100 p-4 md:p-12 lg:w-9/12">
+      <article className="min-h-screen flex-1 overflow-y-auto bg-gray-100 p-4 dark:bg-slate-700 md:p-12 lg:w-9/12">
         <div className="flex flex-col gap-8 lg:w-10/12">
           <SearchBookmarks />
 

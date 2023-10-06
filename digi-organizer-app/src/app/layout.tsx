@@ -1,8 +1,9 @@
 import './globals.css';
+import { getSession } from '@/lib/supabaseServerClient';
 import { Inter } from 'next/font/google';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import AuthProvider from '@/components/AuthProvider';
 import type { Metadata } from 'next';
-import { getSession } from '@/lib/supabaseServerClient';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,9 +22,17 @@ export default async function RootLayout({
   const accessToken = session?.access_token ?? null;
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head />
       <body className={inter.className}>
-        <AuthProvider accessToken={accessToken}>{children}</AuthProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider accessToken={accessToken}>{children}</AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
