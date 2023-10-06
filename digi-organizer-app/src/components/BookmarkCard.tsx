@@ -28,14 +28,18 @@ export const BookmarkCard = ({
         })
       }
     >
+      {/* TITLE */}
       <h3 className="text-xl font-bold text-gray-800 dark:text-white">
         {bookmark.title}
       </h3>
+
+      {/* URL */}
       {/* TODO: add hover tooltip for overflow */}
       <p className="truncate text-sm text-gray-500 dark:text-gray-300">
         {bookmark.url}
       </p>
 
+      {/* TAGS */}
       {bookmark.tags && (
         <div className="flex flex-row gap-2 overflow-x-auto">
           {bookmark.tags.map((tag, index) => (
