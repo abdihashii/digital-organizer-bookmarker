@@ -62,32 +62,73 @@ const LeftSideNav = ({ user }: { user: User }) => {
         Dashboard
       </ToolTip>
 
-      <Shapes
-        className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
-        aria-label="Folders"
-      />
+      <ToolTip
+        triggerContent={
+          <Shapes
+            className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
+            aria-label="Bookmark Collections"
+          />
+        }
+        side="right"
+        sideOffset={16}
+      >
+        Bookmark Collections
+      </ToolTip>
 
-      <FolderLock
-        className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
-        aria-label="Private Bookmarks"
-      />
+      <ToolTip
+        triggerContent={
+          <Link href="/dashboard/private-bookmarks">
+            <FolderLock
+              className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
+              aria-label="Private Bookmarks"
+            />
+          </Link>
+        }
+        side="right"
+        sideOffset={16}
+      >
+        Private Bookmarks
+      </ToolTip>
 
-      <Settings
-        className="h-8 w-8 cursor-pointer text-white transition-colors duration-200 hover:text-gray-400"
-        aria-label="Settings"
-        // onClick={handleTagifier}
-      />
+      <ToolTip
+        triggerContent={
+          <Settings
+            className="h-8 w-8 cursor-pointer text-white transition-colors duration-200 hover:text-gray-400"
+            aria-label="Settings"
+          />
+        }
+        side="right"
+        sideOffset={16}
+      >
+        Settings
+      </ToolTip>
 
       {theme === 'light' ? (
-        <Sun
-          className="h-8 w-8 rotate-0 scale-100 cursor-pointer text-white transition-all dark:-rotate-90 dark:scale-0"
-          onClick={() => setTheme('dark')}
-        />
+        <ToolTip
+          triggerContent={
+            <Sun
+              className="h-8 w-8 rotate-0 scale-100 cursor-pointer text-white transition-all dark:-rotate-90 dark:scale-0"
+              onClick={() => setTheme('dark')}
+            />
+          }
+          side="right"
+          sideOffset={16}
+        >
+          Switch to Dark Mode
+        </ToolTip>
       ) : (
-        <Moon
-          className="h-8 w-8 rotate-90 scale-0 cursor-pointer text-white transition-all dark:rotate-0 dark:scale-100"
-          onClick={() => setTheme('light')}
-        />
+        <ToolTip
+          triggerContent={
+            <Moon
+              className="h-8 w-8 rotate-90 scale-0 cursor-pointer text-white transition-all dark:rotate-0 dark:scale-100"
+              onClick={() => setTheme('light')}
+            />
+          }
+          side="right"
+          sideOffset={16}
+        >
+          Switch to Light Mode
+        </ToolTip>
       )}
 
       {/* Flex items that should be at the bottom of the nav */}
