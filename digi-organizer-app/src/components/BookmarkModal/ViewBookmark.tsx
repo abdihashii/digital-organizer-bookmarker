@@ -48,7 +48,7 @@ const View = ({
           <a
             href={bookmark.url || '#'}
             target="_blank"
-            className="block w-fit text-sm text-gray-500 hover:underline"
+            className="block w-fit text-sm text-gray-500 hover:underline dark:text-gray-300"
           >
             {bookmark.url}
           </a>
