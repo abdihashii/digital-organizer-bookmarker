@@ -30,10 +30,10 @@ export async function GET(request: Request) {
   if (!url) {
     return new Response(
       JSON.stringify({
-        status: 400,
         error: 'No url provided',
       }),
       {
+        status: 400,
         headers: {
           'Content-Type': 'application/json',
         },
@@ -108,13 +108,16 @@ Specifics:
 
   return new Response(
     JSON.stringify({
-      status: 200,
       themes: themesArray,
       specifics: specificsArray,
     }),
     {
+      status: 200,
       headers: {
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       },
     }
   );
