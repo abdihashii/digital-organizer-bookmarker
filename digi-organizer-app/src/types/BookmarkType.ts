@@ -9,3 +9,5 @@ export type BookmarkType = {
 };
 
 export type NewBookmarkType = Omit<BookmarkType, 'uuid'>;
+
+export type EditedBookmarkType = Partial<BookmarkType>;
