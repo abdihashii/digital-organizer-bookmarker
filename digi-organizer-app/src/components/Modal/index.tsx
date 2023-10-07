@@ -29,7 +29,7 @@ const Modal = ({
           <button onClick={handleClose} className="group">
             <X
               size={32}
-              className="overflow-visible text-4xl text-gray-800 transition-colors duration-100 group-hover:text-gray-400"
+              className="overflow-visible text-4xl text-gray-800 transition-colors duration-100 group-hover:text-gray-400 dark:text-white"
             />
           </button>
         </div>

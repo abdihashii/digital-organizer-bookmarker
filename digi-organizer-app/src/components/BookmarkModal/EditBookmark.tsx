@@ -100,10 +100,6 @@ export default function Edit({
     <>
       {bookmark ? (
         <div className="flex h-full w-full flex-col gap-4">
-          <pre>
-            <code>{JSON.stringify(editedBookmark, null, 2)}</code>
-          </pre>
-
           <Link
             href={bookmark.url as string}
             target="_blank"
