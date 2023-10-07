@@ -58,6 +58,8 @@ export const BookmarkModal = ({
           isOpen: false,
           bookmark: null,
         });
+
+        router.refresh();
       }}
     >
       {editMode ? (
