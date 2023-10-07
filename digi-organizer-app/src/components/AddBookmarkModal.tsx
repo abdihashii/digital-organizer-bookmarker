@@ -10,7 +10,7 @@ import ToolTip from '@/components/Tooltip';
 import { useRouter } from 'next/navigation';
 import type { NewBookmarkType } from '@/types/BookmarkType';
 import { XCircle } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
+import TagsSkeleton from './TagsSkeleton';
 
 const AddBookmarkModal = ({
   user,
@@ -156,15 +156,7 @@ const AddBookmarkModal = ({
               </label>
 
               {/* Generating tags loading skeleton */}
-              {generatingTags && (
-                <div className="flex flex-row flex-wrap gap-2">
-                  <Skeleton className="whitespace-nowrap rounded-md border bg-gray-200 px-6 py-3 text-xs text-gray-700 group-hover:cursor-default dark:bg-gray-700 dark:text-white dark:group-hover:border-gray-500" />
-                  <Skeleton className="whitespace-nowrap rounded-md border bg-gray-200 px-6 py-3 text-xs text-gray-700 group-hover:cursor-default dark:bg-gray-700 dark:text-white dark:group-hover:border-gray-500" />
-                  <Skeleton className="whitespace-nowrap rounded-md border bg-gray-200 px-6 py-3 text-xs text-gray-700 group-hover:cursor-default dark:bg-gray-700 dark:text-white dark:group-hover:border-gray-500" />
-                  <Skeleton className="whitespace-nowrap rounded-md border bg-gray-200 px-6 py-3 text-xs text-gray-700 group-hover:cursor-default dark:bg-gray-700 dark:text-white dark:group-hover:border-gray-500" />
-                  <Skeleton className="whitespace-nowrap rounded-md border bg-gray-200 px-6 py-3 text-xs text-gray-700 group-hover:cursor-default dark:bg-gray-700 dark:text-white dark:group-hover:border-gray-500" />
-                </div>
-              )}
+              {generatingTags && <TagsSkeleton />}
 
               <div className="flex flex-row flex-wrap gap-2">
                 {newBookmark.tags.map((tag, i) => (
@@ -175,6 +167,7 @@ const AddBookmarkModal = ({
                     <span className="whitespace-nowrap rounded-md border bg-gray-200 px-2 py-1 text-xs text-gray-700 group-hover:cursor-default dark:bg-gray-700 dark:text-white dark:group-hover:border-gray-500">
                       {tag}
                     </span>
+
                     {/* delete circle button */}
                     <XCircle
                       className="invisible absolute -right-2.5 -top-2.5 cursor-pointer text-gray-700 group-hover:visible"
