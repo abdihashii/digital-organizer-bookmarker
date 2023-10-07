@@ -5,6 +5,7 @@ import AddBookmarkModal from '@/components/AddBookmarkModal';
 import React, { useState } from 'react';
 import { BookmarkPlus } from 'lucide-react';
 import { User } from '@supabase/auth-helpers-nextjs';
+import ToolTip from './Tooltip';
 
 const SearchBookmarks = ({ user }: { user: User }) => {
   const [showModal, setShowModal] = useState(false);
@@ -22,15 +23,23 @@ const SearchBookmarks = ({ user }: { user: User }) => {
         placeholder="Search for a bookmark"
         autoFocus
       />
-      <div
-        className="group flex w-16 cursor-pointer items-center justify-center rounded-md rounded-bl-none rounded-tl-none border border-l-0 border-gray-300 bg-white dark:bg-gray-800"
-        onClick={addBookmark}
+      <ToolTip
+        triggerContent={
+          <div
+            className="group flex w-16 cursor-pointer items-center justify-center rounded-md rounded-bl-none rounded-tl-none border border-l-0 border-gray-300 bg-white dark:bg-gray-800"
+            onClick={addBookmark}
+          >
+            <BookmarkPlus
+              className="overflow-visible text-2xl text-gray-800 transition-colors duration-150 group-hover:text-gray-400 dark:text-white"
+              aria-label="Add Bookmark"
+            />
+          </div>
+        }
+        side="bottom"
+        sideOffset={4}
       >
-        <BookmarkPlus
-          className="overflow-visible text-2xl text-gray-800 transition-colors duration-150 group-hover:text-gray-400 dark:text-white"
-          aria-label="Add Bookmark"
-        />
-      </div>
+        Add Bookmark
+      </ToolTip>
 
       <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
         {showModal && (
