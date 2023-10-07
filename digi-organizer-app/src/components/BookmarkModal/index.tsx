@@ -6,6 +6,7 @@ import ViewBookmark from '@/components/BookmarkModal/ViewBookmark';
 import EditBookmark from '@/components/BookmarkModal/EditBookmark';
 import { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
 
 export const BookmarkModal = ({
   bookmarkModal,
@@ -21,7 +22,7 @@ export const BookmarkModal = ({
   }) => void;
 }) => {
   const supabase = createClientComponentClient();
-
+  const router = useRouter();
   const [editMode, setEditMode] = useState(false);
 
   const deleteBookmark = async (bookmark: BookmarkType) => {
@@ -45,6 +46,8 @@ export const BookmarkModal = ({
       isOpen: false,
       bookmark: null,
     });
+
+    router.refresh();
   };
 
   return (
