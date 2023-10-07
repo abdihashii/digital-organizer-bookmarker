@@ -65,7 +65,7 @@ const SignIn = () => {
 
   return (
     <main className="h-screen w-full md:flex md:flex-row md:items-center lg:p-20 xl:p-28">
-      <article className="hidden h-full w-2/3 items-center justify-center bg-gray-100 px-10 md:flex md:flex-col">
+      <article className="hidden h-full w-2/3 items-center justify-center bg-gray-100 px-10 dark:bg-gray-500 md:flex md:flex-col">
         <p className="text-3xl font-bold text-gray-900">
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </p>
@@ -80,11 +80,11 @@ const SignIn = () => {
 
       <article className="flex h-full flex-col justify-center gap-8 px-10 md:w-1/2">
         <section className="flex flex-col gap-2">
-          <h1 className="text-center text-4xl font-bold text-gray-900">
+          <h1 className="text-center text-4xl font-bold text-gray-900 dark:text-white">
             Welcome Back!
           </h1>
 
-          <h2 className="text-center text-gray-500">
+          <h2 className="text-center text-gray-500 dark:text-gray-400">
             Sign in to your account below
           </h2>
         </section>
@@ -132,7 +132,9 @@ const SignIn = () => {
         </form>
 
         <section className="flex flex-row justify-center gap-2">
-          <p className="text-center text-gray-500">First time here?</p>
+          <p className="text-center text-gray-500 dark:text-gray-400">
+            First time here?
+          </p>
 
           <Link
             className="text-center text-blue-500 hover:underline"
