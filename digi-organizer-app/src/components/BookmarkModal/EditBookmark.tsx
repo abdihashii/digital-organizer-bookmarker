@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { BookmarkType } from '@/types/BookmarkType';
+import { BookmarkType, EditedBookmarkType } from '@/types/BookmarkType';
 import Image from 'next/image';
 import { cleanUpImgSrc } from '@/lib/utils';
 import Link from 'next/link';
 // import { generateScreenshot } from '@/lib/utils';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import TagsSkeleton from '@/components/TagsSkeleton';
+import { XCircle } from 'lucide-react';
 
 export default function Edit({
   bookmarkModal,
@@ -24,18 +26,38 @@ export default function Edit({
   setEditMode: (editMode: boolean) => void;
 }) {
   const supabase = createClientComponentClient();
-  const [editedBookmark, setEditedBookmark] = useState(bookmarkModal.bookmark);
+  const [editedBookmark, setEditedBookmark] =
+    useState<EditedBookmarkType | null>(bookmarkModal.bookmark);
+  const [generatingTags, setGeneratingTags] = useState(false);
 
   // Grab the current bookmark from the bookmarkModalAtom
   const { bookmark } = bookmarkModal;
 
-  const saveUpdatedBookmark = async (bookmark: {
-    uuid: string;
-    title: string;
-    url: string;
-    featured: boolean;
-    tags?: Array<string>;
-  }) => {
+  const handleGenerateTags = async () => {
+    // reset tags to empty array
+    setEditedBookmark({ ...editedBookmark, tags: [] });
+
+    setGeneratingTags(true);
+
+    const res = await fetch(
+      `http://localhost:3000/api/tagifier?url=${editedBookmark?.url}`
+    );
+
+    const { error, themes, specifics } = await res.json();
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    setGeneratingTags(false);
+
+    const tags = [...themes, ...specifics];
+
+    setEditedBookmark({ ...editedBookmark, tags });
+  };
+
+  const saveUpdatedBookmark = async (bookmark: EditedBookmarkType) => {
     const bookmarkWithUpdatedTimestamp = {
       ...bookmark,
       updated_at: new Date().toISOString(),
@@ -57,20 +79,16 @@ export default function Edit({
    * Handle the save bookmark event
    */
   const handleSaveBookmark = async () => {
-    await saveUpdatedBookmark(
-      editedBookmark as {
-        uuid: string;
-        title: string;
-        url: string;
-        featured: boolean;
-        tags?: Array<string>;
-      }
-    );
+    if (!editedBookmark) {
+      return;
+    }
+
+    await saveUpdatedBookmark(editedBookmark);
 
     // Set the bookmark modal bookmark property so that the view component can render the updated bookmark values
     setBookmarkModal({
       ...bookmarkModal,
-      bookmark: editedBookmark,
+      bookmark: editedBookmark as BookmarkType,
     });
 
     // Reset the edited bookmark
@@ -153,18 +171,72 @@ export default function Edit({
             />
           </div>
 
-          {bookmark.tags && (
-            <div className="flex flex-row gap-2 overflow-x-auto">
-              {bookmark.tags?.map((tag, index) => (
-                <span
-                  key={`${tag}-${bookmark?.url}-${index}`}
-                  className="whitespace-nowrap rounded-md bg-gray-200 px-2 py-1 text-xs text-gray-700"
-                >
-                  {tag}
-                </span>
-              ))}
+          {editedBookmark?.tags && (
+            <div className="flex flex-col gap-2">
+              <label
+                htmlFor="bookmarkTags"
+                className="text-gray-800 dark:text-gray-300"
+              >
+                Tags:
+              </label>
+
+              {/* Generating tags loading skeleton */}
+              {generatingTags && <TagsSkeleton />}
+
+              <div className="flex flex-row gap-2 overflow-x-auto">
+                {editedBookmark?.tags?.map((tag, index) => (
+                  <div
+                    key={`${tag}-${editedBookmark.url}-${index}`}
+                    className="group relative"
+                  >
+                    <span className="whitespace-nowrap rounded-md bg-gray-200 px-2 py-1 text-xs text-gray-700">
+                      {tag}
+                    </span>
+
+                    {/* delete circle button */}
+                    <XCircle
+                      className="invisible absolute -right-2.5 -top-2.5 cursor-pointer text-gray-700 group-hover:visible"
+                      size={24}
+                      onClick={() => {
+                        const tags = editedBookmark.tags?.filter(
+                          (t) => t !== tag
+                        ) as string[];
+
+                        setEditedBookmark({ ...editedBookmark, tags });
+                      }}
+                      fill="white"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
+
+          <button
+            type="button"
+            className="rounded bg-orange-500 px-4 py-2 font-bold text-white transition-all duration-300 hover:bg-orange-700"
+            onClick={handleGenerateTags}
+          >
+            Generate Tags
+          </button>
+
+          <section className="flex flex-row gap-2">
+            <label htmlFor="tags" className="text-gray-800 dark:text-gray-300">
+              Feature this bookmark?
+            </label>
+            <input
+              type="checkbox"
+              className="rounded-md border border-gray-300 p-4"
+              id="featureBookmark"
+              checked={editedBookmark?.featured as boolean}
+              onChange={(e) =>
+                setEditedBookmark({
+                  ...editedBookmark,
+                  featured: e.target.checked,
+                })
+              }
+            />
+          </section>
 
           <div className="flex w-full gap-4">
             <>
