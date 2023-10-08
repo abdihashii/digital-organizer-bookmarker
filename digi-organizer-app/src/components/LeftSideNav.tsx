@@ -46,7 +46,7 @@ const LeftSideNav = ({ user }: { user: User }) => {
   // };
 
   return (
-    <nav className="relative flex h-screen w-48 flex-col items-center gap-8 overflow-y-hidden bg-gray-800 px-4 py-6">
+    <nav className="relative flex h-screen w-48 flex-col items-center gap-8 overflow-y-hidden bg-gray-800 px-4 py-6 pt-12">
       <ToolTip
         triggerContent={
           <Link href="/dashboard">
