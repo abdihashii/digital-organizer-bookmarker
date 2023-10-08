@@ -46,7 +46,7 @@ const LeftSideNav = ({ user }: { user: User }) => {
   // };
 
   return (
-    <nav className="relative flex h-screen w-40 flex-col items-center gap-8 overflow-y-hidden bg-gray-800 px-4 py-6">
+    <nav className="relative flex h-screen w-48 flex-col items-center gap-8 overflow-y-hidden bg-gray-800 px-4 py-6">
       <ToolTip
         triggerContent={
           <Link href="/dashboard">
@@ -90,19 +90,6 @@ const LeftSideNav = ({ user }: { user: User }) => {
         Private Bookmarks
       </ToolTip>
 
-      <ToolTip
-        triggerContent={
-          <Settings
-            className="h-8 w-8 cursor-pointer text-white transition-colors duration-200 hover:text-gray-400"
-            aria-label="Settings"
-          />
-        }
-        side="right"
-        sideOffset={16}
-      >
-        Settings
-      </ToolTip>
-
       {theme === 'light' ? (
         <ToolTip
           triggerContent={
@@ -132,36 +119,39 @@ const LeftSideNav = ({ user }: { user: User }) => {
       )}
 
       {/* Flex items that should be at the bottom of the nav */}
-      <div
-        className="absolute bottom-0 left-0 
-    right-0 flex flex-row items-center justify-around px-6 py-8
-  "
-      >
-        <ToolTip
-          triggerContent={
-            <UserIcon
-              className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
-              aria-label="Profile"
-            />
-          }
+      <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-8 border border-t-2 border-t-gray-500 px-6 py-8">
+        <div className="group flex flex-row items-center gap-4">
+          <UserIcon className="h-8 w-8 text-white" aria-label="Profile" />
+          <div className="flex flex-col gap-1 transition-colors duration-200">
+            <p className="text-xs font-semibold text-white transition-colors duration-200 group-hover:text-gray-400">
+              {user.role}
+            </p>
+            <p className="text-xs text-gray-300">{user.email}</p>
+          </div>
+        </div>
+
+        <div className="group flex flex-row items-center gap-4 transition-colors duration-200">
+          <Settings
+            className="h-8 w-8 text-white transition-colors duration-200 group-hover:text-gray-400"
+            aria-label="Settings"
+          />
+          <p className="cursor-pointer transition-colors duration-200 group-hover:text-gray-400">
+            Settings
+          </p>
+        </div>
+
+        <div
+          className="group flex cursor-pointer flex-row items-center gap-4 transition-colors duration-200"
+          onClick={handleSignOut}
         >
-          {user.email}
-        </ToolTip>
-        <ToolTip
-          triggerContent={
-            isLoading ? (
-              <Loader2 className="mr-2 h-8 w-8 animate-spin text-white" />
-            ) : (
-              <LogOut
-                className="h-8 w-8 cursor-pointer text-white transition-colors duration-200 hover:text-gray-400"
-                aria-label="Log out"
-                onClick={handleSignOut}
-              />
-            )
-          }
-        >
-          Sign Out
-        </ToolTip>
+          <LogOut
+            className="h-8 w-8 cursor-pointer text-white transition-colors duration-200 group-hover:text-gray-400"
+            aria-label="Log out"
+          />
+          <p className="cursor-pointer transition-colors duration-200 group-hover:text-gray-400">
+            {isLoading ? <Loader2 className="h-4 w-4" /> : 'Log out'}
+          </p>
+        </div>
       </div>
     </nav>
   );
