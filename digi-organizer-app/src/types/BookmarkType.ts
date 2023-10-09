@@ -18,4 +18,5 @@ export type ProfileType = {
   id: string;
   last_name: string | null;
   role: string;
+  avatar_src: string | null;
 };

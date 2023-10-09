@@ -9,7 +9,6 @@ import {
   LogOut,
   Settings,
   Shapes,
-  User as UserIcon,
   Moon,
   Sun,
 } from 'lucide-react';
@@ -17,6 +16,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import ToolTip from './Tooltip';
 import { useTheme } from 'next-themes';
 import type { ProfileType } from '@/types/BookmarkType';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
   const supabase = createClientComponentClient();
@@ -38,10 +38,10 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
     <nav className="relative flex h-screen w-48 flex-col items-center gap-8 overflow-y-hidden bg-gray-800 px-4 py-6 pt-12">
       <ToolTip
         triggerContent={
-          <Link href="/dashboard">
+          <Link href="/bookmarks">
             <LayoutDashboard
               className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
-              aria-label="Dashboard"
+              aria-label="Bookmarks Dashboard"
             />
           </Link>
         }
@@ -110,10 +110,13 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
       {/* Flex items that should be at the bottom of the nav */}
       <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-8 border border-t-2 border-t-gray-500 px-6 py-8">
         <div className="group flex flex-row items-center gap-4 transition-colors duration-200">
-          <UserIcon
-            className="h-8 w-8 text-white transition-colors duration-200 group-hover:text-gray-400"
-            aria-label="Profile"
-          />
+          <Avatar className="h-8 w-8">
+            <AvatarImage
+              src={profile.avatar_src || 'https://github.com/shadcn.png'}
+            />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+
           <div className="flex flex-col gap-1">
             <p className="text-xs font-semibold text-white transition-colors duration-200 group-hover:text-gray-400">
               {profile.first_name}
@@ -124,7 +127,10 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
           </div>
         </div>
 
-        <div className="group flex flex-row items-center gap-4 cursor-pointer">
+        <Link
+          href="/settings"
+          className="group flex flex-row items-center gap-4 cursor-pointer"
+        >
           <Settings
             className="h-8 w-8 text-white group-hover:text-gray-400 transition-colors duration-200"
             aria-label="Settings"
@@ -132,7 +138,7 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
           <p className="group-hover:text-gray-400 transition-colors duration-200">
             Settings
           </p>
-        </div>
+        </Link>
 
         <div
           className="group flex cursor-pointer flex-row items-center gap-4"
