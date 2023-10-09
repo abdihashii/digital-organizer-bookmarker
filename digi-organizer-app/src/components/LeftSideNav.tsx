@@ -111,10 +111,11 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
       <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-8 border border-t-2 border-t-gray-500 px-6 py-8">
         <div className="group flex flex-row items-center gap-4 transition-colors duration-200">
           <Avatar className="h-8 w-8">
-            <AvatarImage
-              src={profile.avatar_src || 'https://github.com/abdihashii.png'}
-            />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarImage src={profile.avatar_src || ''} />
+            <AvatarFallback>
+              {profile.first_name.charAt(0).toUpperCase() +
+                profile.last_name.charAt(0).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
 
           <div className="flex flex-col gap-1">
