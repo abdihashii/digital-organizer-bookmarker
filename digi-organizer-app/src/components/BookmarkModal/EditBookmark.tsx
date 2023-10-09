@@ -33,6 +33,19 @@ export default function Edit({
   // Grab the current bookmark from the bookmarkModalAtom
   const { bookmark } = bookmarkModal;
 
+  const handleGenerateScreenshot = async (url: string) => {
+    const res = await fetch(`/api/fetch-og-image?url=${url}`);
+
+    const { error, ogImage } = await res.json();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setEditedBookmark({ ...editedBookmark, imgsrc: ogImage });
+  };
+
   const handleGenerateTags = async () => {
     // reset tags to empty array
     setEditedBookmark({ ...editedBookmark, tags: [] });
@@ -40,7 +53,7 @@ export default function Edit({
     setGeneratingTags(true);
 
     const res = await fetch(
-      `http://localhost:3000/api/tagifier?url=${editedBookmark?.url}`
+      `http://localhost:3000/api/tagifier?url=${editedBookmark?.url}`,
     );
 
     const { error, themes, specifics } = await res.json();
@@ -134,12 +147,12 @@ export default function Edit({
             />
           </Link>
 
-          {/* <button
+          <button
             className="rounded bg-blue-500 px-4 py-2 font-bold text-white transition-all duration-300 hover:bg-blue-700"
             onClick={() => handleGenerateScreenshot(bookmark.url as string)}
           >
             Generate Screenshot
-          </button> */}
+          </button>
 
           <div className="flex flex-col gap-2">
             <label htmlFor="title" className="text-gray-800 dark:text-gray-300">
@@ -199,7 +212,7 @@ export default function Edit({
                       size={24}
                       onClick={() => {
                         const tags = editedBookmark.tags?.filter(
-                          (t) => t !== tag
+                          (t) => t !== tag,
                         ) as string[];
 
                         setEditedBookmark({ ...editedBookmark, tags });
