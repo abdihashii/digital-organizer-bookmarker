@@ -48,26 +48,26 @@ export interface Database {
       profiles: {
         Row: {
           avatar_src: string | null
-          email: string | null
-          first_name: string | null
+          email: string
+          first_name: string
           id: string
-          last_name: string | null
+          last_name: string
           role: string
         }
         Insert: {
           avatar_src?: string | null
-          email?: string | null
-          first_name?: string | null
+          email: string
+          first_name: string
           id: string
-          last_name?: string | null
+          last_name: string
           role?: string
         }
         Update: {
           avatar_src?: string | null
-          email?: string | null
-          first_name?: string | null
+          email?: string
+          first_name?: string
           id?: string
-          last_name?: string | null
+          last_name?: string
           role?: string
         }
         Relationships: [
