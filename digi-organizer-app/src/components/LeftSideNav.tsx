@@ -13,14 +13,21 @@ import {
   Moon,
   Sun,
 } from 'lucide-react';
-import {
-  User,
-  createClientComponentClient,
-} from '@supabase/auth-helpers-nextjs';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import ToolTip from './Tooltip';
 import { useTheme } from 'next-themes';
 
-const LeftSideNav = ({ user }: { user: User }) => {
+const LeftSideNav = ({
+  profile,
+}: {
+  profile: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    role: string;
+  };
+}) => {
   const supabase = createClientComponentClient();
   const { theme, setTheme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
@@ -35,15 +42,6 @@ const LeftSideNav = ({ user }: { user: User }) => {
 
     setIsLoading(false);
   };
-
-  // const handleTagifier = async () => {
-  //   const res = await fetch('/api/tagifier');
-
-  //   const { themes, specifics } = await res.json();
-
-  //   alert(`Themes: ${themes}`);
-  //   alert(`Specifics: ${specifics}`);
-  // };
 
   return (
     <nav className="relative flex h-screen w-48 flex-col items-center gap-8 overflow-y-hidden bg-gray-800 px-4 py-6 pt-12">
@@ -124,9 +122,9 @@ const LeftSideNav = ({ user }: { user: User }) => {
           <UserIcon className="h-8 w-8 text-white" aria-label="Profile" />
           <div className="flex flex-col gap-1 transition-colors duration-200">
             <p className="text-xs font-semibold text-white transition-colors duration-200 group-hover:text-gray-400">
-              {user.role}
+              {profile.first_name}
             </p>
-            <p className="text-xs text-gray-300">{user.email}</p>
+            <p className="text-xs text-gray-300">{profile.email}</p>
           </div>
         </div>
 
