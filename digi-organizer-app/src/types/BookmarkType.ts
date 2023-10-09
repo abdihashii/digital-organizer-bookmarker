@@ -11,3 +11,11 @@ export type BookmarkType = {
 export type NewBookmarkType = Omit<BookmarkType, 'uuid'>;
 
 export type EditedBookmarkType = Partial<BookmarkType>;
+
+export type ProfileType = {
+  email: string | null;
+  first_name: string | null;
+  id: string;
+  last_name: string | null;
+  role: string;
+};

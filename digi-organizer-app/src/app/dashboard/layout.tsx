@@ -24,8 +24,8 @@ export default async function DashboardLayout({
 
   const profile = data?.[0];
 
-  if (profileError) {
-    return <div>Error: {profileError.message}</div>;
+  if (profileError || !profile) {
+    return <div>Error: {profileError?.message}</div>;
   }
 
   return (

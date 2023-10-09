@@ -16,18 +16,9 @@ import {
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import ToolTip from './Tooltip';
 import { useTheme } from 'next-themes';
+import type { ProfileType } from '@/types/BookmarkType';
 
-const LeftSideNav = ({
-  profile,
-}: {
-  profile: {
-    id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    role: string;
-  };
-}) => {
+const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
   const supabase = createClientComponentClient();
   const { theme, setTheme } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
