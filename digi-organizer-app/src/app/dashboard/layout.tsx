@@ -20,7 +20,8 @@ export default async function DashboardLayout({
 
   const { data, error: profileError } = await supabase
     .from('profiles')
-    .select();
+    .select()
+    .eq('id', user?.id);
 
   const profile = data?.[0];
 
