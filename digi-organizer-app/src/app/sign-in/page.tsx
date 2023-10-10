@@ -7,7 +7,7 @@ export default async function SignInPage() {
 
   // Check if there is a session. If there is, redirect to the dashboard
   if (session) {
-    redirect('/dashboard');
+    redirect('/bookmarks');
   }
 
   // If there is no session, show the sign in page
