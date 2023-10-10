@@ -66,7 +66,7 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
 
       <ToolTip
         triggerContent={
-          <Link href="/dashboard/private-bookmarks">
+          <Link href="/bookmarks/private-bookmarks">
             <FolderLock
               className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
               aria-label="Private Bookmarks"
