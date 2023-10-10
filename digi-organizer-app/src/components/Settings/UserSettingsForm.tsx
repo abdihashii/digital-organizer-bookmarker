@@ -5,8 +5,12 @@ import Image from 'next/image';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
 
 const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
+  const supabase = createClientComponentClient();
+  const router = useRouter();
   const [updatedProfile, setUpdatedProfile] = useState<ProfileType>(profile);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,10 +22,37 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
     }));
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const updated_at = new Date().toISOString();
+
+    const { data, error } = await supabase
+      .from('profiles')
+      .update({
+        first_name: updatedProfile.first_name,
+        last_name: updatedProfile.last_name,
+        username: updatedProfile.username,
+        email: updatedProfile.email,
+        updated_at,
+      })
+      .eq('id', updatedProfile.id)
+      .select();
+
+    if (error) {
+      alert(JSON.stringify(error, null, 2));
+    } else {
+      alert(JSON.stringify(data, null, 2));
+    }
+
+    router.refresh();
+  };
+
   return (
     <form
       className="flex flex-col gap-8"
       aria-labelledby="user-settings-heading"
+      onSubmit={handleSubmit}
     >
       <h2 className="text-2xl font-bold">User Settings</h2>
 
@@ -65,6 +96,17 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
           type="text"
           name="last_name"
           value={updatedProfile.last_name}
+          onChange={handleInputChange}
+        />
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <label htmlFor="username">User Name</label>
+        <Input
+          id="username"
+          type="text"
+          name="username"
+          value={updatedProfile.username}
           onChange={handleInputChange}
         />
       </div>
