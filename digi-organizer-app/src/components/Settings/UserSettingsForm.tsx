@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
+import ToolTip from '../Tooltip';
 
 const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
   const supabase = createClientComponentClient();
@@ -41,8 +42,6 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
 
     if (error) {
       alert(JSON.stringify(error, null, 2));
-    } else {
-      alert(JSON.stringify(data, null, 2));
     }
 
     router.refresh();
@@ -56,18 +55,17 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
     >
       <h2 className="text-2xl font-bold">User Settings</h2>
 
-      <div className="flex flex-col gap-2">
-        <div className="group cursor-pointer w-fit">
+      <div className="flex flex-row gap-4 items-center">
+        <div className="w-fit">
           {updatedProfile.avatar_src ? (
             <Image
               src={updatedProfile.avatar_src || ''}
               alt="User Avatar"
               width={100}
               height={100}
-              className="group-hover:opacity-75 transition-opacity duration-200 rounded-full"
             />
           ) : (
-            <div className="w-20 h-20 border-4 border-gray-800 rounded-full group-hover:border-gray-600 transition-opacity duration-200">
+            <div className="w-20 h-20 border-4 border-gray-800 rounded-full">
               <div className="h-full text-center text-white flex items-center justify-center font-medium">
                 {updatedProfile.first_name[0]}
                 {updatedProfile.last_name[0]}
@@ -75,7 +73,42 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
             </div>
           )}
         </div>
-        <label>User Avatar</label>
+
+        <div className="flex flex-col gap-0.5">
+          <p className="font-semibold">Profile picture</p>
+          <p className="text-xs">PNG, JPEG under 15MB</p>
+        </div>
+
+        <div className="flex flex-row gap-2 ml-auto">
+          <ToolTip
+            triggerContent={
+              <div>
+                <Button type="button" className="text-xs h-8" disabled>
+                  Upload new picture
+                </Button>
+              </div>
+            }
+          >
+            Not implemented yet.
+          </ToolTip>
+
+          <ToolTip
+            triggerContent={
+              <div>
+                <Button
+                  type="button"
+                  className="text-xs h-8"
+                  variant="secondary"
+                  disabled
+                >
+                  Delete
+                </Button>
+              </div>
+            }
+          >
+            Not implemented yet.
+          </ToolTip>
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">
