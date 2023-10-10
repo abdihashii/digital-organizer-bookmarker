@@ -108,7 +108,8 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
       )}
 
       {/* Flex items that should be at the bottom of the nav */}
-      <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-8 border border-t-2 border-t-gray-500 px-6 py-8">
+      <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-8 border-t-2 border-t-gray-500 px-6 py-8">
+        {/* User Info */}
         <div className="group flex flex-row items-center gap-4 transition-colors duration-200">
           <Avatar className="h-8 w-8">
             <AvatarImage src={profile.avatar_src || ''} />
@@ -128,12 +129,13 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
           </div>
         </div>
 
+        {/* Settings */}
         <Link
           href="/settings"
-          className="group flex flex-row items-center gap-4 cursor-pointer"
+          className="group flex flex-row items-center gap-4 cursor-pointer text-white"
         >
           <Settings
-            className="h-8 w-8 text-white group-hover:text-gray-400 transition-colors duration-200"
+            className="h-8 w-8 group-hover:text-gray-400 transition-colors duration-200"
             aria-label="Settings"
           />
           <p className="group-hover:text-gray-400 transition-colors duration-200">
@@ -141,12 +143,13 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
           </p>
         </Link>
 
+        {/* Log Out */}
         <div
-          className="group flex cursor-pointer flex-row items-center gap-4"
+          className="group flex cursor-pointer flex-row items-center gap-4 text-white "
           onClick={handleSignOut}
         >
           <LogOut
-            className="h-8 w-8 text-white transition-colors duration-200 group-hover:text-gray-400"
+            className="h-8 w-8 transition-colors duration-200 group-hover:text-gray-400"
             aria-label="Log out"
           />
           <p className="transition-colors duration-200 group-hover:text-gray-400">
