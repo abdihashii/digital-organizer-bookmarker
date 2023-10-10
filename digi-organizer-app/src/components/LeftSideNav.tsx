@@ -120,7 +120,7 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
 
           <div className="flex flex-col gap-1">
             <p className="text-xs font-semibold text-white transition-colors duration-200 group-hover:text-gray-400">
-              {profile.first_name}
+              {profile.username}
             </p>
             <p className="text-xs text-gray-300 transition-colors duration-200 group-hover:text-gray-400">
               {profile.email}
