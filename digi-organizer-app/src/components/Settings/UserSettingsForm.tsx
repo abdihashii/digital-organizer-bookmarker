@@ -55,8 +55,9 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
     >
       <h2 className="text-2xl font-bold">User Settings</h2>
 
-      <div className="flex flex-col gap-2">
-        <div className="group w-fit cursor-pointer">
+      {/* User Avatar stuff */}
+      <div className="flex flex-row items-center gap-4">
+        <div className="w-fit">
           {updatedProfile.avatar_src ? (
             <Image
               src={updatedProfile.avatar_src || ''}
@@ -66,7 +67,7 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
               className="rounded-full transition-opacity duration-200 group-hover:opacity-75"
             />
           ) : (
-            <div className="h-20 w-20 rounded-full border-4 border-gray-800 transition-opacity duration-200 group-hover:border-gray-600">
+            <div className="h-20 w-20 rounded-full border-4 border-gray-800">
               <div className="flex h-full items-center justify-center text-center font-medium text-white">
                 {updatedProfile.first_name[0]}
                 {updatedProfile.last_name[0]}
