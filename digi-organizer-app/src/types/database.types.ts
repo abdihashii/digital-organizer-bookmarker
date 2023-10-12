@@ -13,6 +13,7 @@ export interface Database {
         Row: {
           created_at: string
           featured: boolean | null
+          folder_id: string | null
           imgsrc: string | null
           tags: string[] | null
           title: string | null
@@ -24,6 +25,7 @@ export interface Database {
         Insert: {
           created_at?: string
           featured?: boolean | null
+          folder_id?: string | null
           imgsrc?: string | null
           tags?: string[] | null
           title?: string | null
@@ -35,6 +37,7 @@ export interface Database {
         Update: {
           created_at?: string
           featured?: boolean | null
+          folder_id?: string | null
           imgsrc?: string | null
           tags?: string[] | null
           title?: string | null
@@ -43,34 +46,71 @@ export interface Database {
           user_id?: string | null
           uuid?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "bookmarks_folder_id_fkey"
+            columns: ["folder_id"]
+            referencedRelation: "folders"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      folders: {
+        Row: {
+          created_at: string
+          folder_name: string
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          folder_name: string
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          folder_name?: string
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
         Relationships: []
       }
       profiles: {
         Row: {
           avatar_src: string | null
+          created_at: string | null
           email: string
           first_name: string
           id: string
           last_name: string
           role: string
+          updated_at: string | null
           username: string
         }
         Insert: {
           avatar_src?: string | null
+          created_at?: string | null
           email: string
           first_name: string
           id: string
           last_name: string
           role?: string
+          updated_at?: string | null
           username: string
         }
         Update: {
           avatar_src?: string | null
+          created_at?: string | null
           email?: string
           first_name?: string
           id?: string
           last_name?: string
           role?: string
+          updated_at?: string | null
           username?: string
         }
         Relationships: [

@@ -21,3 +21,11 @@ export type ProfileType = {
   role: string;
   username: string;
 };
+
+export type FolderType = {
+  created_at: string;
+  folder_name: string;
+  id: string;
+  updated_at: string | null;
+  user_id: string;
+};
