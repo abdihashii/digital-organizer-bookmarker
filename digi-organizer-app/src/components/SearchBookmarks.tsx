@@ -4,14 +4,55 @@ import { AnimatePresence } from 'framer-motion';
 import AddBookmarkModal from '@/components/AddBookmarkModal';
 import React, { useState } from 'react';
 import { BookmarkPlus } from 'lucide-react';
-import { User } from '@supabase/auth-helpers-nextjs';
+import {
+  User,
+  createClientComponentClient,
+} from '@supabase/auth-helpers-nextjs';
 import ToolTip from './Tooltip';
+import { BookmarkType } from '@/types/BookmarkType';
 
-const SearchBookmarks = ({ user }: { user: User }) => {
+const SearchBookmarks = ({
+  user,
+  setBookmarksList,
+}: {
+  user: User;
+  setBookmarksList: (bookmarksList: BookmarkType[]) => void;
+}) => {
+  const supabase = createClientComponentClient();
   const [showModal, setShowModal] = useState(false);
 
   const addBookmark = () => {
     setShowModal(true);
+  };
+
+  const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchQuery = e.target.value;
+
+    if (searchQuery.length > 0) {
+      const { data, error } = await supabase
+        .from('bookmarks')
+        .select()
+        .textSearch('title', searchQuery, {
+          type: 'websearch',
+          config: 'english',
+        });
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setBookmarksList(data);
+    } else {
+      const { data, error } = await supabase.from('bookmarks').select();
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      setBookmarksList(data);
+    }
   };
 
   return (
@@ -22,6 +63,7 @@ const SearchBookmarks = ({ user }: { user: User }) => {
         style={{ width: 'calc(100% - 4rem)' }}
         placeholder="Search for a bookmark"
         autoFocus
+        onChange={handleSearch}
       />
       <ToolTip
         triggerContent={
