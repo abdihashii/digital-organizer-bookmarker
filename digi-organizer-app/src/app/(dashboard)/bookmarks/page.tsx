@@ -13,7 +13,10 @@ export default async function DashboardPage() {
     return null;
   }
 
-  const { data: bookmarks, error } = await supabase.from('bookmarks').select();
+  const { data: bookmarks, error } = await supabase
+    .from('bookmarks')
+    .select()
+    .order('updated_at', { ascending: false });
 
   if (error) {
     return <div>Error: {error.message}</div>;

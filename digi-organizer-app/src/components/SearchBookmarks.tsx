@@ -32,6 +32,7 @@ const SearchBookmarks = ({
       const { data, error } = await supabase
         .from('bookmarks')
         .select()
+        .order('updated_at', { ascending: false })
         .textSearch('title', searchQuery, {
           type: 'websearch',
           config: 'english',
@@ -44,7 +45,10 @@ const SearchBookmarks = ({
 
       setBookmarksList(data);
     } else {
-      const { data, error } = await supabase.from('bookmarks').select();
+      const { data, error } = await supabase
+        .from('bookmarks')
+        .select()
+        .order('updated_at', { ascending: false });
 
       if (error) {
         console.error(error);
