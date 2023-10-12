@@ -22,5 +22,5 @@ export default async function DashboardPage() {
     return <div>Error: {error.message}</div>;
   }
 
-  return <Dashboard user={user} bookmarks={bookmarks} />;
+  return <Dashboard user={user} bookmarks={bookmarks} isFoldersList={false} />;
 }

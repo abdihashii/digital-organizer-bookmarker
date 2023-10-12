@@ -78,7 +78,7 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
       </ToolTip> */}
 
       <Link
-        href="#"
+        href="/folders"
         className="group flex w-full cursor-pointer flex-row items-center gap-4 px-2 text-white"
       >
         <Shapes
