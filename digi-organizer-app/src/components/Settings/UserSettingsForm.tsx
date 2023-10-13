@@ -79,6 +79,17 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
     }
   };
 
+  const handleDeleteImage = async () => {
+    setIsImageUploading(true);
+
+    setUpdatedProfile((prevState) => ({
+      ...prevState,
+      avatar_src: null,
+    }));
+
+    setIsImageUploading(false);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setIsSubmitting(true);
 
@@ -117,6 +128,7 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
 
       {/* User Avatar stuff */}
       <div className="flex flex-row items-center gap-4">
+        {/* Avatar Image */}
         <div className="w-fit">
           {!isImageUploading ? (
             updatedProfile.avatar_src ? (
@@ -144,11 +156,13 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
           )}
         </div>
 
+        {/* Avatar info */}
         <div className="flex flex-col gap-0.5">
           <p className="font-semibold">Profile picture</p>
           <p className="text-xs">PNG, JPEG under 15MB</p>
         </div>
 
+        {/* Avatar actions */}
         <div className="ml-auto flex flex-row gap-2">
           <Input type="file" className="text-xs" onChange={handleImageChange} />
 
@@ -159,7 +173,7 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
                   type="button"
                   className="text-xs"
                   variant="secondary"
-                  disabled
+                  onClick={handleDeleteImage}
                 >
                   Delete
                 </Button>
@@ -219,6 +233,12 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
           onChange={handleInputChange}
         />
       </div>
+
+      {/* <pre className="text-xs overflow-auto">
+        <code className="rounded-md p-4">
+          {JSON.stringify(updatedProfile, null, 2)}
+        </code>
+      </pre> */}
 
       {/* Submit button */}
       <Button type="submit" className="btn btn-primary">
