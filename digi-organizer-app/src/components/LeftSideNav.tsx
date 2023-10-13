@@ -13,7 +13,7 @@ import {
   Sun,
 } from 'lucide-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import ToolTip from './Tooltip';
+// import ToolTip from './Tooltip';
 import { useTheme } from 'next-themes';
 import type { ProfileType } from '@/types/BookmarkType';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -36,7 +36,7 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
 
   return (
     <nav className="relative flex h-screen w-48 flex-col items-center gap-8 overflow-y-hidden bg-gray-800 px-4 py-6 pt-12">
-      <ToolTip
+      {/* <ToolTip
         triggerContent={
           <Link href="/bookmarks">
             <LayoutDashboard
@@ -49,9 +49,22 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
         sideOffset={16}
       >
         Dashboard
-      </ToolTip>
+      </ToolTip> */}
 
-      <ToolTip
+      <Link
+        href="/bookmarks"
+        className="group flex w-full cursor-pointer flex-row items-center gap-4 px-2 text-white"
+      >
+        <LayoutDashboard
+          className="h-8 w-8 text-white transition-colors duration-200 group-hover:text-gray-400"
+          aria-label="Bookmarks Dashboard"
+        />
+        <p className="transition-colors duration-200 group-hover:text-gray-400">
+          Bookmarks
+        </p>
+      </Link>
+
+      {/* <ToolTip
         triggerContent={
           <Shapes
             className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
@@ -62,9 +75,22 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
         sideOffset={16}
       >
         Bookmark Collections
-      </ToolTip>
+      </ToolTip> */}
 
-      <ToolTip
+      <Link
+        href="#"
+        className="group flex w-full cursor-pointer flex-row items-center gap-4 px-2 text-white"
+      >
+        <Shapes
+          className="h-8 w-8 text-white transition-colors duration-200 group-hover:text-gray-400"
+          aria-label="Bookmark Collections"
+        />
+        <p className="transition-colors duration-200 group-hover:text-gray-400">
+          Collections
+        </p>
+      </Link>
+
+      {/* <ToolTip
         triggerContent={
           <Link href="/bookmarks/private-bookmarks">
             <FolderLock
@@ -77,34 +103,64 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
         sideOffset={16}
       >
         Private Bookmarks
-      </ToolTip>
+      </ToolTip> */}
+
+      <Link
+        href="#"
+        className="group flex w-full cursor-pointer flex-row items-center gap-4 px-2 text-white"
+      >
+        <FolderLock
+          className="h-8 w-8 text-white transition-colors duration-200 group-hover:text-gray-400"
+          aria-label="Private Bookmarks"
+        />
+
+        <p className="transition-colors duration-200 group-hover:text-gray-400">
+          Private
+        </p>
+      </Link>
 
       {theme === 'light' ? (
-        <ToolTip
-          triggerContent={
-            <Sun
-              className="h-8 w-8 rotate-0 scale-100 cursor-pointer text-white transition-all dark:-rotate-90 dark:scale-0"
-              onClick={() => setTheme('dark')}
-            />
-          }
-          side="right"
-          sideOffset={16}
+        // <ToolTip
+        //   triggerContent={
+        //     <Sun
+        //       className="h-8 w-8 rotate-0 scale-100 cursor-pointer text-white transition-all dark:-rotate-90 dark:scale-0"
+        //       onClick={() => setTheme('dark')}
+        //     />
+        //   }
+        //   side="right"
+        //   sideOffset={16}
+        // >
+        //   Switch to Dark Mode
+        // </ToolTip>
+        <div
+          className="group flex w-full cursor-pointer flex-row items-center gap-4 px-2 text-white"
+          onClick={() => setTheme('dark')}
         >
-          Switch to Dark Mode
-        </ToolTip>
+          <Sun className="h-8 w-8 rotate-0 scale-100 cursor-pointer text-white transition-all dark:-rotate-90 dark:scale-0" />
+          <p>Light Mode</p>
+        </div>
       ) : (
-        <ToolTip
-          triggerContent={
-            <Moon
-              className="h-8 w-8 rotate-90 scale-0 cursor-pointer text-white transition-all dark:rotate-0 dark:scale-100"
-              onClick={() => setTheme('light')}
-            />
-          }
-          side="right"
-          sideOffset={16}
+        // <ToolTip
+        //   triggerContent={
+        //     <Moon
+        //       className="h-8 w-8 rotate-90 scale-0 cursor-pointer text-white transition-all dark:rotate-0 dark:scale-100"
+        //       onClick={() => setTheme('light')}
+        //     />
+        //   }
+        //   side="right"
+        //   sideOffset={16}
+        // >
+        //   Switch to Light Mode
+        // </ToolTip>
+        <div
+          className="group flex w-full cursor-pointer flex-row items-center gap-4 px-2 text-white"
+          onClick={() => setTheme('light')}
         >
-          Switch to Light Mode
-        </ToolTip>
+          <Moon className="h-8 w-8 rotate-90 scale-0 cursor-pointer text-white transition-all group-hover:text-gray-400 dark:rotate-0 dark:scale-100" />
+          <p className="transition-colors duration-200 group-hover:text-gray-400">
+            Dark Mode
+          </p>
+        </div>
       )}
 
       {/* Flex items that should be at the bottom of the nav */}
@@ -132,13 +188,13 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
         {/* Settings */}
         <Link
           href="/settings"
-          className="group flex flex-row items-center gap-4 cursor-pointer text-white"
+          className="group flex cursor-pointer flex-row items-center gap-4 text-white"
         >
           <Settings
-            className="h-8 w-8 group-hover:text-gray-400 transition-colors duration-200"
+            className="h-8 w-8 transition-colors duration-200 group-hover:text-gray-400"
             aria-label="Settings"
           />
-          <p className="group-hover:text-gray-400 transition-colors duration-200">
+          <p className="transition-colors duration-200 group-hover:text-gray-400">
             Settings
           </p>
         </Link>
