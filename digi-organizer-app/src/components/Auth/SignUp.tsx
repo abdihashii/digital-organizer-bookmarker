@@ -10,6 +10,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useForm } from 'react-hook-form';
 import { Eye, EyeOff, RefreshCw } from 'lucide-react';
+import { FcGoogle } from 'react-icons/fc';
+import { BsGithub } from 'react-icons/bs';
 
 type FormData = {
   email: string;
@@ -150,6 +152,24 @@ export default function SignUpPage() {
             </Button>
           </section>
         </form>
+
+        <section className="flex flex-row items-center justify-center gap-2">
+          <hr className="w-full border-gray-300 dark:border-gray-400" />
+          or
+          <hr className="w-full border-gray-300 dark:border-gray-400" />
+        </section>
+
+        <section className="flex flex-col gap-8">
+          <Button disabled={isLoading}>
+            <FcGoogle className="mr-2 text-2xl" />
+            Sign up with Google
+          </Button>
+
+          <Button disabled={isLoading}>
+            <BsGithub className="mr-2 text-2xl" />
+            Sign up with GitHub
+          </Button>
+        </section>
 
         <section className="flex flex-row justify-center gap-2">
           <p className="text-center text-gray-500 dark:text-gray-400">
