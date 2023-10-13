@@ -2,6 +2,7 @@
 
 import React from 'react';
 import type { BookmarkType } from '@/types/BookmarkType';
+import Image from 'next/image';
 
 export const BookmarkCard = ({
   bookmark,
@@ -29,12 +30,24 @@ export const BookmarkCard = ({
       }
     >
       {/* TITLE */}
-      <h3 className="text-xl font-bold text-gray-800 dark:text-white">
+      <h3 className="h-20 line-clamp-3 text-xl font-bold text-gray-800 dark:text-white">
         {bookmark.title}
       </h3>
 
+      {/* IMAGE */}
+      <div className="relative h-36 xl:h-48">
+        <Image
+          src={
+            bookmark.imgsrc ||
+            'https://images.unsplash.com/photo-1560719887-fe3105fa1e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1467&q=80'
+          }
+          alt={bookmark.title || ''}
+          fill={true}
+          className="rounded-md object-contain"
+        ></Image>
+      </div>
+
       {/* URL */}
-      {/* TODO: add hover tooltip for overflow */}
       <p className="truncate text-sm text-gray-500 dark:text-gray-300">
         {bookmark.url}
       </p>
