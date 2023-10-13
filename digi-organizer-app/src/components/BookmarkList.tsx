@@ -22,7 +22,7 @@ const BookmarkList = ({ bookmarks }: { bookmarks: BookmarkType[] }) => {
           Featured Bookmarks
         </h2>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
           {bookmarks
             .filter((bookmark) => bookmark.featured)
             .map((bookmark) => {
@@ -46,7 +46,7 @@ const BookmarkList = ({ bookmarks }: { bookmarks: BookmarkType[] }) => {
           Bookmarks
         </h2>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
           {bookmarks
             .filter((bookmark) => !bookmark.featured)
             .map((bookmark) => {
