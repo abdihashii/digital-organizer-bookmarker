@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import ToolTip from '../Tooltip';
+import { blobToBase64 } from '@/lib/utils';
 
 const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
   const supabase = createClientComponentClient();
@@ -21,6 +22,46 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { files } = e.target;
+
+    if (files) {
+      const file = files[0];
+
+      // check if file is an image
+      if (!file.type.includes('image')) {
+        alert('File must be an image');
+        return;
+      }
+
+      // check if file upload is greater than 5MB
+      if (file.size >= 5000000) {
+        alert('File size must be less than 5MB');
+        return;
+      }
+
+      // convert from blob to base64
+      const base64 = await blobToBase64(file);
+
+      const res = await fetch(`/api/upload-image`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ image_base64: base64 }),
+      });
+
+      const { cloudinary_image_secure_url, error } = await res.json();
+
+      if (error) {
+        console.error(error);
+        return;
+      }
+
+      alert(cloudinary_image_secure_url);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -82,24 +123,14 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
         </div>
 
         <div className="ml-auto flex flex-row gap-2">
-          <ToolTip
-            triggerContent={
-              <div>
-                <Button type="button" className="h-8 text-xs" disabled>
-                  Upload new picture
-                </Button>
-              </div>
-            }
-          >
-            Not implemented yet.
-          </ToolTip>
+          <Input type="file" className="text-xs" onChange={handleImageChange} />
 
           <ToolTip
             triggerContent={
               <div>
                 <Button
                   type="button"
-                  className="h-8 text-xs"
+                  className="text-xs"
                   variant="secondary"
                   disabled
                 >

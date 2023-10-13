@@ -20,8 +20,19 @@ export const cleanUpImgSrc = (url: string) => {
 
   const urlWithoutTrailingSlash = removeTrailingSlashFromUrl(url);
   const urlWithoutWrappingQuotes = removeWrappingQuotesFromUrl(
-    urlWithoutTrailingSlash
+    urlWithoutTrailingSlash,
   );
 
   return urlWithoutWrappingQuotes;
+};
+
+export const blobToBase64 = (blob: Blob) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onloadend = () => {
+      const base64data = reader.result;
+      resolve(base64data);
+    };
+  });
 };
