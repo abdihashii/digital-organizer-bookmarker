@@ -140,12 +140,13 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
                 className="rounded-full transition-opacity duration-200 group-hover:opacity-75"
               />
             ) : (
-              <div className="h-20 w-20 rounded-full border-4 border-gray-800">
-                <div className="flex h-full items-center justify-center text-center font-medium text-white">
-                  {updatedProfile.first_name[0]}
-                  {updatedProfile.last_name[0]}
-                </div>
-              </div>
+              <Image
+                src={'/user.png'}
+                alt="User Avatar"
+                width={100}
+                height={100}
+                className="rounded-full transition-opacity duration-200 group-hover:opacity-75"
+              />
             )
           ) : (
             <div className="h-20 w-20 rounded-full border-4 border-gray-800">
@@ -193,7 +194,7 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
             id="first_name"
             type="text"
             name="first_name"
-            value={updatedProfile.first_name}
+            value={updatedProfile.first_name || ''}
             onChange={handleInputChange}
           />
         </div>
@@ -204,7 +205,7 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
             id="last_name"
             type="text"
             name="last_name"
-            value={updatedProfile.last_name}
+            value={updatedProfile.last_name || ''}
             onChange={handleInputChange}
           />
         </div>
@@ -217,7 +218,7 @@ const UserSettingsForm = ({ profile }: { profile: ProfileType }) => {
           id="username"
           type="text"
           name="username"
-          value={updatedProfile.username}
+          value={updatedProfile.username || ''}
           onChange={handleInputChange}
         />
       </div>
