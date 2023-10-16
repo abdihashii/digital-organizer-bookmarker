@@ -84,9 +84,9 @@ export interface Database {
           avatar_src: string | null
           created_at: string | null
           email: string
-          first_name: string
+          first_name: string | null
           id: string
-          last_name: string
+          last_name: string | null
           role: string
           updated_at: string | null
           username: string
@@ -95,9 +95,9 @@ export interface Database {
           avatar_src?: string | null
           created_at?: string | null
           email: string
-          first_name: string
+          first_name?: string | null
           id: string
-          last_name: string
+          last_name?: string | null
           role?: string
           updated_at?: string | null
           username: string
@@ -106,9 +106,9 @@ export interface Database {
           avatar_src?: string | null
           created_at?: string | null
           email?: string
-          first_name?: string
+          first_name?: string | null
           id?: string
-          last_name?: string
+          last_name?: string | null
           role?: string
           updated_at?: string | null
           username?: string

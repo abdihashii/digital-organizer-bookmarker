@@ -18,6 +18,10 @@ export default async function DashboardLayout({
     redirect('/sign-in');
   }
 
+  const {
+    user_metadata: { full_name, avatar_url, user_name, email },
+  } = user;
+
   const { data, error: profileError } = await supabase
     .from('profiles')
     .select()
@@ -25,8 +29,29 @@ export default async function DashboardLayout({
 
   const profile = data?.[0];
 
-  if (profileError || !profile) {
+  if (profileError) {
     return <div>Error: {profileError?.message}</div>;
+  }
+
+  if (!profile) {
+    const [first_name, last_name] = full_name.split(' ');
+
+    const newUserProfile = {
+      id: user?.id,
+      username: user_name,
+      first_name,
+      last_name,
+      avatar_src: avatar_url,
+      email,
+    };
+
+    try {
+      await supabase.from('profiles').insert([newUserProfile]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      return;
+    }
   }
 
   return (

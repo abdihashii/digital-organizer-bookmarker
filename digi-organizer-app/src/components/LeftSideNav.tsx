@@ -170,12 +170,12 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
           <Avatar className="h-8 w-8">
             <AvatarImage src={profile.avatar_src || ''} />
             <AvatarFallback>
-              {profile.first_name.charAt(0).toUpperCase() +
-                profile.last_name.charAt(0).toUpperCase()}
+              {(profile.first_name?.charAt(0).toUpperCase() || '') +
+                (profile.last_name?.charAt(0).toUpperCase() || '')}
             </AvatarFallback>
           </Avatar>
 
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 overflow-auto">
             <p className="text-xs font-semibold text-white transition-colors duration-200 group-hover:text-gray-400">
               {profile.username}
             </p>
