@@ -42,12 +42,22 @@ export default function SignUpPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // const handleSignUpWithGitHub = async () => {
+  //   try {
+  //     await supabase.auth.signInWithOAuth({
+  //       provider: 'github',
+  //     });
+  //   } catch (error: any) {
+  //     alert(error.message);
+  //   }
+  // };
+
   const handleSignUp = async (formData: FormData) => {
     // loading spinner for sign up button. This is a local state
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { data } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
       });
@@ -62,6 +72,12 @@ export default function SignUpPage() {
   };
 
   const onSubmit = handleSubmit((data) => {
+    // Check if the password and confirm password fields match
+    if (data.password !== data.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
     const formData = {
       email: data.email,
       password: data.password,
@@ -161,13 +177,34 @@ export default function SignUpPage() {
 
         <section className="flex flex-col gap-8">
           <Button disabled={isLoading}>
-            <FcGoogle className="mr-2 text-2xl" />
-            Sign up with Google
+            {isLoading ? (
+              <>
+                <RefreshCw className="mr-2 animate-spin" />
+                Signing up...
+              </>
+            ) : (
+              <>
+                <FcGoogle className="mr-2 text-2xl" />
+                Sign up with Google
+              </>
+            )}
           </Button>
 
-          <Button disabled={isLoading}>
-            <BsGithub className="mr-2 text-2xl" />
-            Sign up with GitHub
+          <Button
+            disabled={isLoading}
+            // onClick={handleSignUpWithGitHub}
+          >
+            {isLoading ? (
+              <>
+                <RefreshCw className="mr-2 animate-spin" />
+                Signing up...
+              </>
+            ) : (
+              <>
+                <BsGithub className="mr-2 text-2xl" />
+                Sign up with GitHub
+              </>
+            )}
           </Button>
         </section>
 
