@@ -89,7 +89,7 @@ export interface Database {
           last_name: string | null
           role: string
           updated_at: string | null
-          username: string
+          username: string | null
         }
         Insert: {
           avatar_src?: string | null
@@ -100,7 +100,7 @@ export interface Database {
           last_name?: string | null
           role?: string
           updated_at?: string | null
-          username: string
+          username?: string | null
         }
         Update: {
           avatar_src?: string | null
@@ -111,7 +111,7 @@ export interface Database {
           last_name?: string | null
           role?: string
           updated_at?: string | null
-          username?: string
+          username?: string | null
         }
         Relationships: [
           {

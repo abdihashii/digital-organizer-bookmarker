@@ -34,16 +34,30 @@ export default async function DashboardLayout({
   }
 
   if (!profile) {
-    const [first_name, last_name] = full_name.split(' ');
+    let newUserProfile;
 
-    const newUserProfile = {
-      id: user?.id,
-      username: user_name,
-      first_name,
-      last_name,
-      avatar_src: avatar_url,
-      email,
-    };
+    if (user.app_metadata.provider === 'github') {
+      const [first_name, last_name] = full_name.split(' ');
+      newUserProfile = {
+        id: user?.id,
+        username: user_name,
+        first_name,
+        last_name,
+        avatar_src: avatar_url,
+        email,
+        role: 'user',
+      };
+    } else {
+      newUserProfile = {
+        id: user?.id,
+        username: null,
+        first_name: null,
+        last_name: null,
+        avatar_src: null,
+        email: user?.email,
+        role: 'user',
+      };
+    }
 
     try {
       await supabase.from('profiles').insert([newUserProfile]);

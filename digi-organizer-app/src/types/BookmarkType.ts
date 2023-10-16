@@ -21,7 +21,7 @@ export type ProfileType = {
   last_name: string | null;
   role: string;
   updated_at: string | null;
-  username: string;
+  username: string | null;
 };
 
 export type FolderType = {
