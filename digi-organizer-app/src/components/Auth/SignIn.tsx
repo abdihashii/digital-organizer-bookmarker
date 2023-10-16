@@ -37,6 +37,24 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  // const handleSignInWithGitHub = async () => {
+  //   setIsLoading(true);
+
+  //   try {
+  //     const { data } = await supabase.auth.signInWithOAuth({
+  //       provider: 'github',
+  //       options: {
+  //         redirectTo: `/settings`,
+  //       },
+  //     });
+  //     alert(JSON.stringify(data, null, 2));
+  //   } catch (error: any) {
+  //     alert(error.message);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const handleSignIn = async (formData: FormData) => {
     // loading spinner for sign in button. This is a local state
     setIsLoading(true);
@@ -141,13 +159,34 @@ const SignIn = () => {
 
         <section className="flex flex-col gap-8">
           <Button disabled={isLoading}>
-            <FcGoogle className="mr-2 text-2xl" />
-            Continue with Google
+            {isLoading ? (
+              <>
+                <RefreshCw className="mr-2 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              <>
+                <FcGoogle className="mr-2 text-2xl" />
+                Continue with Google
+              </>
+            )}
           </Button>
 
-          <Button disabled={isLoading}>
-            <BsGithub className="mr-2 text-2xl" />
-            Continue with GitHub
+          <Button
+            disabled={isLoading}
+            // onClick={handleSignInWithGitHub}
+          >
+            {isLoading ? (
+              <>
+                <RefreshCw className="mr-2 animate-spin" />
+                Signing in...
+              </>
+            ) : (
+              <>
+                <BsGithub className="mr-2 text-2xl" />
+                Continue with GitHub
+              </>
+            )}
           </Button>
         </section>
 
