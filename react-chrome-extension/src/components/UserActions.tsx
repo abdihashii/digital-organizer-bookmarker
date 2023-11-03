@@ -19,7 +19,7 @@ const UserActions = ({
         className="w-1/2 bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 rounded"
         onClick={handleGenerateTags}
       >
-        Generate Tags
+        {!isLoading ? 'Generate Tags' : 'Generating...'}
       </button>
     </div>
   );
