@@ -33,8 +33,10 @@ export default function useBookmarks() {
 
   const fetchBookmarks = useCallback(async () => {
     try {
-      const { data, error } = await supabase.from('bookmarks').select();
-
+      const { data, error } = await supabase
+        .from('bookmarks')
+        .select()
+        .range(0, 2);
       if (error) throw error;
 
       return data;
