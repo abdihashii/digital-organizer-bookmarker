@@ -73,7 +73,7 @@ function App() {
     }
 
     const res = await fetch(
-      `http://localhost:3000/api/tagifier?url=${currentTab.url}`
+      `http://localhost:3000/api/tagifier?url=${currentTab.url}`,
     );
 
     const { error, themes, specifics } = await res.json();
@@ -105,7 +105,7 @@ function App() {
   }, [user, fetchBookmarks]);
 
   return (
-    <main className="rounded-md gap-8 py-8 m-8 flex flex-col w-96 items-center border border-white">
+    <main className="rounded-md gap-8 p-8 m-8 flex flex-col w-96 items-center border border-white">
       <h1 className="text-2xl font-bold text-center">
         Digital Bookmarking Tool
       </h1>
@@ -127,7 +127,6 @@ function App() {
 
           <UserActions
             handleAddBookmark={handleAddBookmarkClick}
-            handleSignOut={handleSignOut}
             handleGenerateTags={handleGenerateTags}
             isLoading={isLoading}
           />
@@ -157,6 +156,23 @@ function App() {
           )}
 
           <BookmarkList bookmarks={bookmarks ?? []} />
+
+          <section className="w-full flex flex-row gap-2 justify-between">
+            <button
+              className="w-2/3 bg-green-700 hover:bg-green-800 text-white rounded py-2 px-4"
+              // onClick={handleSignOut}
+              disabled={isLoading}
+            >
+              See All Bookmarks
+            </button>
+            <button
+              className="w-1/3 line-clamp-1 bg-red-700 hover:bg-red-800 text-white rounded py-2 px-4"
+              onClick={handleSignOut}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Signing Out...' : 'Sign Out'}
+            </button>
+          </section>
         </>
       )}
     </main>
