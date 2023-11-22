@@ -2,7 +2,7 @@
 
 import { AnimatePresence } from 'framer-motion';
 import AddBookmarkModal from '@/components/AddBookmarkModal';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BookmarkPlus } from 'lucide-react';
 import {
   User,
@@ -20,43 +20,50 @@ const SearchBookmarks = ({
 }) => {
   const supabase = createClientComponentClient();
   const [showModal, setShowModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const addBookmark = () => {
     setShowModal(true);
   };
 
-  const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchQuery = e.target.value;
+  useEffect(() => {
+    const delayBounce = setTimeout(async () => {
+      if (searchTerm.length > 0) {
+        const { data, error } = await supabase
+          .from('bookmarks')
+          .select()
+          .order('updated_at', { ascending: false })
+          .textSearch('textsearchable_index_col', `'${searchTerm}':*`, {
+            type: 'plain',
+            config: 'english',
+          });
 
-    if (searchQuery.length > 0) {
-      const { data, error } = await supabase
-        .from('bookmarks')
-        .select()
-        .order('updated_at', { ascending: false })
-        .textSearch('title', searchQuery, {
-          type: 'websearch',
-          config: 'english',
-        });
+        if (error) {
+          console.error(error);
+          return;
+        }
 
-      if (error) {
-        console.error(error);
-        return;
+        setBookmarksList(data);
+      } else {
+        const { data, error } = await supabase
+          .from('bookmarks')
+          .select()
+          .order('updated_at', { ascending: false });
+
+        if (error) {
+          console.error(error);
+          return;
+        }
+
+        setBookmarksList(data);
       }
+    }, 300);
 
-      setBookmarksList(data);
-    } else {
-      const { data, error } = await supabase
-        .from('bookmarks')
-        .select()
-        .order('updated_at', { ascending: false });
+    return () => clearTimeout(delayBounce);
+  }, [searchTerm, setBookmarksList, supabase]);
 
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      setBookmarksList(data);
-    }
+  const handleOnSearchTermChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
   };
 
   return (
@@ -67,7 +74,7 @@ const SearchBookmarks = ({
         style={{ width: 'calc(100% - 4rem)' }}
         placeholder="Search for a bookmark"
         autoFocus
-        onChange={handleSearch}
+        onChange={handleOnSearchTermChange}
       />
       <ToolTip
         triggerContent={
