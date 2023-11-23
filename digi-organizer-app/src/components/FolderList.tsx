@@ -1,7 +1,5 @@
 'use client';
 
-// import BookmarkCard from '@/components/BookmarkCard';
-import BookmarkModal from '@/components/BookmarkModal';
 import type { FolderType } from '@/types/BookmarkType';
 
 const FolderList = ({ folders }: { folders: FolderType[] }) => {
@@ -14,19 +12,26 @@ const FolderList = ({ folders }: { folders: FolderType[] }) => {
         </h2>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {/* {folders
+          {folders
             .filter((folder) => folder.featured)
             .map((folder) => {
               return (
-                <></>
-                // <BookmarkCard
-                //   bookmark={bookmark}
-                //   key={bookmark.uuid}
-                //   bookmarkModal={bookmarkModal}
-                //   setBookmarkModal={setBookmarkModal}
-                // />
+                <div
+                  key={folder.id}
+                  className="flex w-full cursor-pointer flex-col gap-4 overflow-hidden rounded border border-black p-4 transition-shadow duration-200 hover:shadow-xl dark:border-gray-300"
+                >
+                  {/* TITLE */}
+                  <h3 className="line-clamp-3 text-xl font-bold text-gray-800 dark:text-white">
+                    {folder.folder_name}
+                  </h3>
+
+                  {/* DESCRIPTION */}
+                  <p className="line-clamp-3 text-gray-500 dark:text-gray-300">
+                    {folder.folder_description}
+                  </p>
+                </div>
               );
-            })} */}
+            })}
         </div>
       </section>
 
@@ -39,25 +44,28 @@ const FolderList = ({ folders }: { folders: FolderType[] }) => {
         </h2>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {/* {folders
+          {folders
             .filter((folder) => !folder.featured)
             .map((folder) => {
               return (
-                <></>
-                // <BookmarkCard
-                //   bookmark={bookmark}
-                //   key={bookmark.uuid}
-                //   bookmarkModal={bookmarkModal}
-                //   setBookmarkModal={setBookmarkModal}
-                // />
+                <div
+                  key={folder.id}
+                  className="flex w-full cursor-pointer flex-col gap-4 overflow-hidden rounded border border-black p-4 transition-shadow duration-200 hover:shadow-xl dark:border-gray-300"
+                >
+                  {/* TITLE */}
+                  <h3 className="line-clamp-3 text-xl font-bold text-gray-800 dark:text-white">
+                    {folder.folder_name}
+                  </h3>
+
+                  {/* DESCRIPTION */}
+                  <p className="line-clamp-3 text-gray-500 dark:text-gray-300">
+                    {folder.folder_description}
+                  </p>
+                </div>
               );
-            })} */}
+            })}
         </div>
       </section>
-
-      <pre>
-        <code>{JSON.stringify(folders, null, 2)}</code>
-      </pre>
     </>
   );
 };

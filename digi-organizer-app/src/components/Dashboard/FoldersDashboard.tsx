@@ -2,7 +2,7 @@
 
 import { FolderType } from '@/types/BookmarkType';
 import { useEffect, useState } from 'react';
-import SearchBookmarks from '@/components/SearchBookmarks';
+import SearchFolders from '@/components/SearchFolders';
 import { User } from '@supabase/supabase-js';
 import FolderList from '../FolderList';
 
@@ -23,10 +23,7 @@ const FoldersDashboard = ({
   return (
     <article className="min-h-screen flex-1 overflow-y-auto bg-gray-100 p-4 dark:bg-slate-700 md:p-12 lg:w-9/12">
       <div className="flex flex-col gap-8 lg:w-10/12">
-        {/* <SearchBookmarks
-          user={user}
-          // setFolderList={setFolderList}
-        /> */}
+        <SearchFolders user={user} setFoldersList={setFolderList} />
 
         <FolderList folders={folderList} />
       </div>
