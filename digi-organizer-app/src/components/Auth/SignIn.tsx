@@ -1,29 +1,23 @@
 'use client';
 
+import { signInSchema } from '@/schemas/';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Eye, EyeOff, RefreshCw } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from 'react-hook-form';
-import { useState } from 'react';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-import Link from 'next/link';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Eye, EyeOff, RefreshCw } from 'lucide-react';
-import { FcGoogle } from 'react-icons/fc';
 import { BsGithub } from 'react-icons/bs';
+import { FcGoogle } from 'react-icons/fc';
 
 type FormData = {
   email: string;
   password: string;
 };
-
-const schema = yup
-  .object({
-    email: yup.string().email().required(),
-    password: yup.string().required(),
-  })
-  .required();
 
 const SignIn = () => {
   const supabase = createClientComponentClient();
@@ -32,10 +26,14 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: zodResolver(signInSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState({
+    password: false,
+    google: false,
+    github: false,
+  });
 
   // const handleSignInWithGitHub = async () => {
   //   setIsLoading(true);
@@ -57,7 +55,10 @@ const SignIn = () => {
 
   const handleSignIn = async (formData: FormData) => {
     // loading spinner for sign in button. This is a local state
-    setIsLoading(true);
+    setIsLoading({
+      ...isLoading,
+      password: true,
+    });
 
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
@@ -70,7 +71,10 @@ const SignIn = () => {
       alert(JSON.stringify(error.message, null, 2));
       // TODO: Show a user-friendly error message on the UI
     } finally {
-      setIsLoading(false);
+      setIsLoading({
+        ...isLoading,
+        password: false,
+      });
     }
   };
 
@@ -112,7 +116,7 @@ const SignIn = () => {
         <form className="flex flex-col gap-8" onSubmit={onSubmit}>
           <section>
             <Label htmlFor="email">Email</Label>
-            <Input required id="email" type="email" {...register('email')} />
+            <Input id="email" type="email" {...register('email')} />
             <p className="text-red-500">{errors.email?.message}</p>
           </section>
 
@@ -121,7 +125,6 @@ const SignIn = () => {
             <div className="relative flex flex-row items-center justify-between">
               <Input
                 className="w-full"
-                required
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 {...register('password')}
@@ -138,8 +141,12 @@ const SignIn = () => {
           </section>
 
           <section>
-            <Button className="w-full" type="submit" disabled={isLoading}>
-              {isLoading ? (
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={isLoading.password}
+            >
+              {isLoading.password ? (
                 <>
                   <RefreshCw className="mr-2 animate-spin" />
                   Signing in...
@@ -158,8 +165,8 @@ const SignIn = () => {
         </section>
 
         <section className="flex flex-col gap-8">
-          <Button disabled={isLoading}>
-            {isLoading ? (
+          <Button disabled={isLoading.google}>
+            {isLoading.google ? (
               <>
                 <RefreshCw className="mr-2 animate-spin" />
                 Signing in...
@@ -173,10 +180,10 @@ const SignIn = () => {
           </Button>
 
           <Button
-            disabled={isLoading}
+            disabled={isLoading.github}
             // onClick={handleSignInWithGitHub}
           >
-            {isLoading ? (
+            {isLoading.github ? (
               <>
                 <RefreshCw className="mr-2 animate-spin" />
                 Signing in...
