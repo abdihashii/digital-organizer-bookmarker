@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { BsGithub } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
+import Image from 'next/image';
 
 type FormData = {
   email: string;
@@ -35,23 +36,29 @@ const SignIn = () => {
     github: false,
   });
 
-  // const handleSignInWithGitHub = async () => {
-  //   setIsLoading(true);
+  const handleSignInWithGitHub = async () => {
+    setIsLoading({
+      ...isLoading,
+      github: true,
+    });
 
-  //   try {
-  //     const { data } = await supabase.auth.signInWithOAuth({
-  //       provider: 'github',
-  //       options: {
-  //         redirectTo: `/settings`,
-  //       },
-  //     });
-  //     alert(JSON.stringify(data, null, 2));
-  //   } catch (error: any) {
-  //     alert(error.message);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+    try {
+      const { data } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+          redirectTo: `/settings`,
+        },
+      });
+      alert(JSON.stringify(data, null, 2));
+    } catch (error: any) {
+      alert(error.message);
+    } finally {
+      setIsLoading({
+        ...isLoading,
+        github: false,
+      });
+    }
+  };
 
   const handleSignIn = async (formData: FormData) => {
     // loading spinner for sign in button. This is a local state
@@ -89,17 +96,18 @@ const SignIn = () => {
 
   return (
     <main className="h-screen w-full md:flex md:flex-row md:items-center lg:p-20 xl:p-28">
-      <article className="hidden h-full w-2/3 items-center justify-center bg-gray-100 px-10 dark:bg-gray-500 md:flex md:flex-col">
-        <p className="text-3xl font-bold text-gray-900">
+      <article className="relative hidden h-full w-2/3 items-center justify-center bg-gray-100 px-10 dark:bg-gray-500 md:flex md:flex-col">
+        {/* <p className="text-3xl font-bold text-gray-900">
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        </p>
+        </p> */}
 
-        {/* <Image
-					src="/ben-kim-HeSAWmZ_tqw-unsplash.jpg"
-					width={'100%'}
-					height={'100%'}
-					alt="a snow covered mountain with a sky background"
-				/> */}
+        <Image
+          // src="/ben-kim-HeSAWmZ_tqw-unsplash.jpg"
+          src="https://images.unsplash.com/photo-1696339434901-cf4728e1223e?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          fill={true}
+          objectFit="cover"
+          alt="a snow covered mountain with a sky background"
+        />
       </article>
 
       <article className="flex h-full flex-col justify-center gap-8 px-10 md:w-1/2">
@@ -179,10 +187,7 @@ const SignIn = () => {
             )}
           </Button>
 
-          <Button
-            disabled={isLoading.github}
-            // onClick={handleSignInWithGitHub}
-          >
+          <Button disabled={isLoading.github} onClick={handleSignInWithGitHub}>
             {isLoading.github ? (
               <>
                 <RefreshCw className="mr-2 animate-spin" />
