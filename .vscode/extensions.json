@@ -1,6 +1,7 @@
 {
-    "recommendations": [
-        "esbenp.prettier-vscode",
-        "dracula-theme.theme-dracula"
-    ]
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dracula-theme.theme-dracula",
+    "vscode-icons-team.vscode-icons"
+  ]
 }
