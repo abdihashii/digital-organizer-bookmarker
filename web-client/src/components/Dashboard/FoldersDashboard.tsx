@@ -13,7 +13,7 @@ const FoldersDashboard = ({
   user: User;
   folders: FolderType[];
 }) => {
-  const [folderList, setFolderList] = useState<FolderType[]>(folders);
+  const [folderList, setFolderList] = useState<Array<FolderType>>(folders);
 
   // Check if the bookmarks have changed and update the state
   useEffect(() => {

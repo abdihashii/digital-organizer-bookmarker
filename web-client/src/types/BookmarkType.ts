@@ -25,11 +25,12 @@ export type ProfileType = {
 };
 
 export type FolderType = {
-  id: string;
   created_at: string;
+  featured: boolean | null;
+  folder_description: string | null;
   folder_name: string;
-  folder_description: string;
-  featured: boolean;
+  id: string;
+  textsearch: unknown | null;
   updated_at: string | null;
   user_id: string;
 };
