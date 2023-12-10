@@ -1,4 +1,4 @@
-import LeftSideNav from '@/components/LeftSideNav';
+import LeftSideNav from '@/components/Nav/LeftSideNav';
 import {
   createServerSupabaseClient,
   getUser,

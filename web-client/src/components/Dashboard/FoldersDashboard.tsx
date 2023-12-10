@@ -2,9 +2,9 @@
 
 import { FolderType } from '@/types/BookmarkType';
 import { useEffect, useState } from 'react';
-import SearchFolders from '@/components/SearchFolders';
+import SearchFolders from '@/components/Search/SearchFolders';
 import { User } from '@supabase/supabase-js';
-import FolderList from '../FolderList';
+import FolderList from '../Folders/FolderList';
 
 const FoldersDashboard = ({
   user,

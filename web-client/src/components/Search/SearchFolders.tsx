@@ -1,14 +1,13 @@
 'use client';
 
 // import { AnimatePresence } from 'framer-motion';
-// import AddBookmarkModal from '@/components/AddBookmarkModal';
 import React, { useEffect, useState } from 'react';
 import { FolderPlus } from 'lucide-react';
 import {
   User,
   createClientComponentClient,
 } from '@supabase/auth-helpers-nextjs';
-import ToolTip from './Tooltip';
+import ToolTip from '../Tooltip';
 import { FolderType } from '@/types/BookmarkType';
 
 const SearchFolders = ({

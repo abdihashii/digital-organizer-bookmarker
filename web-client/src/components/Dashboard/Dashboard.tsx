@@ -2,11 +2,11 @@
 
 import { BookmarkType } from '@/types/BookmarkType';
 import { useEffect, useState } from 'react';
-import SearchBookmarks from '@/components/SearchBookmarks';
-import BookmarkList from '@/components/BookmarkList';
+import SearchBookmarks from '@/components/Search/SearchBookmarks';
+import BookmarkList from '@/components/Bookmarks/BookmarkList';
 import { User } from '@supabase/supabase-js';
 
-const Dashboard = ({
+const BookmarksDashboard = ({
   user,
   bookmarks,
 }: {
@@ -31,4 +31,4 @@ const Dashboard = ({
   );
 };
 
-export default Dashboard;
+export default BookmarksDashboard;

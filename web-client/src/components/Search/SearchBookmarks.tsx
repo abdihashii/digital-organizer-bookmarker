@@ -1,14 +1,14 @@
 'use client';
 
 import { AnimatePresence } from 'framer-motion';
-import AddBookmarkModal from '@/components/AddBookmarkModal';
+import AddBookmarkModal from '@/components/BookmarkModal/AddBookmarkModal';
 import React, { useEffect, useState } from 'react';
 import { BookmarkPlus } from 'lucide-react';
 import {
   User,
   createClientComponentClient,
 } from '@supabase/auth-helpers-nextjs';
-import ToolTip from './Tooltip';
+import ToolTip from '../Tooltip';
 import { BookmarkType } from '@/types/BookmarkType';
 
 const SearchBookmarks = ({

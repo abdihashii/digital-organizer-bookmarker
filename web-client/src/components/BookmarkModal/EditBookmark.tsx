@@ -53,7 +53,7 @@ export default function Edit({
     setGeneratingTags(true);
 
     const res = await fetch(
-      `http://localhost:3000/api/tagifier?url=${editedBookmark?.url}`,
+      `http://localhost:3000/api/tagifier?url=${editedBookmark?.url}`
     );
 
     const { error, themes, specifics } = await res.json();
@@ -212,7 +212,7 @@ export default function Edit({
                       size={24}
                       onClick={() => {
                         const tags = editedBookmark.tags?.filter(
-                          (t) => t !== tag,
+                          (t) => t !== tag
                         ) as string[];
 
                         setEditedBookmark({ ...editedBookmark, tags });

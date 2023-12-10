@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import BookmarkCard from '@/components/BookmarkCard';
+import BookmarkCard from '@/components/Bookmarks/BookmarkCard';
 import BookmarkModal from '@/components/BookmarkModal';
 import type { BookmarkType } from '@/types/BookmarkType';
 

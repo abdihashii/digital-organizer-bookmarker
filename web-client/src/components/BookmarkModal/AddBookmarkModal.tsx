@@ -10,7 +10,7 @@ import ToolTip from '@/components/Tooltip';
 import { useRouter } from 'next/navigation';
 import type { NewBookmarkType } from '@/types/BookmarkType';
 import { XCircle } from 'lucide-react';
-import TagsSkeleton from './TagsSkeleton';
+import TagsSkeleton from '../TagsSkeleton';
 
 const AddBookmarkModal = ({
   user,
