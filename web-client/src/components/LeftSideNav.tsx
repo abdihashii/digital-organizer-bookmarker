@@ -68,13 +68,13 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
         triggerContent={
           <Shapes
             className="h-8 w-8 text-white transition-colors duration-200 hover:text-gray-400"
-            aria-label="Bookmark Collections"
+            aria-label="Bookmark Folders"
           />
         }
         side="right"
         sideOffset={16}
       >
-        Bookmark Collections
+        Bookmark Folders
       </ToolTip> */}
 
       <Link
@@ -83,10 +83,10 @@ const LeftSideNav = ({ profile }: { profile: ProfileType }) => {
       >
         <Shapes
           className="h-8 w-8 text-white transition-colors duration-200 group-hover:text-gray-400"
-          aria-label="Bookmark Collections"
+          aria-label="Bookmark Folders"
         />
         <p className="transition-colors duration-200 group-hover:text-gray-400">
-          Collections
+          Folders
         </p>
       </Link>
 
