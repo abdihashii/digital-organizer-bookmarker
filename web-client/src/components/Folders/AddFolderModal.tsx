@@ -54,7 +54,8 @@ const AddFolderModal = ({
   });
 
   const onSubmit = (values: z.infer<typeof addFolderSchema>) => {
-    console.log(values);
+    // TODO: Add folder to supabase
+    // TODO: Iterate over bookmarks and set their folder_id to the new folder's id
   };
 
   useEffect(() => {
