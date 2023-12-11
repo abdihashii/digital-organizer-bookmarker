@@ -1,14 +1,16 @@
-'use client';
+"use client";
 
-// import { AnimatePresence } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
-import { FolderPlus } from 'lucide-react';
+import { FolderType } from "@/types/BookmarkType";
 import {
   User,
   createClientComponentClient,
-} from '@supabase/auth-helpers-nextjs';
-import ToolTip from '../Tooltip';
-import { FolderType } from '@/types/BookmarkType';
+} from "@supabase/auth-helpers-nextjs";
+import { AnimatePresence } from "framer-motion";
+import { FolderPlus } from "lucide-react";
+import React, { useEffect, useState } from "react";
+
+import AddFolderModal from "../Folders/AddFolderModal";
+import ToolTip from "../Tooltip";
 
 const SearchFolders = ({
   user,
@@ -19,7 +21,7 @@ const SearchFolders = ({
 }) => {
   const supabase = createClientComponentClient();
   const [showModal, setShowModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
   const addFolder = () => {
     setShowModal(true);
@@ -29,12 +31,12 @@ const SearchFolders = ({
     const delayBounce = setTimeout(async () => {
       if (searchTerm.length > 0) {
         const { data, error } = await supabase
-          .from('folders')
+          .from("folders")
           .select()
-          .order('updated_at', { ascending: false })
-          .textSearch('textsearch', `'${searchTerm}':*`, {
-            type: 'plain',
-            config: 'english',
+          .order("updated_at", { ascending: false })
+          .textSearch("textsearch", `'${searchTerm}':*`, {
+            type: "plain",
+            config: "english",
           });
 
         if (error) {
@@ -45,9 +47,9 @@ const SearchFolders = ({
         setFoldersList(data);
       } else {
         const { data, error } = await supabase
-          .from('folders')
+          .from("folders")
           .select()
-          .order('updated_at', { ascending: false });
+          .order("updated_at", { ascending: false });
 
         if (error) {
           console.error(error);
@@ -70,7 +72,7 @@ const SearchFolders = ({
       <input
         type="text"
         className="flex-grow appearance-none rounded-md rounded-br-none rounded-tr-none border border-gray-300 p-4 dark:bg-gray-800"
-        style={{ width: 'calc(100% - 4rem)' }}
+        style={{ width: "calc(100% - 4rem)" }}
         placeholder="Search for a folder"
         autoFocus
         onChange={handleOnSearchTermChange}
@@ -93,14 +95,14 @@ const SearchFolders = ({
         Add Folder
       </ToolTip>
 
-      {/* <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
+      <AnimatePresence initial={false} mode="wait" onExitComplete={() => null}>
         {showModal && (
-          <AddBookmarkModal
+          <AddFolderModal
             user={user}
             handleClose={() => setShowModal(!showModal)}
           />
         )}
-      </AnimatePresence> */}
+      </AnimatePresence>
     </section>
   );
 };
