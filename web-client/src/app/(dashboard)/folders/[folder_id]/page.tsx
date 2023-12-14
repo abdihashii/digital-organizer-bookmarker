@@ -1,4 +1,7 @@
+import { Button } from "@/components/ui/button";
 import { createServerSupabaseClient } from "@/lib/supabaseServerClient";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default async function FolderPage({
   params,
@@ -31,6 +34,12 @@ export default async function FolderPage({
 
   return (
     <article className="flex min-h-screen flex-1 flex-col gap-8 overflow-y-auto bg-gray-100 p-4 dark:bg-slate-700 md:p-12 lg:w-9/12">
+      <Link href="/folders" className="lg:w-fit">
+        <Button>
+          <ArrowLeft className="mr-2" /> Back to Folders
+        </Button>
+      </Link>
+
       <div className="flex flex-col gap-2 lg:w-10/12">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
           {folder.folder_name}
