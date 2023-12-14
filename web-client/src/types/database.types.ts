@@ -61,6 +61,7 @@ export interface Database {
       }
       folders: {
         Row: {
+          bookmark_count: number
           created_at: string
           featured: boolean | null
           folder_description: string | null
@@ -71,6 +72,7 @@ export interface Database {
           user_id: string
         }
         Insert: {
+          bookmark_count?: number
           created_at?: string
           featured?: boolean | null
           folder_description?: string | null
@@ -81,6 +83,7 @@ export interface Database {
           user_id?: string
         }
         Update: {
+          bookmark_count?: number
           created_at?: string
           featured?: boolean | null
           folder_description?: string | null

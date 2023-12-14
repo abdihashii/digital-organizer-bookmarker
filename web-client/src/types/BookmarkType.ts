@@ -8,7 +8,7 @@ export type BookmarkType = {
   uuid: string;
 };
 
-export type NewBookmarkType = Omit<BookmarkType, 'uuid'>;
+export type NewBookmarkType = Omit<BookmarkType, "uuid">;
 
 export type EditedBookmarkType = Partial<BookmarkType>;
 
@@ -25,6 +25,7 @@ export type ProfileType = {
 };
 
 export type FolderType = {
+  bookmark_count: number;
   created_at: string;
   featured: boolean | null;
   folder_description: string | null;

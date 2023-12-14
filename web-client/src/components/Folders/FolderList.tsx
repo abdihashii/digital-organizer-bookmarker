@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import type { FolderType } from '@/types/BookmarkType';
-import Link from 'next/link';
+import type { FolderType } from "@/types/BookmarkType";
+import Link from "next/link";
 
 const FolderList = ({ folders }: { folders: FolderType[] }) => {
   return (
@@ -31,6 +31,11 @@ const FolderList = ({ folders }: { folders: FolderType[] }) => {
                   <p className="line-clamp-3 text-gray-500 dark:text-gray-300">
                     {folder.folder_description}
                   </p>
+
+                  {/* NUMBER OF BOOKMARKS */}
+                  <p className="text-green-500 dark:text-green-300">
+                    {folder.bookmark_count} bookmarks
+                  </p>
                 </Link>
               );
             })}
@@ -50,7 +55,8 @@ const FolderList = ({ folders }: { folders: FolderType[] }) => {
             .filter((folder) => !folder.featured)
             .map((folder) => {
               return (
-                <div
+                <Link
+                  href={`/folders/${folder.id}`}
                   key={folder.id}
                   className="flex w-full cursor-pointer flex-col gap-4 overflow-hidden rounded border border-black p-4 transition-shadow duration-200 hover:shadow-xl dark:border-gray-300"
                 >
@@ -63,7 +69,12 @@ const FolderList = ({ folders }: { folders: FolderType[] }) => {
                   <p className="line-clamp-3 text-gray-500 dark:text-gray-300">
                     {folder.folder_description}
                   </p>
-                </div>
+
+                  {/* NUMBER OF BOOKMARKS */}
+                  <p className="text-green-500 dark:text-green-300">
+                    {folder.bookmark_count} bookmarks
+                  </p>
+                </Link>
               );
             })}
         </div>
