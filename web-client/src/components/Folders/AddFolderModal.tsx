@@ -6,6 +6,7 @@ import {
   User,
   createClientComponentClient,
 } from "@supabase/auth-helpers-nextjs";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from "zod";
@@ -22,6 +23,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { Database } from "@/types/database.types";
 
 const addFolderSchema = z.object({
   folderName: z.string().min(1, {
@@ -30,6 +32,7 @@ const addFolderSchema = z.object({
   folderDescription: z.string().min(1, {
     message: "Folder description cannot be empty",
   }),
+  featured: z.boolean().optional(),
   bookmarks: z.array(z.string()),
 });
 
@@ -40,22 +43,66 @@ const AddFolderModal = ({
   user: User;
   handleClose: () => void;
 }) => {
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
 
   const [bookmarks, setBookmarks] = useState<Array<BookmarkType>>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const addFolderForm = useForm<z.infer<typeof addFolderSchema>>({
     resolver: zodResolver(addFolderSchema),
     defaultValues: {
       folderName: "",
       folderDescription: "",
+      featured: false,
       bookmarks: [],
     },
   });
 
-  const onSubmit = (values: z.infer<typeof addFolderSchema>) => {
-    // TODO: Add folder to supabase
-    // TODO: Iterate over bookmarks and set their folder_id to the new folder's id
+  const onSubmit = async (values: z.infer<typeof addFolderSchema>) => {
+    try {
+      setIsLoading(true);
+
+      // Add folder to supabase
+      const { data: newFolder, error: insertFolderError } = await supabase
+        .from("folders")
+        .insert({
+          folder_name: values.folderName,
+          folder_description: values.folderDescription,
+          featured: values.featured,
+          user_id: user.id,
+          bookmark_count: values.bookmarks.length,
+        })
+        .select("id")
+        .single();
+
+      if (insertFolderError) {
+        throw insertFolderError;
+      }
+
+      // Iterate over bookmarks and set their folder_id to the new folder's id
+      for (const bookmarkId of values.bookmarks) {
+        const { error: updateBookmarkError } = await supabase
+          .from("bookmarks")
+          .update({
+            folder_id: newFolder.id,
+          })
+          .eq("uuid", bookmarkId);
+
+        if (updateBookmarkError) {
+          throw updateBookmarkError;
+        }
+      }
+    } catch (error) {
+      alert(JSON.stringify(error, null, 2));
+    } finally {
+      handleClose();
+
+      router.refresh(); // refresh the page to show the newly added bookmark
+
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -119,6 +166,26 @@ const AddFolderModal = ({
             )}
           />
 
+          <section className="flex flex-row items-center gap-2">
+            <FormLabel htmlFor="featured" className="flex-shrink-0 flex-grow-0">
+              Featured
+            </FormLabel>
+            <Controller
+              name="featured"
+              control={addFolderForm.control}
+              render={({ field: { onChange, value } }) => (
+                <input
+                  type="checkbox"
+                  id="featured"
+                  checked={value}
+                  onChange={(e) => {
+                    onChange(e.target.checked);
+                  }}
+                />
+              )}
+            />
+          </section>
+
           <section className="flex h-[200px] flex-col gap-2 overflow-y-scroll rounded-md border border-white p-4">
             {bookmarks.map((bookmark) => (
               <div
@@ -154,7 +221,7 @@ const AddFolderModal = ({
           </section>
 
           <Button type="submit" className="btn btn-primary">
-            Add Folder
+            {isLoading ? "..." : "Add Folder"}
           </Button>
         </form>
       </Form>
