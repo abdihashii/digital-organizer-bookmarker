@@ -1,8 +1,12 @@
 export type BookmarkType = {
+  created_at: string;
   featured: boolean | null;
-  imgsrc?: string | null;
+  folder_id: string | null;
+  imgsrc: string | null;
   tags: string[] | null;
+  textsearchable_index_col: unknown | null;
   title: string | null;
+  updated_at: string;
   url: string | null;
   user_id: string | null;
   uuid: string;
