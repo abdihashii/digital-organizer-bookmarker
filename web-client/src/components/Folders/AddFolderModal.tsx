@@ -97,11 +97,11 @@ const AddFolderModal = ({
     } catch (error) {
       alert(JSON.stringify(error, null, 2));
     } finally {
+      setIsLoading(false);
+
       handleClose();
 
       router.refresh(); // refresh the page to show the newly added bookmark
-
-      setIsLoading(false);
     }
   };
 
