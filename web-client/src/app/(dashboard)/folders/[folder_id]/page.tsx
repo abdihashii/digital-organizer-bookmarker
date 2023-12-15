@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { createServerSupabaseClient } from "@/lib/supabaseServerClient";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Edit, Star } from "lucide-react";
 import Link from "next/link";
+import DeleteFolderButton from "./DeleteFolderButton";
 
 export default async function FolderPage({
   params,
@@ -34,11 +35,19 @@ export default async function FolderPage({
 
   return (
     <article className="flex min-h-screen flex-1 flex-col gap-8 overflow-y-auto bg-gray-100 p-4 dark:bg-slate-700 md:p-12 lg:w-9/12">
-      <Link href="/folders" className="lg:w-fit">
-        <Button>
-          <ArrowLeft className="mr-2" /> Back to Folders
-        </Button>
-      </Link>
+      <section className="flex flex-row lg:w-10/12">
+        <Link href="/folders" className="w-fit">
+          <Button>
+            <ArrowLeft className="mr-2" /> Back to Folders
+          </Button>
+        </Link>
+
+        <Link href={`${folder.id}/edit`} className="ml-auto w-fit">
+          <Button>
+            <Edit className="mr-2" /> Edit Folder
+          </Button>
+        </Link>
+      </section>
 
       <div className="flex flex-col gap-2 lg:w-10/12">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
@@ -46,7 +55,11 @@ export default async function FolderPage({
         </h1>
 
         <p className="text-gray-400">{folder.folder_description}</p>
+
+        {folder.featured && <Star />}
       </div>
+
+      <DeleteFolderButton folderId={folder.id} />
 
       <div className="grid grid-cols-1 gap-4 rounded-lg border border-white p-4 md:grid-cols-2 lg:w-10/12 lg:grid-cols-3 xl:gap-4">
         {bookmarks.map((bookmark) => (
