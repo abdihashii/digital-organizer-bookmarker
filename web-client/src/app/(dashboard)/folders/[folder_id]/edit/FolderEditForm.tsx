@@ -121,7 +121,7 @@ const FolderEditForm = ({ folder }: { folder: FolderType }) => {
 
       // Iterate over the selected bookmarks and set their folder_id to the new folder's id
       for (const id of selectedBookmarkIds) {
-        const { data: bM, error } = await supabase
+        const { error } = await supabase
           .from("bookmarks")
           .update({
             folder_id: newFolder.id,
@@ -135,7 +135,7 @@ const FolderEditForm = ({ folder }: { folder: FolderType }) => {
 
       // Iterate over the removed bookmarks and set their folder_id to null (remove them from the folder)
       for (const id of removedBookmarkIds) {
-        const { data: bM, error } = await supabase
+        const { error } = await supabase
           .from("bookmarks")
           .update({
             folder_id: null,
@@ -233,10 +233,6 @@ const FolderEditForm = ({ folder }: { folder: FolderType }) => {
       <Button type="submit">
         {isLoading ? "Loading..." : "Update Folder"}
       </Button>
-
-      <pre>
-        <code>{JSON.stringify(selectedBookmarkIds, null, 2)}</code>
-      </pre>
     </form>
   );
 };
