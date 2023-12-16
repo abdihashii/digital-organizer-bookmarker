@@ -176,7 +176,15 @@ const FolderEditForm = ({ folder }: { folder: FolderType }) => {
           type="text"
           name="folderName"
           id="folderName"
-          defaultValue={editedFolder.folder_name}
+          value={editedFolder.folder_name}
+          onChange={(e) => {
+            const updatedEditedFolder = {
+              ...editedFolder,
+              folder_name: e.target.value,
+            };
+
+            setEditedFolder(updatedEditedFolder);
+          }}
         />
       </section>
 
@@ -186,7 +194,15 @@ const FolderEditForm = ({ folder }: { folder: FolderType }) => {
           type="text"
           name="folderDescription"
           id="folderDescription"
-          defaultValue={editedFolder.folder_description || ""}
+          value={editedFolder.folder_description || ""}
+          onChange={(e) => {
+            const updatedEditedFolder = {
+              ...editedFolder,
+              folder_description: e.target.value,
+            };
+
+            setEditedFolder(updatedEditedFolder);
+          }}
         />
       </section>
 
