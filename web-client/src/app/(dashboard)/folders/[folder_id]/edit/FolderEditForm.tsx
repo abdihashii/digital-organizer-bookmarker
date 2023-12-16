@@ -163,6 +163,8 @@ const FolderEditForm = ({ folder }: { folder: FolderType }) => {
   useEffect(() => {
     fetchAllBookmarks();
     fetchBookmarksInFolder();
+
+    /* eslint-disable react-hooks/exhaustive-deps */
   }, [supabase]);
 
   return (

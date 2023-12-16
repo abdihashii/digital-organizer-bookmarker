@@ -12,7 +12,13 @@ export type BookmarkType = {
   uuid: string;
 };
 
-export type NewBookmarkType = Omit<BookmarkType, "uuid">;
+export type NewBookmarkType = {
+  title: string;
+  url: string;
+  featured: boolean;
+  tags: string[] | null;
+  user_id: string;
+};
 
 export type EditedBookmarkType = Partial<BookmarkType>;
 
