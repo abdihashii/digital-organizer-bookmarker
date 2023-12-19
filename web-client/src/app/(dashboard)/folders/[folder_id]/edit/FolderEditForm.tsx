@@ -110,6 +110,7 @@ const FolderEditForm = ({ folder }: { folder: FolderType }) => {
           folder_description: editedFolder.folder_description,
           featured: editedFolder.featured,
           bookmark_count: selectedBookmarkIds.length,
+          updated_at: new Date().toISOString(),
         })
         .eq("id", folder.id)
         .select("id")
