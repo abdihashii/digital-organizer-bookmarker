@@ -29,11 +29,9 @@ const addFolderSchema = z.object({
   folderName: z.string().min(1, {
     message: "Folder name cannot be empty",
   }),
-  folderDescription: z.string().min(1, {
-    message: "Folder description cannot be empty",
-  }),
+  folderDescription: z.string().optional(),
   featured: z.boolean().optional(),
-  bookmarks: z.array(z.string()),
+  bookmarks: z.array(z.string()).nullable(),
 });
 
 const AddFolderModal = ({
@@ -64,15 +62,25 @@ const AddFolderModal = ({
     try {
       setIsLoading(true);
 
-      // Add folder to supabase
+      // Convert empty strings to null for nullable fields
+      const processedValues = {
+        ...values,
+        folderDescription: values.folderDescription || null,
+        bookmarks:
+          values.bookmarks && values.bookmarks.length > 0
+            ? values.bookmarks
+            : null,
+      };
+
+      // Add folder to supabase with processed values
       const { data: newFolder, error: insertFolderError } = await supabase
         .from("folders")
         .insert({
-          folder_name: values.folderName,
-          folder_description: values.folderDescription,
-          featured: values.featured,
+          folder_name: processedValues.folderName,
+          folder_description: processedValues.folderDescription,
+          featured: processedValues.featured,
           user_id: user.id,
-          bookmark_count: values.bookmarks.length,
+          bookmark_count: processedValues.bookmarks?.length || 0,
         })
         .select("id")
         .single();
@@ -82,16 +90,18 @@ const AddFolderModal = ({
       }
 
       // Iterate over bookmarks and set their folder_id to the new folder's id
-      for (const bookmarkId of values.bookmarks) {
-        const { error: updateBookmarkError } = await supabase
-          .from("bookmarks")
-          .update({
-            folder_id: newFolder.id,
-          })
-          .eq("uuid", bookmarkId);
+      if (processedValues.bookmarks) {
+        for (const bookmarkId of processedValues.bookmarks) {
+          const { error: updateBookmarkError } = await supabase
+            .from("bookmarks")
+            .update({
+              folder_id: newFolder.id,
+            })
+            .eq("uuid", bookmarkId);
 
-        if (updateBookmarkError) {
-          throw updateBookmarkError;
+          if (updateBookmarkError) {
+            throw updateBookmarkError;
+          }
         }
       }
     } catch (error) {
@@ -159,6 +169,7 @@ const AddFolderModal = ({
                     className="px-4 py-6"
                     placeholder="Folder Description"
                     {...field}
+                    value={field.value ?? ""} // Replace null with an empty string
                   />
                 </FormControl>
                 <FormMessage />
@@ -199,8 +210,12 @@ const AddFolderModal = ({
                     <input
                       type="checkbox"
                       id={`bookmark-${bookmark.uuid}`}
-                      checked={value.includes(bookmark.uuid)}
+                      checked={value?.includes(bookmark.uuid)}
                       onChange={(e) => {
+                        if (!value) {
+                          return;
+                        }
+
                         const updatedValue = e.target.checked
                           ? [...value, bookmark.uuid]
                           : value.filter((id) => id !== bookmark.uuid);
