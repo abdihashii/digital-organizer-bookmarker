@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import BookmarkCard from '@/components/Bookmarks/BookmarkCard';
-import BookmarkModal from '@/components/BookmarkModal';
-import type { BookmarkType } from '@/types/BookmarkType';
+import { useState } from "react";
+import BookmarkCard from "@/components/Bookmarks/BookmarkCard";
+import BookmarkModal from "@/components/BookmarkModal";
+import type { BookmarkType } from "@/types/BookmarkType";
 
 const BookmarkList = ({ bookmarks }: { bookmarks: BookmarkType[] }) => {
   const [bookmarkModal, setBookmarkModal] = useState<{
@@ -22,7 +22,7 @@ const BookmarkList = ({ bookmarks }: { bookmarks: BookmarkType[] }) => {
           Featured Bookmarks
         </h2>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 xl:gap-4">
           {bookmarks
             .filter((bookmark) => bookmark.featured)
             .map((bookmark) => {
@@ -46,7 +46,7 @@ const BookmarkList = ({ bookmarks }: { bookmarks: BookmarkType[] }) => {
           Bookmarks
         </h2>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3 xl:gap-4">
           {bookmarks
             .filter((bookmark) => !bookmark.featured)
             .map((bookmark) => {
