@@ -1,6 +1,9 @@
 import SignOutClientComponent from "@/components/Auth/SignOutClientComponent";
-import { getUser } from "@/lib/supabaseServerClient";
-import Link from "next/link";
+import Bookmarks from "@/components/Bookmarks";
+import {
+  createServerSupabaseClient,
+  getUser,
+} from "@/lib/supabaseServerClient";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -10,15 +13,28 @@ export default async function Home() {
     redirect("/signin");
   }
 
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <section className="border border-red-500 w-fit p-6">
-        <h1 className="text-4xl font-semibold">SunJoy</h1>
+  const supabase = createServerSupabaseClient();
 
-        <p>Welcome, {user.email}!</p>
+  const { data, error } = await supabase
+    .from("bookmarks")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+  }
+
+  return (
+    <main className="flex flex-col p-24 items-center gap-10">
+      <section className="border-b border-b-slate-500 w-fit p-6 flex flex-col gap-4 items-center">
+        <h1 className="text-4xl font-semibold">Welcome to SunJoy!</h1>
+
+        <p>{user.email}!</p>
 
         <SignOutClientComponent />
       </section>
+
+      {data && <Bookmarks error={error} data={data} />}
     </main>
   );
 }
