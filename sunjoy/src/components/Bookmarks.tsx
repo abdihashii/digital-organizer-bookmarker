@@ -1,7 +1,6 @@
 import React from "react";
 import AddBookmarkForm from "./AddBookmarkForm";
 import Image from "next/image";
-import GetImageButton from "./GetImageButton";
 
 const Bookmarks = ({ error, data }: { error: any; data: Array<Bookmark> }) => {
   return (
@@ -18,12 +17,6 @@ const Bookmarks = ({ error, data }: { error: any; data: Array<Bookmark> }) => {
             key={bookmark.uuid}
             className="flex flex-col border-2 rounded-lg border-slate-500 p-4 h-[400px] justify-between"
           >
-            <GetImageButton
-              bookmarkId={bookmark.uuid}
-              url={bookmark.url}
-              hasImage={bookmark.imgsrc ? true : false}
-            />
-
             <h3 className="text-xl font-medium line-clamp-2">
               {bookmark.title}
             </h3>
