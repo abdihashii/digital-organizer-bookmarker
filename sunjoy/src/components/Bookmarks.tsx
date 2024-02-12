@@ -1,6 +1,7 @@
 import React from "react";
 import AddBookmarkForm from "./AddBookmarkForm";
 import Image from "next/image";
+import GenerateTagsButton from "./GenerateTagsButton";
 
 const Bookmarks = ({ error, data }: { error: any; data: Array<Bookmark> }) => {
   return (
@@ -17,6 +18,21 @@ const Bookmarks = ({ error, data }: { error: any; data: Array<Bookmark> }) => {
             key={bookmark.uuid}
             className="flex flex-col border-2 rounded-lg border-slate-500 p-4 h-[400px] justify-between"
           >
+            {bookmark.tags ? (
+              <ul className="flex gap-2 overflow-x-scroll">
+                {bookmark.tags.map((tag) => (
+                  <li
+                    key={tag}
+                    className="text-xs bg-slate-500 text-white px-2 py-1 rounded-lg w-max"
+                  >
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <GenerateTagsButton bookmark={bookmark} />
+            )}
+
             <h3 className="text-xl font-medium line-clamp-2">
               {bookmark.title}
             </h3>
