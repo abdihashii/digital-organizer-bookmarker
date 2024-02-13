@@ -1,47 +1,28 @@
+"use client";
+
 import React from "react";
-import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
-import { getUser } from "@/lib/supabaseServerClient";
-import ogs from "open-graph-scraper";
+import { useFormState, useFormStatus } from "react-dom";
+import { addBookmark } from "@/app/actions";
 
-const AddBookmarkForm = () => {
-  const addBookmark = async (formData: FormData) => {
-    "use server";
-
-    const user = await getUser();
-
-    if (!user) {
-      return;
-    }
-
-    const { result } = await ogs({ url: formData.get("url") as string });
-    const { ogTitle, ogUrl, ogImage } = result;
-
-    const rawFormData = {
-      user_id: user.id,
-      title: ogTitle,
-      url: ogUrl,
-      imgsrc: ogImage?.[0].url ?? null,
-    };
-
-    try {
-      const supabase = createServerActionClient({ cookies });
-
-      const { error } = await supabase.from("bookmarks").insert([rawFormData]);
-
-      if (error) {
-        throw error;
-      }
-
-      revalidatePath("/");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+const Submit = () => {
+  const { pending } = useFormStatus();
 
   return (
-    <form action={addBookmark} className="space-x-2">
+    <button
+      className={`bg-black text-white hover:bg-slate-500 rounded-lg px-4 py-2 ${pending ? "cursor-not-allowed bg-slate-500" : ""}`}
+      type="submit"
+      aria-disabled={pending}
+    >
+      {pending ? "Adding..." : "Add"}
+    </button>
+  );
+};
+
+const AddBookmarkForm = () => {
+  const [, formAction] = useFormState(addBookmark, null);
+
+  return (
+    <form action={formAction} className="space-x-2">
       <input
         className="border-2 border-slate-500 rounded-lg p-2"
         type="text"
@@ -49,12 +30,7 @@ const AddBookmarkForm = () => {
         name="url"
       />
 
-      <button
-        className="bg-black text-white hover:bg-slate-500 rounded-lg px-4 py-2"
-        type="submit"
-      >
-        Add Bookmark
-      </button>
+      <Submit />
     </form>
   );
 };
