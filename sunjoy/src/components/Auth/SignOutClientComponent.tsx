@@ -3,6 +3,7 @@
 import { Database } from '@/types/database.types';
 import React, { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Button } from '../ui/button';
 
 const SignOutClientComponent = () => {
 	const supabase = createClientComponentClient<Database>();
@@ -26,12 +27,12 @@ const SignOutClientComponent = () => {
 	};
 
 	return (
-		<button
+		<Button
 			onClick={handleSignOut}
-			className="mt-4 w-full rounded-md bg-black px-4 py-2 text-white hover:bg-slate-500"
+			className="mt-4 w-full"
 		>
 			{loading ? 'Signing Out...' : 'Sign Out'}
-		</button>
+		</Button>
 	);
 };
 

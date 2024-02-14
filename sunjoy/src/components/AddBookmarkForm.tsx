@@ -3,18 +3,20 @@
 import React from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { addBookmark } from '@/app/actions';
+import { Button } from './ui/button';
+import { Input } from './ui/input';
 
 const Submit = () => {
 	const { pending } = useFormStatus();
 
 	return (
-		<button
-			className={`rounded-lg bg-black px-4 py-2 text-white hover:bg-slate-500 ${pending ? 'cursor-not-allowed bg-slate-500' : ''}`}
+		<Button
+			className={pending ? 'cursor-not-allowed bg-slate-500' : ''}
 			type="submit"
 			aria-disabled={pending}
 		>
 			{pending ? 'Adding...' : 'Add'}
-		</button>
+		</Button>
 	);
 };
 
@@ -24,10 +26,9 @@ const AddBookmarkForm = () => {
 	return (
 		<form
 			action={formAction}
-			className="w-1/4 space-x-2"
+			className="flex w-1/4 flex-row justify-between gap-4"
 		>
-			<input
-				className="w-10/12 rounded-lg border-2 border-slate-500 p-2"
+			<Input
 				type="text"
 				placeholder="URL"
 				name="url"
