@@ -1,10 +1,14 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter as FontSans } from 'next/font/google';
 import './globals.css';
 import { getSession } from '@/lib/supabaseServerClient';
 import AuthProvider from '@/components/Auth/AuthProvider';
+import { cn } from '@/lib/utils';
 
-const inter = Inter({ subsets: ['latin'] });
+export const fontSans = FontSans({
+	subsets: ['latin'],
+	variable: '--font-sans',
+});
 
 export const metadata: Metadata = {
 	title: 'SunJoy',
@@ -23,7 +27,12 @@ export default async function RootLayout({
 
 	return (
 		<html lang="en">
-			<body className={inter.className}>
+			<body
+				className={cn(
+					'bg-background min-h-screen font-sans antialiased',
+					fontSans.variable,
+				)}
+			>
 				<AuthProvider accessToken={accessToken}>{children}</AuthProvider>
 			</body>
 		</html>
