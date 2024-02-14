@@ -28,7 +28,7 @@ const SignOutClientComponent = () => {
   return (
     <button
       onClick={handleSignOut}
-      className="w-full bg-black text-white px-4 py-2 mt-4 rounded-md hover:bg-slate-700"
+      className="w-full bg-black text-white px-4 py-2 mt-4 rounded-md hover:bg-slate-500"
     >
       {loading ? "Signing Out..." : "Sign Out"}
     </button>
