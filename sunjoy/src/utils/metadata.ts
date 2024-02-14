@@ -1,23 +1,23 @@
-import ogs from "open-graph-scraper";
+import ogs from 'open-graph-scraper';
 
 export const generateOpenGraphMetadata = async (url: string) => {
-  try {
-    const response = await ogs({ url });
+	try {
+		const response = await ogs({ url });
 
-    if (response.error) {
-      throw response.error;
-    }
+		if (response.error) {
+			throw response.error;
+		}
 
-    const { result } = response;
+		const { result } = response;
 
-    const { ogImage } = result;
+		const { ogImage } = result;
 
-    if (!ogImage) {
-      throw new Error("No ogImage found");
-    }
+		if (!ogImage) {
+			throw new Error('No ogImage found');
+		}
 
-    return ogImage[0].url;
-  } catch (error) {
-    return error;
-  }
+		return ogImage[0].url;
+	} catch (error) {
+		return error;
+	}
 };

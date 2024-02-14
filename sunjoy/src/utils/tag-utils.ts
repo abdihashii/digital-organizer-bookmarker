@@ -1,24 +1,24 @@
-import { OpenAI } from "openai";
+import { OpenAI } from 'openai';
 
 export const generateTagsFromURL = async (url: string) => {
-  const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-  });
+	const openai = new OpenAI({
+		apiKey: process.env.OPENAI_API_KEY,
+	});
 
-  // const model = "gpt-3.5-turbo";
-  const model = "gpt-4";
+	// const model = "gpt-3.5-turbo";
+	const model = 'gpt-4';
 
-  const response = await openai.chat.completions.create({
-    model,
-    messages: [
-      {
-        role: "system",
-        content:
-          "You are a helpful assistant that generates tags for digital assets.",
-      },
-      {
-        role: "user",
-        content: `
+	const response = await openai.chat.completions.create({
+		model,
+		messages: [
+			{
+				role: 'system',
+				content:
+					'You are a helpful assistant that generates tags for digital assets.',
+			},
+			{
+				role: 'user',
+				content: `
         I need tags for ${url}! Please just return the tags and nothing else. 
         
         Please make sure to generate 100 variations of the tags and select the top ones from your own generation. 
@@ -34,32 +34,32 @@ export const generateTagsFromURL = async (url: string) => {
         There should be at least 3 tags but no more than 5 tags! This is important! Please distill to the most important and relevant 3 - 5 tags. 
         
         Please don't include list or bullet points.`,
-      },
-    ],
-  });
+			},
+		],
+	});
 
-  const messageContent = response.choices[0].message.content;
+	const messageContent = response.choices[0].message.content;
 
-  if (!messageContent) {
-    return {
-      error: "No tags found",
-    };
-  }
+	if (!messageContent) {
+		return {
+			error: 'No tags found',
+		};
+	}
 
-  // convert tags to array
-  const tagArray = messageContent.split(",").map((tag: string) => tag.trim());
+	// convert tags to array
+	const tagArray = messageContent.split(',').map((tag: string) => tag.trim());
 
-  // Make sure that each tag is not wrapped in quotes
-  tagArray.forEach((tag: string, index: number) => {
-    if (tag.startsWith('"') && tag.endsWith('"')) {
-      tagArray[index] = tag.slice(1, -1);
-    }
-  });
+	// Make sure that each tag is not wrapped in quotes
+	tagArray.forEach((tag: string, index: number) => {
+		if (tag.startsWith('"') && tag.endsWith('"')) {
+			tagArray[index] = tag.slice(1, -1);
+		}
+	});
 
-  return {
-    model,
-    url,
-    message: messageContent,
-    tags: tagArray,
-  };
+	return {
+		model,
+		url,
+		message: messageContent,
+		tags: tagArray,
+	};
 };
