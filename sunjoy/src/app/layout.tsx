@@ -4,6 +4,7 @@ import './globals.css';
 import { getSession } from '@/lib/supabaseServerClient';
 import AuthProvider from '@/components/Auth/AuthProvider';
 import { cn } from '@/lib/utils';
+import { Toaster } from '@/components/ui/toaster';
 
 export const fontSans = FontSans({
 	subsets: ['latin'],
@@ -34,6 +35,7 @@ export default async function RootLayout({
 				)}
 			>
 				<AuthProvider accessToken={accessToken}>{children}</AuthProvider>
+				<Toaster />
 			</body>
 		</html>
 	);
