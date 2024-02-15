@@ -1,10 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
 import { addBookmark } from '@/app/actions';
+
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { useToast } from './ui/use-toast';
+import { CheckCircle, AlertCircle } from 'lucide-react';
+
+const initialFormState = {
+	success: false,
+	message: '',
+};
 
 const Submit = () => {
 	const { pending } = useFormStatus();
@@ -21,10 +29,35 @@ const Submit = () => {
 };
 
 const AddBookmarkForm = () => {
-	const [, formAction] = useFormState(addBookmark, null);
+	const [formState, formAction] = useFormState(addBookmark, initialFormState);
+	const formRef = useRef<HTMLFormElement>(null);
+	const { toast } = useToast();
+
+	useEffect(() => {
+		// Only show toast if the form has been submitted and there is a message + success
+		if (formState.message) {
+			toast({
+				description: (
+					<p className="flex items-center gap-4">
+						{formState.success ?
+							<CheckCircle className="text-green-500" />
+						:	<AlertCircle />}
+						{formState.message}
+					</p>
+				),
+				variant: formState.success ? 'default' : 'destructive',
+			});
+		}
+
+		// If the form was submitted successfully, reset the form
+		if (formState.success) {
+			formRef.current?.reset();
+		}
+	}, [formState, toast]);
 
 	return (
 		<form
+			ref={formRef}
 			action={formAction}
 			className="flex w-1/4 flex-row justify-between gap-4"
 		>

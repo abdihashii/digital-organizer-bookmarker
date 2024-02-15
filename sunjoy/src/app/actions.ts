@@ -7,12 +7,21 @@ import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { generateTagsFromURL } from '@/utils/tag-utils';
 
-export async function addBookmark(prevState: any, formData: FormData) {
+export async function addBookmark(
+	prevState: {
+		success: boolean;
+		message: string;
+	},
+	formData: FormData,
+): Promise<{
+	success: boolean;
+	message: string;
+}> {
 	try {
 		const user = await getUser();
 
 		if (!user) {
-			return;
+			return { success: false, message: 'User not found' };
 		}
 
 		const url = formData.get('url') as string;
@@ -45,7 +54,11 @@ export async function addBookmark(prevState: any, formData: FormData) {
 		}
 
 		revalidatePath('/');
+
+		return { success: true, message: 'Bookmark added successfully!' };
 	} catch (error) {
 		console.error(error);
+
+		return { success: false, message: 'Error adding bookmark!' };
 	}
 }
