@@ -62,3 +62,41 @@ export async function addBookmark(
 		return { success: false, message: 'Error adding bookmark!' };
 	}
 }
+
+export async function deleteBookmark(
+	prevState: {
+		success: boolean;
+		message: string;
+	},
+	formData: FormData,
+): Promise<{
+	success: boolean;
+	message: string;
+}> {
+	try {
+		const supabase = createServerActionClient({ cookies });
+
+		const { error } = await supabase
+			.from('bookmarks')
+			.delete()
+			.eq('uuid', formData.get('uuid'));
+
+		if (error) {
+			throw error;
+		}
+
+		revalidatePath('/');
+
+		return {
+			success: true,
+			message: 'Bookmark deleted successfully!',
+		};
+	} catch (error) {
+		console.error(error);
+
+		return {
+			success: false,
+			message: 'Error deleting bookmark!',
+		};
+	}
+}
