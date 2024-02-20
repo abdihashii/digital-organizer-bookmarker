@@ -1,6 +1,7 @@
 import React from 'react';
+
 import AddBookmarkForm from './AddBookmarkForm';
-import BookmarkCard from './BookmarkCard';
+import BookmarkList from './BookmarkList';
 
 const Bookmarks = ({ error, data }: { error: any; data: Array<Bookmark> }) => {
 	return (
@@ -11,14 +12,7 @@ const Bookmarks = ({ error, data }: { error: any; data: Array<Bookmark> }) => {
 
 			{error && <p>Error: Unable to retrieve bookmarks: {error.message}</p>}
 
-			<ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
-				{data.map((bookmark) => (
-					<BookmarkCard
-						key={bookmark.uuid}
-						bookmark={bookmark}
-					/>
-				))}
-			</ul>
+			<BookmarkList data={data} />
 		</section>
 	);
 };
