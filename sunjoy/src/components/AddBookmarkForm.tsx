@@ -59,7 +59,7 @@ const AddBookmarkForm = () => {
 		<form
 			ref={formRef}
 			action={formAction}
-			className="flex w-1/4 flex-row justify-between gap-4"
+			className="flex w-1/2 flex-row justify-between gap-4"
 		>
 			<Input
 				type="text"

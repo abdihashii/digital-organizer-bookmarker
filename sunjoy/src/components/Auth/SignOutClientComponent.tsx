@@ -29,7 +29,7 @@ const SignOutClientComponent = () => {
 	return (
 		<Button
 			onClick={handleSignOut}
-			className="mt-4 w-full"
+			className="mt-4 w-32"
 		>
 			{loading ? 'Signing Out...' : 'Sign Out'}
 		</Button>
