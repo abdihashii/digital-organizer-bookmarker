@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { useFormState, useFormStatus } from 'react-dom';
-import { addBookmark } from '@/app/actions';
+import { addBookmark } from '@/server/actions';
 
 import { Button } from './ui/button';
 import { Input } from './ui/input';

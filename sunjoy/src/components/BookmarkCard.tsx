@@ -4,7 +4,7 @@ import { useFormState, useFormStatus } from 'react-dom';
 import Link from 'next/link';
 import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { deleteBookmark } from '@/app/actions';
+import { deleteBookmark } from '@/server/actions';
 
 import GenerateTagsButton from './GenerateTagsButton';
 import { Button } from './ui/button';
