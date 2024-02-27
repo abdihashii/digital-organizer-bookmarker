@@ -1,10 +1,11 @@
 import { OpenAI } from 'openai';
+import { Assistant } from '@/lib/assistant';
+
+const openai = new OpenAI({
+	apiKey: process.env.OPENAI_API_KEY,
+});
 
 export const generateTagsFromURL = async (url: string) => {
-	const openai = new OpenAI({
-		apiKey: process.env.OPENAI_API_KEY,
-	});
-
 	// const model = "gpt-3.5-turbo";
 	const model = 'gpt-4';
 
@@ -73,3 +74,28 @@ export const generateTagsFromURL = async (url: string) => {
 		};
 	}
 };
+
+export async function generateTagsFromFile(file: OpenAI.Files.FileObject) {
+	const assistant = Assistant.getInstance('tags-from-url', openai);
+
+	await assistant.createHtmlFile(file);
+	await assistant.createAssistant();
+	await assistant.createThread();
+	await assistant.addMessageToThread();
+
+	await assistant.runAssistant();
+	await assistant.waitForRunToComplete();
+
+	const runMessages = await assistant.displayRunResults();
+
+	const message = runMessages?.data[0].content.map((messageObj) => {
+		if (messageObj.type === 'text') {
+			return messageObj.text.value;
+		}
+	});
+
+	// Delete the assistant once the run is complete and the message is returned
+	await assistant.deleteAssistant();
+
+	return message;
+}
