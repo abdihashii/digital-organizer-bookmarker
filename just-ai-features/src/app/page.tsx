@@ -1,11 +1,59 @@
+'use client';
+
+import { generateTagsFromURL } from '@/server/actions';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import React from 'react';
 
 export default function Home() {
+  const [tags, setTags] = React.useState<(string | undefined)[] | undefined>(
+    []
+  );
+  const [loading, setLoading] = React.useState({
+    button: false,
+    tags: false,
+  });
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setLoading({ button: true, tags: true });
+
+    try {
+      event.preventDefault();
+
+      const form = event.currentTarget;
+      const url = form.url.value as string;
+
+      // Upload file to OpenAI
+      const response = await fetch(`/api/upload-file`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
+      });
+      const { file } = await response.json();
+
+      const generatedTags = await generateTagsFromURL(file);
+
+      if (!generatedTags || generatedTags.length === 0) {
+        return;
+      }
+
+      setTags(generatedTags);
+    } catch (error) {
+      console.error('Failed to generate tags', error);
+
+      setTags([]);
+    } finally {
+      setLoading({ button: false, tags: false });
+    }
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center p-24 gap-20">
-      <div className="w-1/2 space-y-10">
+      <div className="w-full xl:w-1/2 space-y-10">
         <section className="space-y-2">
           <h1 className="text-4xl font-bold">AI-generated Tags from a URL</h1>
           <p className="text-lg text-gray-600">
@@ -14,18 +62,31 @@ export default function Home() {
           </p>
         </section>
 
-        <form className="space-y-4 border border-black rounded-lg p-6">
+        <form
+          className="space-y-4 border border-black rounded-lg p-6"
+          onSubmit={handleSubmit}
+        >
           <div className="">
             <Label htmlFor="url">URL</Label>
             <Input id="url" type="url" />
           </div>
 
-          <Button type="submit">Generate Tags</Button>
+          <Button type="submit" disabled={loading.button} className="w-32">
+            {loading.button ? 'Loading...' : 'Generate Tags'}
+          </Button>
         </form>
       </div>
 
-      <div className="border border-black rounded-lg p-6 w-1/2">
+      <div className="border border-black rounded-lg p-6 w-full xl:w-1/2">
         <h2 className="text-2xl font-bold">Tags</h2>
+
+        {loading.tags && <p>Loading tags...</p>}
+
+        <ul>
+          {tags?.map((tag, index) => (
+            <li key={index}>{tag}</li>
+          ))}
+        </ul>
       </div>
     </main>
   );
