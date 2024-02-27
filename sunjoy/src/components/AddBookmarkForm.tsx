@@ -14,7 +14,7 @@ const initialFormState = {
 	message: '',
 };
 
-const Submit = () => {
+const SubmitButton = () => {
 	const { pending } = useFormStatus();
 
 	return (
@@ -67,7 +67,7 @@ const AddBookmarkForm = () => {
 				name="url"
 			/>
 
-			<Submit />
+			<SubmitButton />
 		</form>
 	);
 };
